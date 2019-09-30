@@ -1,0 +1,40 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"type": "shell",
+	"tasks": [
+		{
+			"label": "Run Black",
+			"command": "black ${file}",
+			"problemMatcher": []
+		},  		
+		{
+			"label": "Run Python",
+			"command": "python3 ${file}",
+			"problemMatcher": []
+		}, 
+		{
+			"label": "Run Pytest",
+			"command": "pipenv run pytest",
+			"problemMatcher": []
+		}, 		
+		{
+			"label": "Run Pytest - OFFLINE",
+			"command": "export test_suite=offline && pipenv run pytest",
+			"problemMatcher": []
+		}, 		
+
+
+		{
+			"label": "Run Pylint",
+			"command": "pylint ${file}",
+			"problemMatcher": []
+		},  				
+		{
+			"label": "Run Pipenv Install",
+			"command": "pipenv lock --pre && pipenv install",
+			"problemMatcher": []
+		},  				
+	]
+}

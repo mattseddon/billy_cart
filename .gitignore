@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# private variables like passwords
+private/
+
+# all data files that are used for testing etc
+data/

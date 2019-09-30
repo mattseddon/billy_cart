@@ -1,0 +1,16 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+	{ "key" : "f3", "command" : "workbench.action.tasks.runTask", "args" : "Run Python" },
+	{ "key" : "f4", "command" : "workbench.action.tasks.runTask", "args" : "Run Black" },
+	{ "key" : "alt+cmd+t", "command" : "workbench.action.tasks.runTask", "args" : "test" },
+	{ "key" : "f13", "command" : "editor.action.goToDeclaration",
+			"when" : "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor" },
+	{ "key" : "alt+cmd+a", "command" : "workbench.action.toggleActivityBarVisibility" },
+	{
+			"key"     : "ctrl+shift+u",
+			"command" : "editor.action.transformToUppercase",
+			"when"    : "editorTextFocus"
+	},
+	{ "key" : "ctrl+shift+l", "command" : "editor.action.transformToLowercase", "when" : "editorTextFocus" }
+
+]

@@ -1,0 +1,11 @@
+{
+	"python.linting.pylintEnabled": true,
+	"python.linting.enabled": true,
+	"python.pythonPath": "/Users/mattseddon/.local/share/virtualenvs/PP1-e2Nk5eIm/bin/python",
+	"git.ignoreLimitWarning": true,
+	"cSpell.words": [
+		"dateutil",
+		"gettz",
+		"tzinfo"
+	]
+}
