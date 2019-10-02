@@ -9,27 +9,27 @@ class DateTime:
     from_zone = tz.gettz("UTC")
     to_zone = tz.gettz("Australia/Sydney")
 
+    def __init__(self,str):
+        self.date_time = DateTime.__convert_from_utc_api_string(str)
+
     @staticmethod
     def utc_5_minutes_from_now():
         return DateTime.__utc_minutes_from_now(5)
 
-    @staticmethod
-    def is_more_than_33_seconds_from_now(str):
+    def is_more_than_33_seconds_from_now(self):
         is_more_than = (
             True
-            if DateTime.__create_utc_datetime_ms(str)
-            > DateTime.__add_seconds_to(date_time=DateTime.__get_utc_now(), seconds=33)
+            if self.date_time
+            > DateTime.__add_time_to(date_time=DateTime.__get_utc_now(), seconds=33)
             else False
         )
         return is_more_than
 
-    @staticmethod
-    def local_hms_45_seconds_before(str):
-        return DateTime.__local_hms_seconds_before(str=str, seconds=45)
+    def local_hms_45_seconds_before(self):
+        return self.__local_hms_seconds_before(seconds=45)
 
-    @staticmethod
-    def local_hms_30_seconds_before(str):
-        return DateTime.__local_hms_seconds_before(str=str, seconds=30)
+    def local_hms_30_seconds_before(self):
+        return self.__local_hms_seconds_before(seconds=30)
 
     @staticmethod
     def get_utc_now():
@@ -43,48 +43,40 @@ class DateTime:
 
     @staticmethod
     def __utc_minutes_from_now(from_now):
-        date_time = DateTime.__add_minutes_to(
+        date_time = DateTime.__add_time_to(
             date_time=DateTime.__get_utc_now(), minutes=from_now
         )
         date_time_str = DateTime.__convert_to_utc_string(date_time)
         return date_time_str
 
-    @staticmethod
-    def __local_hms_seconds_before(str, seconds):
-        utc_date_time = DateTime.__create_utc_datetime_ms(str)
-        local_date_time = DateTime.__convert_timezone_to_local(utc_date_time)
-        adjusted_date_time = DateTime.__add_seconds_to(local_date_time, -seconds)
-        hour_minute_str = DateTime.__convert_to_hms_string(adjusted_date_time)
+    def __local_hms_seconds_before(self, seconds):
+        local_date_time = DateTime.__convert_timezone_to_local(date_time=self.date_time)
+        adjusted_date_time = DateTime.__add_time_to(date_time=local_date_time, seconds=-seconds)
+        hour_minute_str = DateTime.__convert_to_hms_string(date_time=adjusted_date_time)
         return hour_minute_str
 
     @staticmethod
     def __create_utc_datetime(str):
-        date_time = DateTime.__convert_from_utc_string(str)
+        date_time = DateTime.__convert_from_utc_string(str=str)
         return date_time
 
     @staticmethod
     def __create_utc_datetime_ms(str):
-        date_time = DateTime.__convert_from_utc_api_string(str)
-        return date_time
-
-
-    @staticmethod
-    def __add_seconds_to(date_time, seconds):
-        date_time = date_time + timedelta(seconds=seconds)
+        date_time = DateTime.__convert_from_utc_api_string(str=str)
         return date_time
 
     @staticmethod
-    def __add_minutes_to(date_time, minutes):
-        date_time = date_time + timedelta(minutes=minutes)
+    def __add_time_to(date_time, minutes=0, seconds=0):
+        date_time = date_time + timedelta(minutes=minutes,seconds=seconds)
         return date_time
 
     @staticmethod
     def __convert_from_utc_string(str):
-        return DateTime.__convert_from_string(str, DateTime.utc_format)
+        return DateTime.__convert_from_string(str=str, format=DateTime.utc_format)
 
     @staticmethod
     def __convert_from_utc_api_string(str):
-        return DateTime.__convert_from_string(str, DateTime.utc_api_format)
+        return DateTime.__convert_from_string(str=str, format=DateTime.utc_api_format)
 
     @staticmethod
     def __convert_from_string(str, format):
@@ -92,11 +84,11 @@ class DateTime:
 
     @staticmethod
     def __convert_to_utc_string(date_time):
-        return DateTime.__convert_to_string(date_time, DateTime.utc_format)
+        return DateTime.__convert_to_string(date_time=date_time, format=DateTime.utc_format)
 
     @staticmethod
     def __convert_to_hms_string(date_time):
-        return DateTime.__convert_to_string(date_time, DateTime.time_format)
+        return DateTime.__convert_to_string(date_time=date_time, format=DateTime.time_format)
 
     @staticmethod
     def __convert_to_string(date_time, format):
