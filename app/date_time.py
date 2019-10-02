@@ -10,7 +10,7 @@ class DateTime:
     to_zone = tz.gettz("Australia/Sydney")
 
     def __init__(self,str):
-        self.date_time = DateTime.__convert_from_utc_api_string(str)
+        self.__date_time = DateTime.__convert_from_utc_api_string(str)
 
     @staticmethod
     def utc_5_minutes_from_now():
@@ -19,7 +19,7 @@ class DateTime:
     def is_more_than_33_seconds_from_now(self):
         is_more_than = (
             True
-            if self.date_time
+            if self.__date_time
             > DateTime.__add_time_to(date_time=DateTime.__get_utc_now(), seconds=33)
             else False
         )
@@ -50,20 +50,10 @@ class DateTime:
         return date_time_str
 
     def __local_hms_seconds_before(self, seconds):
-        local_date_time = DateTime.__convert_timezone_to_local(date_time=self.date_time)
+        local_date_time = DateTime.__convert_timezone_to_local(date_time=self.__date_time)
         adjusted_date_time = DateTime.__add_time_to(date_time=local_date_time, seconds=-seconds)
         hour_minute_str = DateTime.__convert_to_hms_string(date_time=adjusted_date_time)
         return hour_minute_str
-
-    @staticmethod
-    def __create_utc_datetime(str):
-        date_time = DateTime.__convert_from_utc_string(str=str)
-        return date_time
-
-    @staticmethod
-    def __create_utc_datetime_ms(str):
-        date_time = DateTime.__convert_from_utc_api_string(str=str)
-        return date_time
 
     @staticmethod
     def __add_time_to(date_time, minutes=0, seconds=0):
