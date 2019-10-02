@@ -15,6 +15,7 @@ numpy = "*"
 pandas = "*"
 py-dateutil = "*"
 pytest = "*"
+pytest-cov = "*"
 requests = "*"
 statsmodels = "*"
 

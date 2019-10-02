@@ -16,7 +16,7 @@
 		}, 
 		{
 			"label": "Run Pytest",
-			"command": "pipenv run pytest",
+			"command": "pipenv run pytest --cov=app/ --cov-report=xml:cov.xml",
 			"problemMatcher": []
 		}, 		
 		{
@@ -24,8 +24,6 @@
 			"command": "export test_suite=offline && pipenv run pytest",
 			"problemMatcher": []
 		}, 		
-
-
 		{
 			"label": "Run Pylint",
 			"command": "pylint ${file}",
