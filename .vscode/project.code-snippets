@@ -1,0 +1,30 @@
+{
+	"Import GIVEN, WHEN, THEN from utils": {
+		"scope": "python",
+		"prefix": "itgwt",
+		"body": [
+			"from tests.utils import GIVEN, WHEN, THEN"
+		],
+	},
+	"Add given to test": {
+		"scope": "python",
+		"prefix": "tg",
+		"body": [
+			"GIVEN(\"$1\")"
+		],
+	},
+	"Add when to test": {
+		"scope": "python",
+		"prefix": "tw",
+		"body": [
+			"WHEN(\"$1\")"
+		],
+	},
+	"Add then to test": {
+		"scope": "python",
+		"prefix": "tt",
+		"body": [
+			"THEN(\"$1\")"
+		],
+	}
+}
