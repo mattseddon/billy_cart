@@ -7,7 +7,7 @@ from unittest.mock import patch, MagicMock, Mock
 import json
 from urllib.error import URLError
 
-if os.environ.get("test_suite") != "offline":
+if os.environ.get("test_suite") == "online":
 
     def test_get_account_status():
 

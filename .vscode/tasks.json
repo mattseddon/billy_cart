@@ -16,12 +16,12 @@
 		}, 
 		{
 			"label": "Run Pytest",
-			"command": "pipenv run pytest --cov=app/ --cov-report=xml:cov.xml",
+			"command": "export test_suite=online && pipenv run pytest --cov=app/ --cov-report=xml:cov.xml",
 			"problemMatcher": []
 		}, 		
 		{
 			"label": "Run Pytest - OFFLINE",
-			"command": "export test_suite=offline && pipenv run pytest",
+			"command": "pipenv run pytest",
 			"problemMatcher": []
 		}, 		
 		{
