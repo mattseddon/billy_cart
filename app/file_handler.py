@@ -1,9 +1,9 @@
-from json import dump
+from app.json_utils import write_json_to
 from os import makedirs, linesep
 from os.path import exists, join
 
 
-class FileWriter:
+class FileHandler:
     def __init__(self, directory, file):
         self.__directory = directory
         self.__file = self.__add_path_to(file)
@@ -12,13 +12,14 @@ class FileWriter:
 
     def add_dict(self, dict):
         with open(self.__file, self.__write_type) as file:
-            self.__write(dict, file)
+            write_json_to(file=file,dict=dict)
             self.__add_new_line(file)
         return self.__file
 
-    def __write(self,dict,file):
-        dump(dict,file)
-        return None
+    def get_file_as_list(self):
+        with open(self.__file, "r") as file:
+            contents = list(file)
+        return contents
 
     def __add_new_line(self,file):
         file.write(linesep)
