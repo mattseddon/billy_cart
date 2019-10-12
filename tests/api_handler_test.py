@@ -1,13 +1,13 @@
-from tests.utils import GIVEN, WHEN, THEN
+from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
 from app.date_time import DateTime
 from app.api_handler import APIHandler
 from private.details import get_user_details, get_cert, get_app_key
-import os
 from unittest.mock import patch, MagicMock, Mock
-import json
+from app.json_utils import make_json
 from urllib.error import URLError
 
-if os.environ.get("test_suite") == "online":
+
+if should_test_real_api():
 
     def test_get_account_status():
 
@@ -81,9 +81,9 @@ if os.environ.get("test_suite") == "online":
 
             THEN("a dict is returned")
             assert type(market_info) is dict
-
-            THEN("the dict contains a list of runners")
-            assert type(market_info.get("runners")) is list
+            if market_info:
+                THEN("the dict contains a list of runners")
+                assert type(market_info.get("runners")) is list
 
     def test_api_is_singleton():
         GIVEN("an API handler connected to the dev environment")
@@ -109,7 +109,7 @@ if os.environ.get("test_suite") == "online":
         assert dev_api_handler.headers == duplicate_api_handler.headers
 
 
-@patch("app.api_handler.requests.post")
+@patch("app.api_handler.post")
 def test_set_headers(mock_post):
     GIVEN("we cannot connect to the dev environment")
     mock_post.return_value.json.return_value = {}
@@ -130,23 +130,27 @@ def test_set_headers(mock_post):
 
 
 @patch.object(APIHandler, "set_headers")
-@patch("app.api_handler.urllib.request.urlopen")
+@patch("app.api_handler.urlopen")
 def test_error_handling(mock_urlopen, mock_set_headers):
     GIVEN("a mocked instance of the APIHandler")
     mock_set_headers.side_effect = setattr(APIHandler, "headers", {})
     dev_api_handler = APIHandler(environment="Dev")
 
-    WHEN("we try to get the markets which start in the next 5 minutes from the API but no payload is returned")
+    WHEN(
+        "we try to get the markets which start in the next 5 minutes from the API but no payload is returned"
+    )
     context_manager = MagicMock()
     context_manager.getcode.return_value = 200
-    context_manager.read.return_value = json.dumps({}).encode("utf-8")
+    context_manager.read.return_value = make_json({})
     mock_urlopen.return_value = context_manager
     markets = dev_api_handler.get_markets("7", DateTime.utc_5_minutes_from_now())
 
     THEN("no information is returned from the handler")
     assert markets is None
 
-    WHEN("we try to get the markets which start in the next 5 minutes from the API but it throws an error")
+    WHEN(
+        "we try to get the markets which start in the next 5 minutes from the API but it throws an error"
+    )
     mock_urlopen.side_effect = URLError(Mock(status=500), "I died, wwwaaaahhhhhhh")
     markets = dev_api_handler.get_markets("7", DateTime.utc_5_minutes_from_now())
 

@@ -1,6 +1,7 @@
-import urllib
-import json
-import requests
+from urllib.error import URLError
+from urllib.request import Request, urlopen
+from requests import post
+from app.json_utils import make_dict
 from private.details import (
     get_app_key,
     get_cert,
@@ -34,7 +35,7 @@ class APIHandler(metaclass=Singleton):
             # print("   > Request failed.")
 
     def __login(self):
-        response = requests.post(
+        response = post(
             self.login_url,
             data=self.user_details,
             cert=self.cert,
@@ -79,7 +80,7 @@ class APIHandler(metaclass=Singleton):
         )
 
         market = self.__call_api(url=self.exchange_url, request=marketList)
-        return market[0]
+        return market[0] if market else {}
 
     def get_markets(self, eventTypeID, toDateTime):
 
@@ -98,7 +99,7 @@ class APIHandler(metaclass=Singleton):
         try:
             return self.__process_request(url, request)
 
-        except urllib.error.URLError:
+        except URLError:
             # print("     > Oops there is some issue with the request")
             return None
 
@@ -108,10 +109,8 @@ class APIHandler(metaclass=Singleton):
         return data
 
     def __get_response(self, url, request):
-        urllib_request = urllib.request.Request(
-            url, request.encode("utf-8"), self.headers
-        )
-        response = urllib.request.urlopen(urllib_request)
+        urllib_request = Request(url, request.encode("utf-8"), self.headers)
+        response = urlopen(urllib_request)
         return response
 
     def __process_response(self, response):
@@ -121,7 +120,7 @@ class APIHandler(metaclass=Singleton):
 
     def __get_dict(self, response):
         json_response = response.read()
-        dict = json.loads(json_response.decode("utf-8"))
+        dict = make_dict(json_response.decode("utf-8"))
         return dict
 
     def __try_get_result(self, dict):
