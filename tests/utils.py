@@ -1,5 +1,12 @@
-from os import environ, makedirs, remove, rmdir
-from os.path import exists
+from app.os_utils import (
+    get_environment_variable,
+    get_file_path,
+    make_directory_if_required,
+    path_exists,
+    remove_directory,
+    remove_file,
+)
+
 
 def GIVEN(str):
     print("\nGIVEN {}".format(str))
@@ -14,26 +21,35 @@ def THEN(str):
 
 
 def should_test_real_api():
-    should = True if environ.get("test_suite") == "online" else False
+    should = True if get_environment_variable("test_suite") == "online" else False
     return should
 
-def get_test_dir_path():
-    return './test_data'
+
+def get_test_directory():
+    return "./test_data"
+
 
 def get_test_file_path(name):
-    dir_path = __make_test_dir()
-    file_path = dir_path + '/' + name if dir_path else None
+    directory = __make_test_directory()
+    file_path = get_file_path(directory=directory, file=name) if directory else None
     return file_path
 
-def __make_test_dir():
-    test_dir = get_test_dir_path()
-    if not exists(test_dir):
-        makedirs(test_dir)
-    path = test_dir if exists(test_dir) else None
+
+def __make_test_directory():
+    directory = get_test_directory()
+    path = make_directory_if_required(directory)
     return path
 
+
 def cleanup_test_file(name):
-    test_dir = get_test_dir_path()
-    file_path = test_dir + '/' + name
-    remove(file_path)
-    rmdir(test_dir)
+    directory = get_test_directory()
+    path = get_file_path(directory=directory, file=name)
+    file_exists = remove_file(path=path)
+    directory_exists = cleanup_test_directory()
+    return True if not (directory_exists or file_exists) else False
+
+
+def cleanup_test_directory():
+    directory = get_test_directory()
+    directory_exists = remove_directory(directory)
+    return True if not directory_exists else False

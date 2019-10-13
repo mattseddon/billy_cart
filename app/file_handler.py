@@ -1,14 +1,17 @@
 from app.json_utils import write_json_to
-from os import makedirs, linesep
-from os.path import join
-from app.os_utils import path_exists
+from app.os_utils import (
+    get_newline,
+    get_file_path,
+    path_exists,
+    make_directory_if_required,
+)
 
 
 class FileHandler:
     def __init__(self, directory, file):
         self.__directory = directory
         self.__file = self.__add_path_to(file)
-        self.__make_directory() if not self.__directory_exists() else None
+        self.__make_directory()
 
     def get_file_as_list(self):
         with open(self.__file, "r") as file:
@@ -26,21 +29,15 @@ class FileHandler:
         return "a" if self.__file_exists() else "w+"
 
     def __add_new_line(self, file):
-        file.write(linesep)
+        file.write(get_newline())
         return None
 
     def __make_directory(self):
-        makedirs(self.__directory)
+        make_directory_if_required(self.__directory)
         return None
 
     def __add_path_to(self, file):
-        return join(self.__directory, file)
-
-    def __directory_exists(self):
-        return path_exists(path=self.__directory)
+        return get_file_path(directory=self.__directory, file=file)
 
     def __file_exists(self):
         return path_exists(path=self.__file)
-
-    def __exists(self, path):
-        return path_exists(path=path)

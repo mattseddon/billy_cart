@@ -1,4 +1,4 @@
-from tests.utils import GIVEN, WHEN, THEN, get_test_dir_path, cleanup_test_file
+from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file
 from app.file_handler import FileHandler
 from app.json_utils import make_dict
 from os.path import exists
@@ -6,7 +6,7 @@ from os.path import exists
 
 def test_file_handler():
     GIVEN("an instance of the FileWriter class and a basic dict")
-    data_dir = get_test_dir_path()
+    data_dir = get_test_directory()
     test_file = "test_file_handler.txt"
     file_handler = FileHandler(directory=data_dir, file=test_file)
     first_dict = {"get me some": "wwweeeeeeeeeee"}

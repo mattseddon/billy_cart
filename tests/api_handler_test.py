@@ -81,10 +81,9 @@ if should_test_real_api():
 
             THEN("a dict is returned")
             assert type(market_info) is dict
-            
-            THEN("the dict contains a list of runners")
-            print(market_id)
-            assert type(market_info.get("runners")) is list
+            if market_info:
+                THEN("the dict contains a list of runners")
+                assert type(market_info.get("runners")) is list
 
     def test_api_is_singleton():
         GIVEN("an API handler connected to the dev environment")
