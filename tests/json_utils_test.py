@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_file
-from third_party_adapters.json_utils import write_json_to, make_dict
+from app.third_party_adapters.json_utils import write_json_to, make_dict
 
 
 def test_json_utils():

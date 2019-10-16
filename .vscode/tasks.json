@@ -16,7 +16,7 @@
 		}, 
 		{
 			"label": "Run Pytest",
-			"command": "export test_suite=online && pipenv run pytest --cov=app/ --cov-report=xml:cov.xml",
+			"command": "export test_suite=online && pipenv run pytest --cov=app/ tests/ --cov-report=xml:cov.xml",
 			"problemMatcher": []
 		}, 		
 		{

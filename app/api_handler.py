@@ -9,8 +9,8 @@ from private.details import (
     get_user_details,
 )
 from app.singleton import Singleton
-from third_party_adapters.api_utils import post_request
-from third_party_adapters.json_utils import make_dict
+from app.third_party_adapters.api_utils import post_request
+from app.third_party_adapters.json_utils import make_dict
 
 
 class APIHandler(metaclass=Singleton):
