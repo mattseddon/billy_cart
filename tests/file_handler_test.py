@@ -1,7 +1,7 @@
 from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file
 from app.file_handler import FileHandler
 from third_party_adapters.json_utils import make_dict
-from os.path import exists
+from third_party_adapters.os_utils import path_exists
 
 
 def test_file_handler():
@@ -16,7 +16,7 @@ def test_file_handler():
     test_file_path = file_handler.add_dict(first_dict)
 
     THEN("the file has been created")
-    assert exists(test_file_path) is True
+    assert path_exists(test_file_path) is True
 
     WHEN("we call add_dict again and open the file")
     test_file_path = file_handler.add_dict(second_dict)

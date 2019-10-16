@@ -1,7 +1,5 @@
 from urllib.error import URLError
 from urllib.request import Request, urlopen
-from app.api_utils import post_request
-from app.json_utils import make_dict
 from private.details import (
     get_app_key,
     get_cert,
@@ -11,6 +9,8 @@ from private.details import (
     get_user_details,
 )
 from app.singleton import Singleton
+from third_party_adapters.api_utils import post_request
+from third_party_adapters.json_utils import make_dict
 
 
 class APIHandler(metaclass=Singleton):

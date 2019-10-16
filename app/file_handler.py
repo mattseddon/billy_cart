@@ -1,5 +1,5 @@
-from app.json_utils import write_json_to
-from app.os_utils import (
+from third_party_adapters.json_utils import write_json_to
+from third_party_adapters.os_utils import (
     get_newline,
     get_file_path,
     path_exists,
