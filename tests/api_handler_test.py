@@ -109,11 +109,10 @@ if should_test_real_api():
         assert dev_api_handler.headers == duplicate_api_handler.headers
 
 
-@patch("app.api_handler.post")
+@patch("app.api_handler.post_request")
 def test_set_headers(mock_post):
     GIVEN("we cannot connect to the dev environment")
-    mock_post.return_value.json.return_value = {}
-    mock_post.return_value.status_code.return_value = 500
+    mock_post.return_value = {}
 
     WHEN("we try to instantiate the handler")
     dev_api_handler = APIHandler(environment="Dev")

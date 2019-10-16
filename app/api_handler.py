@@ -1,6 +1,6 @@
 from urllib.error import URLError
 from urllib.request import Request, urlopen
-from requests import post
+from app.api_utils import post_request
 from app.json_utils import make_dict
 from private.details import (
     get_app_key,
@@ -25,9 +25,10 @@ class APIHandler(metaclass=Singleton):
 
     def set_headers(self, environment="Prod"):
 
-        response = self.__login()
-        if self.__is_ok(response):
-            self.headers = self.__make_headers(response=response)
+        data = self.__login()
+        self.__token = self.__get_token(data=data)
+        if self.__has_token():
+            self.headers = self.__make_headers()
             return 1
 
         else:
@@ -35,8 +36,8 @@ class APIHandler(metaclass=Singleton):
             # print("   > Request failed.")
 
     def __login(self):
-        response = post(
-            self.login_url,
+        response = post_request(
+            url=self.login_url,
             data=self.user_details,
             cert=self.cert,
             headers={
@@ -46,21 +47,18 @@ class APIHandler(metaclass=Singleton):
         )
         return response
 
-    def __is_ok(self, response):
-        return response.status_code == 200
+    def __get_token(self, data):
+        return data.get("sessionToken")
 
-    def __make_headers(self, response):
+    def __has_token(self):
+        return self.__token is not None
+
+    def __make_headers(self):
         return {
             "X-Application": self.app_key,
-            "X-Authentication": self.__get_token(response=response),
+            "X-Authentication": self.__token,
             "content-type": "application/json",
         }
-
-    def __get_token(self, response):
-        dict = response.json()
-        # print("   > login status: " + resp_json["loginStatus"].lower())
-        token = dict["sessionToken"]
-        return token
 
     def get_account_status(self):
 
