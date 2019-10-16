@@ -3,11 +3,11 @@ from dateutil import tz
 
 
 class DateTime:
-    utc_api_format = "%Y-%m-%dT%H:%M:%S.%fZ"
-    utc_format = "%Y-%m-%dT%H:%M:%SZ"
-    time_format = "%H:%M:%S"
-    from_zone = tz.gettz("UTC")
-    to_zone = tz.gettz("Australia/Sydney")
+    __utc_api_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+    __utc_format = "%Y-%m-%dT%H:%M:%SZ"
+    __time_format = "%H:%M:%S"
+    __from_zone = tz.gettz("UTC")
+    __to_zone = tz.gettz("Australia/Sydney")
 
     def __init__(self,str):
         self.__date_time = DateTime.__convert_from_utc_api_string(str)
@@ -66,11 +66,11 @@ class DateTime:
 
     @staticmethod
     def __convert_from_utc_string(str):
-        return DateTime.__convert_from_string(str=str, format=DateTime.utc_format)
+        return DateTime.__convert_from_string(str=str, format=DateTime.__utc_format)
 
     @staticmethod
     def __convert_from_utc_api_string(str):
-        return DateTime.__convert_from_string(str=str, format=DateTime.utc_api_format)
+        return DateTime.__convert_from_string(str=str, format=DateTime.__utc_api_format)
 
     @staticmethod
     def __convert_from_string(str, format):
@@ -78,14 +78,14 @@ class DateTime:
 
     @staticmethod
     def __convert_to_utc_string(date_time):
-        return DateTime.__convert_to_string(date_time=date_time, format=DateTime.utc_format)
+        return DateTime.__convert_to_string(date_time=date_time, format=DateTime.__utc_format)
 
     def __convert_to_hms_string(self):
-        return DateTime.__convert_to_string(date_time=self.__date_time, format=DateTime.time_format)
+        return DateTime.__convert_to_string(date_time=self.__date_time, format=DateTime.__time_format)
 
     @staticmethod
     def __convert_to_string(date_time, format):
         return date_time.strftime(format)
 
     def __convert_timezone_to_local(self):
-        self.__date_time = self.__date_time.replace(tzinfo=DateTime.from_zone).astimezone(DateTime.to_zone)
+        self.__date_time = self.__date_time.replace(tzinfo=DateTime.__from_zone).astimezone(DateTime.__to_zone)

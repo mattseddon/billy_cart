@@ -1,23 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN
 from third_party_adapters.date_time import DateTime
 from freezegun import freeze_time
-from dateutil import tz
-
-
-def test_date_helper_static():
-    GIVEN("the DateTime class")
-    WHEN("we inspect it")
-    utc_format = DateTime.utc_format
-    utc_api_format = DateTime.utc_api_format
-    time_format = DateTime.time_format
-    to_zone = DateTime.to_zone
-    from_zone = DateTime.from_zone
-    THEN("the static variable are all correct")
-    assert utc_format == "%Y-%m-%dT%H:%M:%SZ"
-    assert utc_api_format == "%Y-%m-%dT%H:%M:%S.%fZ"
-    assert time_format == "%H:%M:%S"
-    assert to_zone == tz.gettz("Australia/Sydney")
-    assert from_zone == tz.gettz("UTC")
 
 
 @freeze_time("1984-11-07 12:45:00")
