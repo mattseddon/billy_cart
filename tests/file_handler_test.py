@@ -1,6 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file
 from app.file_handler import FileHandler
-from app.json_utils import make_dict
+from third_party_adapters.json_utils import make_dict
 from os.path import exists
 
 

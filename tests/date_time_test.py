@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN
-from app.date_time import DateTime
+from third_party_adapters.date_time import DateTime
 from freezegun import freeze_time
 from dateutil import tz
 

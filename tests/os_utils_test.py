@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_directory
-from app.os_utils import (
+from third_party_adapters.os_utils import (
     get_file_path,
     get_newline,
     get_environment_variable,

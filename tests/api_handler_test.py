@@ -1,9 +1,9 @@
 from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
-from app.date_time import DateTime
 from app.api_handler import APIHandler
 from private.details import get_user_details, get_cert, get_app_key
 from unittest.mock import patch, MagicMock, Mock
-from app.json_utils import make_json
+from third_party_adapters.date_time import DateTime
+from third_party_adapters.json_utils import make_json
 from urllib.error import URLError
 
 

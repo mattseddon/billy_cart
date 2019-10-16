@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN
-from app.api_utils import post_request
+from third_party_adapters.api_utils import post_request
 
 def test_post_request():
     GIVEN("a url")
