@@ -15,12 +15,12 @@ from third_party_adapters.json_utils import make_dict
 
 class APIHandler(metaclass=Singleton):
     def __init__(self, environment="Prod"):
-        self.app_key = get_app_key(environment=environment)
-        self.cert = get_cert()
-        self.account_url = get_account_url()
-        self.exchange_url = get_exchange_url()
-        self.login_url = get_login_url()
-        self.user_details = get_user_details()
+        self.__app_key = get_app_key(environment=environment)
+        self.__cert = get_cert()
+        self.__account_url = get_account_url()
+        self.__exchange_url = get_exchange_url()
+        self.__login_url = get_login_url()
+        self.__user_details = get_user_details()
         self.set_headers()
 
     def set_headers(self, environment="Prod"):
@@ -37,11 +37,11 @@ class APIHandler(metaclass=Singleton):
 
     def __login(self):
         response = post_request(
-            url=self.login_url,
-            data=self.user_details,
-            cert=self.cert,
+            url=self.__login_url,
+            data=self.__user_details,
+            cert=self.__cert,
             headers={
-                "X-Application": self.app_key,
+                "X-Application": self.__app_key,
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         )
@@ -55,7 +55,7 @@ class APIHandler(metaclass=Singleton):
 
     def __make_headers(self):
         return {
-            "X-Application": self.app_key,
+            "X-Application": self.__app_key,
             "X-Authentication": self.__token,
             "content-type": "application/json",
         }
@@ -63,7 +63,7 @@ class APIHandler(metaclass=Singleton):
     def get_account_status(self):
 
         account_status = self.__call_api(
-            url=self.account_url,
+            url=self.__account_url,
             request='{"jsonrpc": "2.0", "method": "AccountAPING/v1.0/getAccountFunds"}',
         )
 
@@ -77,7 +77,7 @@ class APIHandler(metaclass=Singleton):
             + '],"priceProjection":{"priceData":["EX_BEST_OFFERS","SP_AVAILABLE","SP_TRADED","EX_TRADED"]},"marketProjection":["MARKET_START_TIME"]}, "id": 1}'
         )
 
-        market = self.__call_api(url=self.exchange_url, request=marketList)
+        market = self.__call_api(url=self.__exchange_url, request=marketList)
         return market[0] if market else {}
 
     def get_markets(self, eventTypeID, toDateTime):
@@ -90,7 +90,7 @@ class APIHandler(metaclass=Singleton):
             + '"}},"sort":"FIRST_TO_START","maxResults":"1000","marketProjection":["MARKET_START_TIME","EVENT"]}}'
         )
 
-        markets = self.__call_api(url=self.exchange_url, request=market_categories)
+        markets = self.__call_api(url=self.__exchange_url, request=market_categories)
         return markets
 
     def __call_api(self, url, request):
