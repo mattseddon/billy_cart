@@ -1,16 +1,21 @@
 from datetime import datetime, timedelta
 from dateutil import tz
-
+from app.third_party_adapters.re_utils import regex_match
 
 class DateTime:
-    __utc_api_format = "%Y-%m-%dT%H:%M:%S.%fZ"
     __utc_format = "%Y-%m-%dT%H:%M:%SZ"
+    __utc_api_format = "%Y-%m-%dT%H:%M:%S.%fZ"
     __time_format = "%H:%M:%S"
     __from_zone = tz.gettz("UTC")
     __to_zone = tz.gettz("Australia/Sydney")
 
     def __init__(self,str):
-        self.__date_time = DateTime.__convert_from_utc_api_string(str)
+        self.__str = str
+        self.__utc_api_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z"
+        self.__date_time = self.__make_datetime()
+
+    def get_epoch(self):
+        return self.__date_time.timestamp()
 
     @staticmethod
     def utc_5_minutes_from_now():
@@ -37,13 +42,19 @@ class DateTime:
         date_time_now_str = DateTime.__convert_to_utc_string(date_time=date_time_now)
         return date_time_now_str
 
+    def __make_datetime(self):
+        if regex_match(pattern=self.__utc_api_pattern,str=self.__str):
+            date_time = self.__convert_from_utc_api_string()
+        else: 
+            date_time = self.__convert_from_utc_string()
+        return date_time
 
     @staticmethod
     def __utc_minutes_from_now(minutes):
         date_time = DateTime.__add_to(
             date_time=DateTime.__get_utc_now(), minutes=minutes
         )
-        date_time_str = DateTime.__convert_to_utc_string(date_time)
+        date_time_str = DateTime.__convert_to_utc_string(date_time=date_time)
         return date_time_str
 
     @staticmethod
@@ -64,17 +75,14 @@ class DateTime:
         date_time = date_time + timedelta(minutes=minutes,seconds=seconds)
         return date_time
 
-    @staticmethod
-    def __convert_from_utc_string(str):
-        return DateTime.__convert_from_string(str=str, format=DateTime.__utc_format)
+    def __convert_from_utc_string(self):
+        return self.__convert_from_string(format=DateTime.__utc_format)
 
-    @staticmethod
-    def __convert_from_utc_api_string(str):
-        return DateTime.__convert_from_string(str=str, format=DateTime.__utc_api_format)
+    def __convert_from_utc_api_string(self):
+        return self.__convert_from_string(format=DateTime.__utc_api_format)
 
-    @staticmethod
-    def __convert_from_string(str, format):
-        return datetime.strptime(str, format)
+    def __convert_from_string(self, format):
+        return datetime.strptime(self.__str, format)
 
     @staticmethod
     def __convert_to_utc_string(date_time):
