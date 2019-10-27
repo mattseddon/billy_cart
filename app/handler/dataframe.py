@@ -5,7 +5,7 @@ from app.third_party_adapter.date_time import DateTime
 from pandas import DataFrame
 
 
-class DataHandler:
+class DataFrameHandler:
     def __init__(self, directory, file):
         self._raw_data = FileHandler(directory=directory, file=file).get_file_as_list()
         self._odfet = []
