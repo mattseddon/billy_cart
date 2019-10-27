@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN
-from app.dataframe_handler import DataHandler
+from app.handler.dataframe import DataHandler
 from pandas import DataFrame
 from pandas.testing import assert_series_equal
 
