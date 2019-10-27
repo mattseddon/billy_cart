@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
-from app.api_handler import APIHandler
+from app.handler.api import APIHandler
 from private.details import get_user_details, get_cert, get_app_key
 from unittest.mock import patch, MagicMock, Mock
 from app.third_party_adapter.date_time import DateTime
@@ -109,7 +109,7 @@ if should_test_real_api():
         assert dev_api_handler.headers == duplicate_api_handler.headers
 
 
-@patch("app.api_handler.post_request")
+@patch("app.handler.api.post_request")
 def test_set_headers(mock_post):
     GIVEN("we cannot connect to the dev environment")
     mock_post.return_value = {}
@@ -129,7 +129,7 @@ def test_set_headers(mock_post):
 
 
 @patch.object(APIHandler, "set_headers")
-@patch("app.api_handler.urlopen")
+@patch("app.handler.api.urlopen")
 def test_error_handling(mock_urlopen, mock_set_headers):
     GIVEN("a mocked instance of the APIHandler")
     mock_set_headers.side_effect = setattr(APIHandler, "headers", {})
