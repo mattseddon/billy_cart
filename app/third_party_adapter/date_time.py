@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from dateutil import tz
-from app.third_party_adapters.re_utils import regex_match
+from app.third_party_adapter.re_utils import regex_match
 
 class DateTime:
     __utc_format = "%Y-%m-%dT%H:%M:%SZ"

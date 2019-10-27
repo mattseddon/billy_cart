@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
-from app.third_party_adapters.api_utils import post_request
+from app.third_party_adapter.api_utils import post_request
 
 if should_test_real_api():
 

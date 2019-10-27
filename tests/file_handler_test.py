@@ -1,7 +1,7 @@
 from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file
 from app.file_handler import FileHandler
-from app.third_party_adapters.json_utils import make_dict
-from app.third_party_adapters.os_utils import path_exists
+from app.third_party_adapter.json_utils import make_dict
+from app.third_party_adapter.os_utils import path_exists
 
 
 def test_file_handler():

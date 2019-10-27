@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN
-from app.third_party_adapters.re_utils import regex_match
+from app.third_party_adapter.re_utils import regex_match
 
 def test_regex_match():
     GIVEN("a pattern and a string that match")

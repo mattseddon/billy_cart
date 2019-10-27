@@ -1,4 +1,4 @@
-from app.third_party_adapters.os_utils import (
+from app.third_party_adapter.os_utils import (
     get_environment_variable,
     get_file_path,
     make_directory_if_required,

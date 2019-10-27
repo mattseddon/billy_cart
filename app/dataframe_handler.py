@@ -1,7 +1,7 @@
 from app.file_handler import FileHandler
 from app.runner_handler import RunnerHandler
-from app.third_party_adapters.json_utils import make_dict
-from app.third_party_adapters.date_time import DateTime
+from app.third_party_adapter.json_utils import make_dict
+from app.third_party_adapter.date_time import DateTime
 from pandas import DataFrame
 
 
