@@ -1,4 +1,4 @@
-from app.third_party_adapters.date_time import DateTime
+from app.third_party_adapter.date_time import DateTime
 from numpy import nan
 
 
