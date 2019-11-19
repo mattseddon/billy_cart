@@ -30,8 +30,6 @@ class DataFrameHandler:
         market_time = make_dict(first_record).get("marketStartTime")
         self.__market_time = DateTime(market_time).get_epoch()
 
-    # __make_dataframe
-
     def _extract(self):
 
         self._make_lists()
@@ -54,7 +52,6 @@ class DataFrameHandler:
         )
 
         self.odf = self.odf[~(self.odf["id"].isin(self._removed))]
-        print(self.odf)
 
     def _make_lists(self):
         for raw_record in self._raw_data:
@@ -80,7 +77,7 @@ class DataFrameHandler:
                 self.__append_record(record=record)
             elif record.id not in self._removed:
                 self._removed.append(record.id)
-                self.__update_last_removed(record=record)
+                self.__update_last_removed(removal_date=record.removal_date)
 
     def __append_record(self, record):
 
@@ -104,8 +101,8 @@ class DataFrameHandler:
 
         return None
 
-    def __update_last_removed(self, record):
+    def __update_last_removed(self, removal_date):
         self.last_removed = max(
-            self.last_removed, record.removal_date - self.__market_time
+            self.last_removed, removal_date - self.__market_time
         )
         return None
