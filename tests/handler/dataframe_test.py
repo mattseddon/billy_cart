@@ -1,5 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN
 from app.handler.dataframe import DataFrameHandler
+from app.third_party_adapter.date_time import DateTime
 from pandas import DataFrame
 
 def test_create_df():
@@ -20,7 +21,7 @@ def test_create_df():
     file = "1.156695742.txt"
     WHEN("we instantiate the data_handler class")
     data = DataFrameHandler(directory=directory,file=file)
-    removed_runner_id = 23475685
+    removed_id = 23475685
     THEN("the object contains a dataframe")
     assert type(data.odf) is DataFrame
     THEN("the dataframe has the correct number of columns")
@@ -28,6 +29,8 @@ def test_create_df():
     THEN("the dataframe has more records than the object's raw data")
     assert len(data.odf.index) > len(data._raw_data)
     THEN("the object's protected list of removed runners contains the correct id")
-    assert removed_runner_id in data._removed
+    assert removed_id in data._removed
     THEN("the object's dataframe does not contain any records relating to the removed runner")
-    assert len(data.odf[(data.odf["runnerId"] == removed_runner_id)]) == 0
+    assert len(data.odf[(data.odf["id"] == removed_id)]) == 0
+    THEN("the object's last removed date is greater than the default value")
+    assert data.last_removed > -DateTime.seconds_in_a_day()

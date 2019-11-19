@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from dateutil import tz
 from app.third_party_adapter.re_utils import regex_match
 
+
 class DateTime:
     __utc_format = "%Y-%m-%dT%H:%M:%SZ"
     __utc_api_format = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -9,7 +10,7 @@ class DateTime:
     __from_zone = tz.gettz("UTC")
     __to_zone = tz.gettz("Australia/Sydney")
 
-    def __init__(self,str):
+    def __init__(self, str):
         self.__str = str
         self.__utc_api_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z"
         self.__date_time = self.__make_datetime()
@@ -43,9 +44,9 @@ class DateTime:
         return date_time_now_str
 
     def __make_datetime(self):
-        if regex_match(pattern=self.__utc_api_pattern,str=self.__str):
+        if regex_match(pattern=self.__utc_api_pattern, str=self.__str):
             date_time = self.__convert_from_utc_api_string()
-        else: 
+        else:
             date_time = self.__convert_from_utc_string()
         return date_time
 
@@ -68,11 +69,13 @@ class DateTime:
         return hour_minutes_str
 
     def __add_to_date_time(self, minutes=0, seconds=0):
-        self.__date_time = DateTime.__add_to(date_time=self.__date_time, minutes=minutes, seconds=seconds)
+        self.__date_time = DateTime.__add_to(
+            date_time=self.__date_time, minutes=minutes, seconds=seconds
+        )
 
     @staticmethod
     def __add_to(date_time, minutes=0, seconds=0):
-        date_time = date_time + timedelta(minutes=minutes,seconds=seconds)
+        date_time = date_time + timedelta(minutes=minutes, seconds=seconds)
         return date_time
 
     def __convert_from_utc_string(self):
@@ -86,14 +89,24 @@ class DateTime:
 
     @staticmethod
     def __convert_to_utc_string(date_time):
-        return DateTime.__convert_to_string(date_time=date_time, format=DateTime.__utc_format)
+        return DateTime.__convert_to_string(
+            date_time=date_time, format=DateTime.__utc_format
+        )
 
     def __convert_to_hms_string(self):
-        return DateTime.__convert_to_string(date_time=self.__date_time, format=DateTime.__time_format)
+        return DateTime.__convert_to_string(
+            date_time=self.__date_time, format=DateTime.__time_format
+        )
 
     @staticmethod
     def __convert_to_string(date_time, format):
         return date_time.strftime(format)
 
     def __convert_timezone_to_local(self):
-        self.__date_time = self.__date_time.replace(tzinfo=DateTime.__from_zone).astimezone(DateTime.__to_zone)
+        self.__date_time = self.__date_time.replace(
+            tzinfo=DateTime.__from_zone
+        ).astimezone(DateTime.__to_zone)
+
+    @staticmethod
+    def seconds_in_a_day():
+        return 60 * 60 * 24

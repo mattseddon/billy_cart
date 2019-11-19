@@ -21,9 +21,7 @@ class DataFrameHandler:
         self._odfsbt = []
         self._odfslt = []
         self._removed = []
-        # lastRemoved required later in the process and are static but have had the wrong one
-        # come through when two races run at the same time
-        self.last_removed = -1000000
+        self.last_removed = -DateTime.seconds_in_a_day()
         self.__get_market_time()
         self._extract()
 
@@ -41,7 +39,7 @@ class DataFrameHandler:
         self.odf = DataFrame(
             {
                 "extract_time": self._odfet,
-                "runnerId": self._odfid,
+                "id": self._odfid,
                 "sp_back": self._odfspb,
                 "sp_back_taken": self._odfsbt,
                 "spLay": self._odfspl,
@@ -55,20 +53,14 @@ class DataFrameHandler:
             }
         )
 
-        self.odf = self.odf[~(self.odf["runnerId"].isin(self._removed))]
+        self.odf = self.odf[~(self.odf["id"].isin(self._removed))]
         print(self.odf)
 
     def _make_lists(self):
-        # go through the list of dictionaries and pull out the required information
-        # note this is done once for all tests - efficiency
         for raw_record in self._raw_data:
             try:
                 self.__append_to_lists(raw_record)
-
-            # when the data has been extracted every 5 seconds it is possible for 2 session to write into the same record.
-            # This just makes sure that we miss that record
             except Exception:
-                ##                print (e)
                 None
 
     def __append_to_lists(self, raw_record):
@@ -80,37 +72,40 @@ class DataFrameHandler:
             return None
 
         market_info = data.get("marketInfo")[0]  # for testing purposes only
-        records = market_info.get("runners")
+        runners = market_info.get("runners")
 
-        for record in records:
-            rh = RecordHandler(
-                record, removed=self._removed, market_time=self.__market_time 
-                #removed should reference that this is a list of removed runners - don't want the handler to know about the full list
-                #in fact bypass the handler if the runner has been removed
-            )
-            if rh.is_valid_runner():
-                self.__append_runner(runner=rh)
-            else:
-                self._removed = rh.removed
+        for runner in runners:
+            record = RecordHandler(runner)
+            if record.is_valid():
+                self.__append_record(record=record)
+            elif record.id not in self._removed:
+                self._removed.append(record.id)
+                self.__update_last_removed(record=record)
 
-    def __append_runner(self, runner):
+    def __append_record(self, record):
 
         self._odfet.append(self.__time_difference)
-        self._odfid.append(runner.id)
+        self._odfid.append(record.id)
 
-        self._odfspb.append(runner.sp_back)
-        self._odfsbt.append(runner.sp_back_taken)
+        self._odfspb.append(record.sp_back)
+        self._odfsbt.append(record.sp_back_taken)
 
-        self._odfspl.append(runner.sp_lay)
-        self._odfslt.append(runner.sp_lay_liability_taken)
+        self._odfspl.append(record.sp_lay)
+        self._odfslt.append(record.sp_lay_liability_taken)
 
-        self._odfapb.append(runner.tBP)
-        self._odftsb.append(runner.tBPd)
+        self._odfapb.append(record.tBP)
+        self._odftsb.append(record.tBPd)
 
-        self._odfapl.append(runner.tLP)
-        self._odftsl.append(runner.tLPd)
+        self._odfapl.append(record.tLP)
+        self._odftsl.append(record.tLPd)
 
-        self._odfobo.append(runner.offered_back_odds)
-        self._odfolo.append(runner.offered_lay_odds)
+        self._odfobo.append(record.offered_back_odds)
+        self._odfolo.append(record.offered_lay_odds)
 
+        return None
+
+    def __update_last_removed(self, record):
+        self.last_removed = max(
+            self.last_removed, record.removal_date - self.__market_time
+        )
         return None
