@@ -1,7 +1,7 @@
 {
 	"python.linting.pylintEnabled": true,
 	"python.linting.enabled": true,
-	"python.pythonPath": "/Users/mattseddon/.local/share/virtualenvs/PP1-e2Nk5eIm/bin/python",
+	"python.pythonPath": "~/.local/share/virtualenvs/billy_cart-DlY1dT5Z",
 	"git.ignoreLimitWarning": true,
 	"cSpell.words": [
 		"astimezone",

@@ -1,5 +1,5 @@
 from app.handler.file import FileHandler
-from app.handler.runner import RunnerHandler
+from app.handler.record import RecordHandler
 from app.third_party_adapter.json_utils import make_dict
 from app.third_party_adapter.date_time import DateTime
 from pandas import DataFrame
@@ -80,18 +80,20 @@ class DataFrameHandler:
             return None
 
         market_info = data.get("marketInfo")[0]  # for testing purposes only
-        runners = market_info.get("runners")
+        records = market_info.get("runners")
 
-        for runner in runners:
-            rh = RunnerHandler(
-                runner, removed=self._removed, market_time=self.__market_time
+        for record in records:
+            rh = RecordHandler(
+                record, removed=self._removed, market_time=self.__market_time 
+                #removed should reference that this is a list of removed runners - don't want the handler to know about the full list
+                #in fact bypass the handler if the runner has been removed
             )
             if rh.is_valid_runner():
                 self.__append_runner(runner=rh)
             else:
                 self._removed = rh.removed
 
-    def __append_runner(self,runner):
+    def __append_runner(self, runner):
 
         self._odfet.append(self.__time_difference)
         self._odfid.append(runner.id)

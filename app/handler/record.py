@@ -2,7 +2,7 @@ from app.third_party_adapter.date_time import DateTime
 from numpy import nan
 
 
-class RunnerHandler:
+class RecordHandler:
     def __init__(self, runner, removed, market_time):
         self.__runner = runner
         self.removed = removed
@@ -62,7 +62,7 @@ class RunnerHandler:
         return True if (self.id in self.removed) else False
 
     def __remove_runner(self):
-        self.removed.append(self.__runner.get("id"))
+        self.removed.append(self.id)
         return None
 
     def __update_last_removed(self):
