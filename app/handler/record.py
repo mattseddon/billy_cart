@@ -37,10 +37,10 @@ class RecordHandler:
         self.sp_lay = self.__calc_lay_odds(self.sp_back)
 
         available_to_back = self.__ex.get("availableToBack")
-        self.offered_back_odds = available_to_back[0].get("price") if available_to_back else 0
+        self.offered_back_odds = available_to_back[0].get("price") if available_to_back else nan
 
         available_to_lay = self.__ex.get("availableToLay")
-        self.offered_lay_odds = available_to_lay[0].get("price") if available_to_lay else 0
+        self.offered_lay_odds = available_to_lay[0].get("price") if available_to_lay else nan
 
         self.__set_traded_volume()
         self.__set_average_back_price()
@@ -56,7 +56,7 @@ class RecordHandler:
 
     def __set_sp_back(self):
         price = self.__sp.get("nearPrice")
-        self.sp_back = price if self.__is_valid(price) else 0
+        self.sp_back = price if self.__is_valid(price) else nan
         return None
 
     def __is_valid(self, price):
@@ -80,20 +80,20 @@ class RecordHandler:
     def __set_average_back_price(self):
 
         self.__tBPn = 0
-        self.tBPd = 0
+        self.total_back_size = 0
 
         for trade in self.__traded_volume:
             self.__tBPn += trade.get("size") * trade.get("price")
-            self.tBPd += trade.get("size")
+            self.total_back_size += trade.get("size")
 
-        self.tBP = self.__tBPn / self.tBPd if self.tBPd else nan
+        self.average_back_price = self.__tBPn / self.total_back_size if self.total_back_size else nan
 
         return None
 
     def __set_average_lay_price(self):
 
         self.__tLPn = 0
-        self.tLPd = 0
+        self.total_lay_size = 0
 
         for trade in self.__traded_volume:
 
@@ -102,6 +102,6 @@ class RecordHandler:
                 * (trade.get("price") - 1)
                 * self.__calc_lay_odds(trade.get("price"))
             )
-            self.tLPd += trade.get("size") * (trade.get("price") - 1)
+            self.total_lay_size += trade.get("size") * (trade.get("price") - 1)
 
-        self.tLP = self.__tLPn / self.tLPd if self.tLPd else nan
+        self.average_lay_price = self.__tLPn / self.total_lay_size if self.total_lay_size else nan

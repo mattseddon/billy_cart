@@ -84,11 +84,11 @@ class DataFrameHandler:
         self._odfspl.append(record.sp_lay)
         self._odfslt.append(record.sp_lay_taken)
 
-        self._odfapb.append(record.tBP)
-        self._odftsb.append(record.tBPd)
+        self._odfapb.append(record.average_back_price)
+        self._odftsb.append(record.total_back_size)
 
-        self._odfapl.append(record.tLP)
-        self._odftsl.append(record.tLPd)
+        self._odfapl.append(record.average_lay_price)
+        self._odftsl.append(record.total_lay_size)
 
         self._odfobo.append(record.offered_back_odds)
         self._odfolo.append(record.offered_lay_odds)
