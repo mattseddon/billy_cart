@@ -1,6 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN
 from app.handler.record import RecordHandler
-from math import isnan
+from numpy import isnan
 
 
 def test_create_record():
@@ -14,7 +14,6 @@ def test_create_record():
     __test_sp_defaults(record=record, data=data)
     __test_ex_defaults(record=record, data=data)
     assert isnan(record.removal_date)
-    
 
     GIVEN("a dictionary with the correct information")
     data = __get_data()
@@ -31,8 +30,10 @@ def test_create_record():
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
     THEN("the object has all of the correct defaults applied")
+    assert record.id == __get_id(data)
     __test_sp_defaults(record=record, data=data)
     __test_ex_values(record=record, data=data)
+    assert isnan(record.removal_date)
 
     GIVEN("a dictionary which is missing the sp attribute")
     data = __get_data()
@@ -40,36 +41,49 @@ def test_create_record():
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
     THEN("the object has all of the correct defaults applied")
+    assert record.id == __get_id(data)
     __test_sp_defaults(record=record, data=data)
     __test_ex_values(record=record, data=data)
+    assert isnan(record.removal_date)
 
     GIVEN("a dictionary which has an empty ex attribute")
     data = __get_data(ex={})
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
     THEN("the object has all of the correct defaults applied")
+    assert record.id == __get_id(data)
     __test_ex_defaults(record=record, data=data)
     __test_sp_values(record=record, data=data)
+    assert isnan(record.removal_date)
 
     GIVEN("a dictionary which has an empty ex attribute")
     data = __get_data()
-    del data['ex']
+    del data["ex"]
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
     THEN("the object has all of the correct defaults applied")
+    assert record.id == __get_id(data)
     __test_ex_defaults(record=record, data=data)
     __test_sp_values(record=record, data=data)
+    assert isnan(record.removal_date)
 
-    GIVEN("a dictionary which is missing the nearprice attribute")
+    GIVEN("a dictionary representing a removed runner")
+    data = __get_removed()
     WHEN("we instantiate the record handler object")
+    record = RecordHandler(data)
     THEN("the object has all of the correct defaults applied")
-
+    assert record.id == __get_id(data)
+    __test_ex_defaults(record=record, data=data)
+    __test_sp_defaults(record=record, data=data)
+    THEN("the object has a removal_date")
+    assert record.removal_date > 0
 
 def __test_sp_values(record, data):
     assert record.sp_back == __get_sp_back(data)
     assert record.sp_back_taken == __calc_sp_back_taken(data)
     assert record.sp_lay == __calc_lay_odds(__get_sp_back(data))
     assert record.sp_lay_taken == __calc_sp_lay_taken(data)
+
 
 def __test_sp_defaults(record, data):
     assert record.id == __get_id(data)
@@ -87,7 +101,8 @@ def __test_ex_values(record, data):
     assert record.offered_back_odds == __get_offered_back_odds(data)
     assert record.offered_lay_odds == __get_offered_lay_odds(data)
 
-def __test_ex_defaults(record,data):
+
+def __test_ex_defaults(record, data):
     assert isnan(record.average_back_price)
     assert record.total_back_size == 0
     assert isnan(record.average_lay_price)
@@ -147,6 +162,18 @@ def __get_data(sp=__get_sp_data(), ex=__get_ex_data()):
         "adjustmentFactor": 15.385,
         "ex": ex,
         "lastPriceTraded": 6.2,
+    }
+
+
+def __get_removed():
+    return {
+        "status": "REMOVED",
+        "handicap": 0.0,
+        "selectionId": 281358,
+        "sp": {"backStakeTaken": [], "layLiabilityTaken": []},
+        "removalDate": "2019-03-19T22:57:56.000Z",
+        "adjustmentFactor": 19.623,
+        "ex": {"availableToBack": [], "availableToLay": [], "tradedVolume": []},
     }
 
 

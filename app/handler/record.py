@@ -50,7 +50,7 @@ class RecordHandler:
         return value if value else default
 
     def __set_removal_date(self):
-        removal_date = self.__record.get("removal_date")
+        removal_date = self.__record.get("removalDate")
         self.removal_date = DateTime(removal_date).get_epoch() if removal_date else nan
         return None
 
