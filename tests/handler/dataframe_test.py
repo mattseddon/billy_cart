@@ -28,9 +28,3 @@ def test_create_df():
     assert len(data.odf.columns) == 12
     THEN("the dataframe has more records than the object's raw data")
     assert len(data.odf.index) > len(data._raw_data)
-    THEN("the object's protected list of removed runners contains the correct id")
-    assert removed_id in data._removed
-    THEN("the object's dataframe does not contain any records relating to the removed runner")
-    assert len(data.odf[(data.odf["id"] == removed_id)]) == 0
-    THEN("the object's last removed date is greater than the default value")
-    assert data.last_removed > -DateTime.seconds_in_a_day()

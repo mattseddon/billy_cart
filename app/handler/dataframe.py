@@ -20,8 +20,7 @@ class DataFrameHandler:
         self._odftsl = []
         self._odfsbt = []
         self._odfslt = []
-        self._removed = []
-        self.last_removed = -DateTime.seconds_in_a_day()
+        self._odfrmd = []
         self.__get_market_time()
         self._extract()
 
@@ -41,7 +40,7 @@ class DataFrameHandler:
                 "sp_back": self._odfspb,
                 "sp_back_taken": self._odfsbt,
                 "spLay": self._odfspl,
-                "sp_lay_liability_taken": self._odfslt,
+                "sp_lay_taken": self._odfslt,
                 "average_price_backed": self._odfapb,
                 "total_size_backed": self._odftsb,
                 "average_price_layed": self._odfapl,
@@ -50,8 +49,6 @@ class DataFrameHandler:
                 "offered_lay_dds": self._odfolo,
             }
         )
-
-        self.odf = self.odf[~(self.odf["id"].isin(self._removed))]
 
     def _make_lists(self):
         for raw_record in self._raw_data:
@@ -75,9 +72,6 @@ class DataFrameHandler:
             record = RecordHandler(runner)
             if record.is_valid():
                 self.__append_record(record=record)
-            elif record.id not in self._removed:
-                self._removed.append(record.id)
-                self.__update_last_removed(removal_date=record.removal_date)
 
     def __append_record(self, record):
 
@@ -88,7 +82,7 @@ class DataFrameHandler:
         self._odfsbt.append(record.sp_back_taken)
 
         self._odfspl.append(record.sp_lay)
-        self._odfslt.append(record.sp_lay_liability_taken)
+        self._odfslt.append(record.sp_lay_taken)
 
         self._odfapb.append(record.tBP)
         self._odftsb.append(record.tBPd)
@@ -99,10 +93,6 @@ class DataFrameHandler:
         self._odfobo.append(record.offered_back_odds)
         self._odfolo.append(record.offered_lay_odds)
 
-        return None
+        self._odfrmd.append(record.removal_date)
 
-    def __update_last_removed(self, removal_date):
-        self.last_removed = max(
-            self.last_removed, removal_date - self.__market_time
-        )
         return None
