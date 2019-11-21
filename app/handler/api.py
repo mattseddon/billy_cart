@@ -68,7 +68,6 @@ class APIHandler(metaclass=Singleton):
         markets = self.__call_api(url=self.__exchange_url, request=market_categories)
         return markets
 
-
     def __login(self):
         response = post_request(
             url=self.__login_url,

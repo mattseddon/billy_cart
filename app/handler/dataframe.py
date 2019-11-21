@@ -87,9 +87,9 @@ class DataFrameHandler:
     def _make_lists(self):
         for raw_record in self._raw_data:
             # try:
-                self.__append_to_lists(raw_record)
-            # except Exception:
-                # return None
+            self.__append_to_lists(raw_record)
+        # except Exception:
+        # return None
 
     def __append_to_lists(self, raw_record):
         try:
