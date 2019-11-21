@@ -1,4 +1,4 @@
-from app.third_party_adapter.json_utils import write_json_to
+from app.third_party_adapter.json_utils import write_json_to,make_dict
 from app.third_party_adapter.os_utils import (
     get_newline,
     get_file_path,
@@ -15,8 +15,11 @@ class FileHandler:
 
     def get_file_as_list(self):
         with open(self.__file, "r") as file:
-            contents = list(file)
+            contents = [make_dict(line) for line in file.readlines() if self.__is_valid(line)]
         return contents
+
+    def __is_valid(self, line):
+            return True if make_dict(line) else False
 
     def add_dict(self, dict):
         with open(self.__file, self.__write_type) as file:

@@ -9,5 +9,7 @@ def write_json_to(file,dict):
     return None
 
 def make_dict(json_string):
-    dict = loads(json_string)
-    return dict
+    try:
+        return loads(json_string)
+    except:
+        return None

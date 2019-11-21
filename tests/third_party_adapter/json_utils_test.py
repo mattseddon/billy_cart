@@ -16,6 +16,17 @@ def test_json_utils():
     THEN("the record is in the file and can be converted back into the dict")
     with open(test_file_path, "r") as file:
         json_string = list(file)[0]
+        print(json_string)
     assert make_dict(json_string) == test_dict
 
     cleanup_test_file(name=test_file)
+
+def test_make_dict():
+    GIVEN("valid dictionary in a json string")
+    string = 'this is clearly not a json dictionary'
+
+    WHEN("we call make_dict")
+    dict = make_dict(string)
+
+    THEN("None is returned")
+    assert dict is None

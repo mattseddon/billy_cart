@@ -115,7 +115,7 @@ def test_removed():
 def __test_sp_values(record, data):
     assert record.sp_back == __get_sp_back(data)
     assert record.sp_back_taken == __calc_sp_back_taken(data)
-    assert record.sp_lay == __calc_lay_odds(__get_sp_back(data))
+    assert record.sp_lay == __calc_lay_price(__get_sp_back(data))
     assert record.sp_lay_taken == __calc_sp_lay_taken(data)
 
 
@@ -132,8 +132,8 @@ def __test_ex_values(record, data):
     assert record.total_back_size == __calc_total_back_size(data)
     assert record.average_lay_price == __calc_average_lay_price(data)
     assert record.total_lay_size == __calc_total_lay_size(data)
-    assert record.offered_back_odds == __get_offered_back_odds(data)
-    assert record.offered_lay_odds == __get_offered_lay_odds(data)
+    assert record.offered_back_price == __get_offered_back_price(data)
+    assert record.offered_lay_price == __get_offered_lay_price(data)
 
 
 def __test_ex_defaults(record, data):
@@ -141,8 +141,8 @@ def __test_ex_defaults(record, data):
     assert record.total_back_size == 0
     assert isnan(record.average_lay_price)
     assert record.total_lay_size == 0
-    assert isnan(record.offered_back_odds)
-    assert isnan(record.offered_lay_odds)
+    assert isnan(record.offered_back_price)
+    assert isnan(record.offered_lay_price)
 
 
 def __get_sp_data():
@@ -232,8 +232,8 @@ def __calc_sp_back_taken(data):
     return sum(price.get("size") for price in data.get("sp").get("backStakeTaken"))
 
 
-def __calc_lay_odds(odds):
-    return 1 / (1 - (1 / odds))
+def __calc_lay_price(price):
+    return 1 / (1 - (1 / price))
 
 
 def __calc_sp_lay_taken(data):
@@ -267,9 +267,9 @@ def __calc_total_lay_size(data):
     )
 
 
-def __get_offered_back_odds(data):
+def __get_offered_back_price(data):
     return data.get("ex").get("availableToBack")[0].get("price")
 
 
-def __get_offered_lay_odds(data):
+def __get_offered_lay_price(data):
     return data.get("ex").get("availableToLay")[0].get("price")

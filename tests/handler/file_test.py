@@ -1,7 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file
 from app.handler.file import FileHandler
-from app.third_party_adapter.json_utils import make_dict
-from app.third_party_adapter.os_utils import path_exists
+from app.third_party_adapter.os_utils import path_exists, get_newline
 
 
 def test_file_handler():
@@ -11,6 +10,7 @@ def test_file_handler():
     file_handler = FileHandler(directory=data_dir, file=test_file)
     first_dict = {"get me some": "wwweeeeeeeeeee"}
     second_dict = {"get me some more": "wwweeeeeeeeeeeeeeeeee"}
+    empty_str = ""
 
     WHEN("we call add_dict")
     test_file_path = file_handler.add_dict(first_dict)
@@ -23,8 +23,31 @@ def test_file_handler():
     data = file_handler.get_file_as_list()
 
     THEN("the first list item is a json string of the first dict")
-    assert make_dict(data[0]) == first_dict
+    assert data[0] == first_dict
     THEN("the second list item is a json string of the second dict")
-    assert make_dict(data[1]) == second_dict
+    assert data[1] == second_dict
+
+    WHEN("we call add_dict again for None and open the file")
+    test_file_path = file_handler.add_dict(None)
+    data = file_handler.get_file_as_list()
+
+    THEN("the first list item is a json string of the first dict")
+    assert data[0] == first_dict
+    THEN("the second list item is a json string of the second dict")
+    assert data[1] == second_dict
+    THEN("None has not been returned as part of the list")
+    assert len(data) == 2
+
+    WHEN("we call add_dict for an empty string again and open the file")
+    test_file_path = file_handler.add_dict(empty_str)
+    data = file_handler.get_file_as_list()
+
+    THEN("the first list item is a json string of the first dict")
+    assert data[0] == first_dict
+    THEN("the second list item is a json string of the second dict")
+    assert data[1] == second_dict
+    THEN("the empty string has not been returned as part of the list")
+    assert len(data) == 2
+
 
     cleanup_test_file(name=test_file)

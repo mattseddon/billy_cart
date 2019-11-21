@@ -31,13 +31,13 @@ class RecordHandler:
         self.__set_total_back_size()
         self.__set_average_back_price()
 
-        self.__set_offered_back_odds()
+        self.__set_offered_back_price()
 
         self.__set_total_lay_price()
         self.__set_total_lay_size()
         self.__set_average_lay_price()
 
-        self.__set_offered_lay_odds()
+        self.__set_offered_lay_price()
 
     def __set_removal_date(self):
         removal_date = self.__record.get("removalDate")
@@ -66,16 +66,16 @@ class RecordHandler:
         self.sp_lay_taken = sum(price.get("size") for price in lay_taken)
         return None
 
-    def __set_offered_back_odds(self):
+    def __set_offered_back_price(self):
         available_to_back = self.__ex.get("availableToBack")
-        self.offered_back_odds = (
+        self.offered_back_price = (
             available_to_back[0].get("price") if available_to_back else nan
         )
         return None
 
-    def __set_offered_lay_odds(self):
+    def __set_offered_lay_price(self):
         available_to_lay = self.__ex.get("availableToLay")
-        self.offered_lay_odds = (
+        self.offered_lay_price = (
             available_to_lay[0].get("price") if available_to_lay else nan
         )
         return None
