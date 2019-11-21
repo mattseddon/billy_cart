@@ -4,37 +4,48 @@ from numpy import isnan
 
 
 def test_create_record():
-
-    GIVEN("an empty dictionary")
-    data = {}
-    WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
-    THEN("the object has all of the correct defaults applied")
-    assert record.is_valid() is False
-    __test_sp_defaults(record=record, data=data)
-    __test_ex_defaults(record=record, data=data)
-    assert isnan(record.removal_date)
-
     GIVEN("a dictionary with the correct information")
     data = __get_data()
+
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
+
     THEN("the object has all of the correct information")
     assert record.id == __get_id(data)
     __test_sp_values(record, data)
     __test_ex_values(record, data)
     assert isnan(record.removal_date)
 
-    GIVEN("a dictionary which has an empty sp attribute")
-    data = __get_data(sp={})
+
+def test_empty_input():
+    GIVEN("an empty dictionary")
+    data = {}
+
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
+
+    THEN("the object has all of the correct defaults applied")
+    assert record.is_valid() is False
+    __test_sp_defaults(record=record, data=data)
+    __test_ex_defaults(record=record, data=data)
+    assert isnan(record.removal_date)
+
+
+def test_empty_sp():
+    GIVEN("a dictionary which has an empty sp attribute")
+    data = __get_data(sp={})
+
+    WHEN("we instantiate the record handler object")
+    record = RecordHandler(data)
+
     THEN("the object has all of the correct defaults applied")
     assert record.id == __get_id(data)
     __test_sp_defaults(record=record, data=data)
     __test_ex_values(record=record, data=data)
     assert isnan(record.removal_date)
 
+
+def test_missing_sp():
     GIVEN("a dictionary which is missing the sp attribute")
     data = __get_data()
     del data["sp"]
@@ -46,6 +57,20 @@ def test_create_record():
     __test_ex_values(record=record, data=data)
     assert isnan(record.removal_date)
 
+
+def test_invalid_near_price():
+    GIVEN("a dictionary which has Infinity in place of the nearPrice")
+    data = __get_data(sp=__get_inf_sp())
+    WHEN("we instantiate the record handler object")
+    record = RecordHandler(data)
+    THEN("the object has all of the correct defaults applied")
+    assert record.id == __get_id(data)
+    __test_sp_defaults(record=record, data=data)
+    __test_ex_values(record=record, data=data)
+    assert isnan(record.removal_date)
+
+
+def test_empty_ex():
     GIVEN("a dictionary which has an empty ex attribute")
     data = __get_data(ex={})
     WHEN("we instantiate the record handler object")
@@ -56,27 +81,36 @@ def test_create_record():
     __test_sp_values(record=record, data=data)
     assert isnan(record.removal_date)
 
-    GIVEN("a dictionary which has an empty ex attribute")
+
+def test_missing_ex():
+    GIVEN("a dictionary which is missing the ex attribute")
     data = __get_data()
     del data["ex"]
+
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
+
     THEN("the object has all of the correct defaults applied")
     assert record.id == __get_id(data)
     __test_ex_defaults(record=record, data=data)
     __test_sp_values(record=record, data=data)
     assert isnan(record.removal_date)
 
+
+def test_removed():
     GIVEN("a dictionary representing a removed runner")
     data = __get_removed()
+
     WHEN("we instantiate the record handler object")
     record = RecordHandler(data)
+
     THEN("the object has all of the correct defaults applied")
     assert record.id == __get_id(data)
     __test_ex_defaults(record=record, data=data)
     __test_sp_defaults(record=record, data=data)
     THEN("the object has a removal_date")
     assert record.removal_date > 0
+
 
 def __test_sp_values(record, data):
     assert record.sp_back == __get_sp_back(data)
@@ -149,6 +183,15 @@ def __get_ex_data():
             {"price": 6.4, "size": 339.88},
             {"price": 6.6, "size": 161.27},
         ],
+    }
+
+
+def __get_inf_sp():
+    return {
+        "nearPrice": "Infinity",
+        "backStakeTaken": [],
+        "farPrice": "NaN",
+        "layLiabilityTaken": [],
     }
 
 
