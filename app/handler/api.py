@@ -35,31 +35,6 @@ class APIHandler(metaclass=Singleton):
             return 0
             # print("   > Request failed.")
 
-    def __login(self):
-        response = post_request(
-            url=self.__login_url,
-            data=self.__user_details,
-            cert=self.__cert,
-            headers={
-                "X-Application": self.__app_key,
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-        )
-        return response
-
-    def __get_token(self, data):
-        return data.get("sessionToken")
-
-    def __has_token(self):
-        return self.__token is not None
-
-    def __make_headers(self):
-        return {
-            "X-Application": self.__app_key,
-            "X-Authentication": self.__token,
-            "content-type": "application/json",
-        }
-
     def get_account_status(self):
 
         account_status = self.__call_api(
@@ -92,6 +67,32 @@ class APIHandler(metaclass=Singleton):
 
         markets = self.__call_api(url=self.__exchange_url, request=market_categories)
         return markets
+
+
+    def __login(self):
+        response = post_request(
+            url=self.__login_url,
+            data=self.__user_details,
+            cert=self.__cert,
+            headers={
+                "X-Application": self.__app_key,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        )
+        return response
+
+    def __get_token(self, data):
+        return data.get("sessionToken")
+
+    def __has_token(self):
+        return self.__token is not None
+
+    def __make_headers(self):
+        return {
+            "X-Application": self.__app_key,
+            "X-Authentication": self.__token,
+            "content-type": "application/json",
+        }
 
     def __call_api(self, url, request):
         try:
