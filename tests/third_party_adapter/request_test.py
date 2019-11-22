@@ -1,6 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
 from unittest.mock import patch, MagicMock, Mock
-from app.third_party_adapter.request import post_data, open_url, _get_ok_status
+from app.third_party_adapter.request import post_data, open_url, get_ok_status
 from app.third_party_adapter.json_utils import make_json
 from urllib.error import URLError
 
@@ -13,7 +13,7 @@ if should_test_real_api():
         data = post_data(url=url)
         THEN("we get a response")
         assert type(data) is dict
-        assert data.get("status_code") == _get_ok_status()
+        assert data.get("status_code") == get_ok_status()
 
     def test_open_url():
         GIVEN("a url")
@@ -22,7 +22,7 @@ if should_test_real_api():
         data = open_url(url=url,request='some form data')
         THEN("we get a response")
         assert type(data) is dict
-        assert data.get("status_code") == _get_ok_status()
+        assert data.get("status_code") == get_ok_status()
 
 
 @patch("app.third_party_adapter.request.urlopen")
@@ -33,13 +33,13 @@ def test_error_handling(mock_urlopen):
         "we make a url request but an empty dictionary is returned"
     )
     context_manager = MagicMock()
-    context_manager.getcode.return_value = _get_ok_status()
+    context_manager.getcode.return_value = get_ok_status()
     context_manager.read.return_value = make_json({})
     mock_urlopen.return_value = context_manager
     dict = open_url(url=url,request='some form data')
 
     THEN("a dictionary containing status_code : 200 is returned")
-    assert dict == {"status_code" : _get_ok_status() }
+    assert dict == {"status_code" : get_ok_status() }
 
     WHEN(
         "we make a url request and an error is thrown"

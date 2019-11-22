@@ -14,7 +14,7 @@ def post_data(url, data=None, cert=None, headers=None):
     return data
 
 def __is_ok(response):
-    return response.status_code == _get_ok_status()
+    return response.status_code == get_ok_status()
 
 
 def open_url(url, request, headers={}):
@@ -49,13 +49,13 @@ class URLRequest:
         return None
 
     def __is_ok(self):
-        return self.__response.getcode() == _get_ok_status()
+        return self.__response.getcode() == get_ok_status()
 
 
 def _add_ok_status(dict):
-    dict["status_code"] = _get_ok_status()
+    dict["status_code"] = get_ok_status()
     return dict
 
 
-def _get_ok_status():
+def get_ok_status():
     return 200
