@@ -20,7 +20,7 @@ def __is_ok(response):
 def open_url(url, request, headers={}):
     try:
         request = URLRequest(url=url, request=request, headers=headers)
-        return request.process()
+        return request.openurl()
     except URLError:
         return None
 
@@ -31,8 +31,8 @@ class URLRequest:
         self.__request = request
         self.__headers = headers
 
-    def process(self):
-        self.__get_url_response()
+    def openurl(self):
+        self.__get_response()
         if self.__is_ok():
             json_response = self.__response.read()
             dict = make_dict(json_response.decode("utf-8"))
@@ -41,7 +41,7 @@ class URLRequest:
             data = {}
         return data
 
-    def __get_url_response(self):
+    def __get_response(self):
         urllib_request = Request(
             self.__url, self.__request.encode("utf-8"), self.__headers
         )
