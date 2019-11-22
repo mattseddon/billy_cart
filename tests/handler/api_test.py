@@ -1,7 +1,7 @@
 from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
 from app.handler.api import APIHandler
 from private.details import get_user_details, get_cert, get_app_key
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch
 from app.third_party_adapter.date_time import DateTime
 from app.third_party_adapter.json_utils import make_json
 from urllib.error import URLError
@@ -109,7 +109,7 @@ if should_test_real_api():
         assert dev_api_handler.headers == duplicate_api_handler.headers
 
 
-@patch("app.handler.api.post_request")
+@patch("app.handler.api.post_data")
 def test_set_headers(mock_post):
     GIVEN("we cannot connect to the dev environment")
     mock_post.return_value = {}
@@ -129,7 +129,7 @@ def test_set_headers(mock_post):
 
 
 @patch.object(APIHandler, "set_headers")
-@patch("app.handler.api.urlopen")
+@patch("app.handler.api.open_url")
 def test_error_handling(mock_urlopen, mock_set_headers):
     GIVEN("a mocked instance of the APIHandler")
     mock_set_headers.side_effect = setattr(APIHandler, "headers", {})
@@ -138,10 +138,7 @@ def test_error_handling(mock_urlopen, mock_set_headers):
     WHEN(
         "we try to get the markets which start in the next 5 minutes from the API but no payload is returned"
     )
-    context_manager = MagicMock()
-    context_manager.getcode.return_value = 200
-    context_manager.read.return_value = make_json({})
-    mock_urlopen.return_value = context_manager
+    mock_urlopen.return_value = {}
     markets = dev_api_handler.get_markets("7", DateTime.utc_5_minutes_from_now())
 
     THEN("no information is returned from the handler")
@@ -150,7 +147,7 @@ def test_error_handling(mock_urlopen, mock_set_headers):
     WHEN(
         "we try to get the markets which start in the next 5 minutes from the API but it throws an error"
     )
-    mock_urlopen.side_effect = URLError(Mock(status=500), "I died, wwwaaaahhhhhhh")
+    mock_urlopen.return_value = None
     markets = dev_api_handler.get_markets("7", DateTime.utc_5_minutes_from_now())
 
     THEN("no information is returned from the handler")

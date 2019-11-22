@@ -1,4 +1,3 @@
-from urllib.error import URLError
 from urllib.request import Request, urlopen
 from private.details import (
     get_app_key,
@@ -9,8 +8,7 @@ from private.details import (
     get_user_details,
 )
 from app.singleton import Singleton
-from app.third_party_adapter.api_utils import post_request
-from app.third_party_adapter.json_utils import make_dict
+from app.third_party_adapter.request import post_data, open_url
 
 
 class APIHandler(metaclass=Singleton):
@@ -69,7 +67,7 @@ class APIHandler(metaclass=Singleton):
         return markets
 
     def __login(self):
-        response = post_request(
+        response = post_data(
             url=self.__login_url,
             data=self.__user_details,
             cert=self.__cert,
@@ -94,32 +92,16 @@ class APIHandler(metaclass=Singleton):
         }
 
     def __call_api(self, url, request):
-        try:
-            return self.__process_request(url, request)
-
-        except URLError:
-            # print("     > Oops there is some issue with the request")
-            return None
+        return self.__process_request(url, request)
 
     def __process_request(self, url, request):
-        response = self.__get_response(url=url, request=request)
-        data = self.__process_response(response=response)
+        data = self.__get_response(url=url, request=request)
         return data
 
     def __get_response(self, url, request):
-        urllib_request = Request(url, request.encode("utf-8"), self.headers)
-        response = urlopen(urllib_request)
-        return response
-
-    def __process_response(self, response):
-        dict = self.__get_dict(response=response)
+        dict = open_url(url=url, request=request, headers=self.headers)
         result = self.__try_get_result(dict=dict)
         return result
-
-    def __get_dict(self, response):
-        json_response = response.read()
-        dict = make_dict(json_response.decode("utf-8"))
-        return dict
 
     def __try_get_result(self, dict):
         try:
