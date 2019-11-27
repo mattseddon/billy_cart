@@ -15,6 +15,7 @@ class RecordAdapter:
         df = DataFrame(input_data)
         df["extract_time"] = time_difference
         df.set_index(("extract_time", ""), inplace=True)
+        df.columns.set_names(['variable','id'], inplace=True)
         return df
 
     def __get_time_difference(self):
