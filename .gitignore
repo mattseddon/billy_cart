@@ -107,4 +107,4 @@ venv.bak/
 private/
 
 # all data files that are used for testing etc
-data/
+/data/

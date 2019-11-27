@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN
-from app.handler.record import RecordHandler
+from app.data.external_api.adapter.item import ItemAdapter
 from numpy import isnan
 
 
@@ -8,13 +8,13 @@ def test_create_record():
     data = __get_data()
 
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
 
     THEN("the object has all of the correct information")
-    assert record.id == __get_id(data)
+    assert record.get("id") == __get_id(data)
     __test_sp_values(record, data)
     __test_ex_values(record, data)
-    assert isnan(record.removal_date)
+    assert isnan(record.get("removal_date"))
 
 
 def test_empty_input():
@@ -22,13 +22,13 @@ def test_empty_input():
     data = {}
 
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
 
     THEN("the object has all of the correct defaults applied")
     assert record.is_valid() is False
     __test_sp_defaults(record=record, data=data)
     __test_ex_defaults(record=record, data=data)
-    assert isnan(record.removal_date)
+    assert isnan(record.get("removal_date"))
 
 
 def test_empty_sp():
@@ -36,13 +36,13 @@ def test_empty_sp():
     data = __get_data(sp={})
 
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
 
     THEN("the object has all of the correct defaults applied")
-    assert record.id == __get_id(data)
+    assert record.get("id") == __get_id(data)
     __test_sp_defaults(record=record, data=data)
     __test_ex_values(record=record, data=data)
-    assert isnan(record.removal_date)
+    assert isnan(record.get("removal_date"))
 
 
 def test_missing_sp():
@@ -50,36 +50,36 @@ def test_missing_sp():
     data = __get_data()
     del data["sp"]
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
     THEN("the object has all of the correct defaults applied")
-    assert record.id == __get_id(data)
+    assert record.get("id") == __get_id(data)
     __test_sp_defaults(record=record, data=data)
     __test_ex_values(record=record, data=data)
-    assert isnan(record.removal_date)
+    assert isnan(record.get("removal_date"))
 
 
 def test_invalid_near_price():
     GIVEN("a dictionary which has Infinity in place of the nearPrice")
     data = __get_data(sp=__get_inf_sp())
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
     THEN("the object has all of the correct defaults applied")
-    assert record.id == __get_id(data)
+    assert record.get("id") == __get_id(data)
     __test_sp_defaults(record=record, data=data)
     __test_ex_values(record=record, data=data)
-    assert isnan(record.removal_date)
+    assert isnan(record.get("removal_date"))
 
 
 def test_empty_ex():
     GIVEN("a dictionary which has an empty ex attribute")
     data = __get_data(ex={})
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
     THEN("the object has all of the correct defaults applied")
-    assert record.id == __get_id(data)
+    assert record.get("id") == __get_id(data)
     __test_ex_defaults(record=record, data=data)
     __test_sp_values(record=record, data=data)
-    assert isnan(record.removal_date)
+    assert isnan(record.get("removal_date"))
 
 
 def test_missing_ex():
@@ -88,13 +88,13 @@ def test_missing_ex():
     del data["ex"]
 
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
 
     THEN("the object has all of the correct defaults applied")
-    assert record.id == __get_id(data)
+    assert record.get("id") == __get_id(data)
     __test_ex_defaults(record=record, data=data)
     __test_sp_values(record=record, data=data)
-    assert isnan(record.removal_date)
+    assert isnan(record.get("removal_date"))
 
 
 def test_removed():
@@ -102,47 +102,47 @@ def test_removed():
     data = __get_removed()
 
     WHEN("we instantiate the record handler object")
-    record = RecordHandler(data)
+    record = ItemAdapter(data)
 
     THEN("the object has all of the correct defaults applied")
-    assert record.id == __get_id(data)
+    assert record.get("id") == __get_id(data)
     __test_ex_defaults(record=record, data=data)
     __test_sp_defaults(record=record, data=data)
     THEN("the object has a removal_date")
-    assert record.removal_date > 0
+    assert record.get("removal_date") > 0
 
 
 def __test_sp_values(record, data):
-    assert record.sp_back == __get_sp_back(data)
-    assert record.sp_back_taken == __calc_sp_back_taken(data)
-    assert record.sp_lay == __calc_lay_price(__get_sp_back(data))
-    assert record.sp_lay_taken == __calc_sp_lay_taken(data)
+    assert record.get("sp_back") == __get_sp_back(data)
+    assert record.get("total_back_sp") == __calc_total_back_sp(data)
+    assert record.get("sp_lay") == __calc_lay_price(__get_sp_back(data))
+    assert record.get("total_lay_sp") == __calc_total_lay_sp(data)
 
 
 def __test_sp_defaults(record, data):
-    assert record.id == __get_id(data)
-    assert isnan(record.sp_back)
-    assert record.sp_back_taken == 0
-    assert isnan(record.sp_lay)
-    assert record.sp_lay_taken == 0
+    assert record.get("id") == __get_id(data)
+    assert isnan(record.get("sp_back"))
+    assert record.get("total_back_sp") == 0
+    assert isnan(record.get("sp_lay"))
+    assert record.get("total_lay_sp") == 0
 
 
 def __test_ex_values(record, data):
-    assert record.average_back_price == __calc_average_back_price(data)
-    assert record.total_back_size == __calc_total_back_size(data)
-    assert record.average_lay_price == __calc_average_lay_price(data)
-    assert record.total_lay_size == __calc_total_lay_size(data)
-    assert record.offered_back_price == __get_offered_back_price(data)
-    assert record.offered_lay_price == __get_offered_lay_price(data)
+    assert record.get("average_back_price") == __calc_average_back_price(data)
+    assert record.get("total_back_size") == __calc_total_back_size(data)
+    assert record.get("average_lay_price") == __calc_average_lay_price(data)
+    assert record.get("total_lay_size") == __calc_total_lay_size(data)
+    assert record.get("offered_back_price") == __get_offered_back_price(data)
+    assert record.get("offered_lay_price") == __get_offered_lay_price(data)
 
 
 def __test_ex_defaults(record, data):
-    assert isnan(record.average_back_price)
-    assert record.total_back_size == 0
-    assert isnan(record.average_lay_price)
-    assert record.total_lay_size == 0
-    assert isnan(record.offered_back_price)
-    assert isnan(record.offered_lay_price)
+    assert isnan(record.get("average_back_price"))
+    assert record.get("total_back_size") == 0
+    assert isnan(record.get("average_lay_price"))
+    assert record.get("total_lay_size") == 0
+    assert isnan(record.get("offered_back_price"))
+    assert isnan(record.get("offered_lay_price"))
 
 
 def __get_sp_data():
@@ -228,43 +228,39 @@ def __get_sp_back(data):
     return data.get("sp").get("nearPrice")
 
 
-def __calc_sp_back_taken(data):
-    return sum(price.get("size") for price in data.get("sp").get("backStakeTaken"))
-
-
 def __calc_lay_price(price):
     return 1 / (1 - (1 / price))
-
-
-def __calc_sp_lay_taken(data):
-    return sum(price.get("size") for price in data.get("sp").get("layLiabilityTaken"))
 
 
 def __calc_average_back_price(data):
     return sum(
         price.get("size") * price.get("price")
-        for price in data.get("ex").get("tradedVolume")
+        for price in __get_traded_volume(data)
     ) / __calc_total_back_size(data)
 
 
 def __calc_total_back_size(data):
-    return sum(price.get("size") for price in data.get("ex").get("tradedVolume"))
-
+    return sum(price.get("size") for price in __get_traded_volume(data))
 
 def __calc_average_lay_price(data):
     return sum(
         price.get("size")
         * (price.get("price") - 1)
         * (1 / (1 - (1 / price.get("price"))))
-        for price in data.get("ex").get("tradedVolume")
+        for price in __get_traded_volume(data)
     ) / __calc_total_lay_size(data)
 
 
 def __calc_total_lay_size(data):
     return sum(
         price.get("size") * (price.get("price") - 1)
-        for price in data.get("ex").get("tradedVolume")
+        for price in __get_traded_volume(data)
     )
+
+def __get_traded_volume(data):
+    ex = data.get("ex") if data.get("ex") else {}
+    traded_volume = ex.get("tradedVolume") if ex.get("tradedVolume") else []
+    return traded_volume
 
 
 def __get_offered_back_price(data):
@@ -273,3 +269,16 @@ def __get_offered_back_price(data):
 
 def __get_offered_lay_price(data):
     return data.get("ex").get("availableToLay")[0].get("price")
+
+def __calc_total_back_sp(data):
+    return (
+        sum(price.get("size") for price in data.get("sp").get("backStakeTaken"))
+        + __calc_total_back_size(data)
+    )
+
+def __calc_total_lay_sp(data):
+    return __calc_total_lay_size(data) + (
+        sum(price.get("size") for price in data.get("sp").get("layLiabilityTaken"))
+        * (__get_sp_back(data)
+        - 1)
+    )
