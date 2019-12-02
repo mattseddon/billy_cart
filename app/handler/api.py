@@ -53,13 +53,13 @@ class APIHandler(metaclass=Singleton):
         market = self.__call_api(url=self.__exchange_url, request=marketList)
         return market[0] if market else {}
 
-    def get_markets(self, eventTypeID, toDateTime):
+    def get_markets(self, event_type_id, to_date_time):
 
         market_categories = (
             '{"jsonrpc": "2.0", "method": "SportsAPING/v1.0/listMarketCatalogue","params" : {"filter":{"eventTypeIds":["'
-            + eventTypeID
+            + event_type_id
             + '"],"marketTypeCodes":["WIN"],"marketCountries":["AU","GB","IE"],"marketStartTime":{"to":"'
-            + toDateTime
+            + to_date_time
             + '"}},"sort":"FIRST_TO_START","maxResults":"1000","marketProjection":["MARKET_START_TIME","EVENT"]}}'
         )
 
