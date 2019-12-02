@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN
-from app.third_party_adapter.statsmodel import WeightedLinearRegression
+from app.third_party_adapter.stats_model import WeightedLinearRegression
 from numpy import isnan, nan
 
 
