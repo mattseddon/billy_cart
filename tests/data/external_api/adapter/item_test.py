@@ -113,36 +113,36 @@ def test_removed():
 
 
 def __test_sp_values(record, data):
-    assert record.get("sp_back") == __get_sp_back(data)
-    assert record.get("total_back_sp") == __calc_total_back_sp(data)
-    assert record.get("sp_lay") == __calc_lay_price(__get_sp_back(data))
-    assert record.get("total_lay_sp") == __calc_total_lay_sp(data)
+    assert record.get("sp_back_price") == __get_sp_back(data)
+    assert record.get("sp_back_size") == __calc_sp_back_size(data)
+    assert record.get("sp_lay_price") == __calc_lay_price(__get_sp_back(data))
+    assert record.get("sp_lay_size") == __calc_sp_lay_size(data)
 
 
 def __test_sp_defaults(record, data):
     assert record.get("id") == __get_id(data)
-    assert isnan(record.get("sp_back"))
-    assert record.get("total_back_sp") == 0
-    assert isnan(record.get("sp_lay"))
-    assert record.get("total_lay_sp") == 0
+    assert isnan(record.get("sp_back_price"))
+    assert record.get("sp_back_size") == 0
+    assert isnan(record.get("sp_lay_price"))
+    assert record.get("sp_lay_size") == 0
 
 
 def __test_ex_values(record, data):
-    assert record.get("average_back_price") == __calc_average_back_price(data)
-    assert record.get("total_back_size") == __calc_total_back_size(data)
-    assert record.get("average_lay_price") == __calc_average_lay_price(data)
-    assert record.get("total_lay_size") == __calc_total_lay_size(data)
-    assert record.get("offered_back_price") == __get_offered_back_price(data)
-    assert record.get("offered_lay_price") == __get_offered_lay_price(data)
+    assert record.get("ex_average_back_price") == __calc_ex_average_back_price(data)
+    assert record.get("ex_back_size") == __calc_back_size(data)
+    assert record.get("ex_average_lay_price") == __calc_ex_average_lay_price(data)
+    assert record.get("ex_lay_size") == __calc_lay_size(data)
+    assert record.get("ex_offered_back_price") == __get_ex_offered_back_price(data)
+    assert record.get("ex_offered_lay_price") == __get_ex_offered_lay_price(data)
 
 
 def __test_ex_defaults(record, data):
-    assert isnan(record.get("average_back_price"))
-    assert record.get("total_back_size") == 0
-    assert isnan(record.get("average_lay_price"))
-    assert record.get("total_lay_size") == 0
-    assert isnan(record.get("offered_back_price"))
-    assert isnan(record.get("offered_lay_price"))
+    assert isnan(record.get("ex_average_back_price"))
+    assert record.get("ex_back_size") == 0
+    assert isnan(record.get("ex_average_lay_price"))
+    assert record.get("ex_lay_size") == 0
+    assert isnan(record.get("ex_offered_back_price"))
+    assert isnan(record.get("ex_offered_lay_price"))
 
 
 def __get_sp_data():
@@ -232,30 +232,31 @@ def __calc_lay_price(price):
     return 1 / (1 - (1 / price))
 
 
-def __calc_average_back_price(data):
+def __calc_ex_average_back_price(data):
     return sum(
-        price.get("size") * price.get("price")
-        for price in __get_traded_volume(data)
-    ) / __calc_total_back_size(data)
+        price.get("size") * price.get("price") for price in __get_traded_volume(data)
+    ) / __calc_back_size(data)
 
 
-def __calc_total_back_size(data):
+def __calc_back_size(data):
     return sum(price.get("size") for price in __get_traded_volume(data))
 
-def __calc_average_lay_price(data):
+
+def __calc_ex_average_lay_price(data):
     return sum(
         price.get("size")
         * (price.get("price") - 1)
         * (1 / (1 - (1 / price.get("price"))))
         for price in __get_traded_volume(data)
-    ) / __calc_total_lay_size(data)
+    ) / __calc_lay_size(data)
 
 
-def __calc_total_lay_size(data):
+def __calc_lay_size(data):
     return sum(
         price.get("size") * (price.get("price") - 1)
         for price in __get_traded_volume(data)
     )
+
 
 def __get_traded_volume(data):
     ex = data.get("ex") if data.get("ex") else {}
@@ -263,22 +264,17 @@ def __get_traded_volume(data):
     return traded_volume
 
 
-def __get_offered_back_price(data):
+def __get_ex_offered_back_price(data):
     return data.get("ex").get("availableToBack")[0].get("price")
 
 
-def __get_offered_lay_price(data):
+def __get_ex_offered_lay_price(data):
     return data.get("ex").get("availableToLay")[0].get("price")
 
-def __calc_total_back_sp(data):
-    return (
-        sum(price.get("size") for price in data.get("sp").get("backStakeTaken"))
-        + __calc_total_back_size(data)
-    )
 
-def __calc_total_lay_sp(data):
-    return __calc_total_lay_size(data) + (
-        sum(price.get("size") for price in data.get("sp").get("layLiabilityTaken"))
-        * (__get_sp_back(data)
-        - 1)
-    )
+def __calc_sp_back_size(data):
+    return sum(price.get("size") for price in data.get("sp").get("backStakeTaken"))
+
+
+def __calc_sp_lay_size(data):
+    return sum(price.get("size") for price in data.get("sp").get("layLiabilityTaken"))
