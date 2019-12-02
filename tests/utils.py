@@ -34,6 +34,8 @@ def get_test_file_path(name):
     file_path = get_file_path(directory=directory, file=name) if directory else None
     return file_path
 
+def lists_are_equal(first, second):
+    return len(first) == len(second) and sorted(first) == sorted(second)
 
 def __make_test_directory():
     directory = get_test_directory()
