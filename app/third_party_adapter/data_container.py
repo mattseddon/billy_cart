@@ -9,14 +9,16 @@ class DataContainer:
             self.__frame = DataFrame()
 
     def add_rows(self, container):
-        self.__frame = self.__frame.append(container._get_frame(), ignore_index=True, sort=True)
+        self.__frame = self.__frame.append(
+            container._get_frame(), ignore_index=True, sort=True
+        )
         return None
 
     def get_column_group_values(self, name):
         index = self.__frame.columns.unique(level=name)
         return index.tolist()
 
-    def set_column_group_name(self, name=None,names=None, level=None):
+    def set_column_group_name(self, name=None, names=None, level=None):
         self.__frame.columns.set_names(name or names, level=level, inplace=True)
         return None
 
@@ -24,7 +26,7 @@ class DataContainer:
         self.__frame[output] = self.__frame[columns].fillna(0).sum(axis=1)
         return None
 
-    def get_column(self,name):
+    def get_column(self, name):
         return self.__frame[name].tolist()
 
     def get_row_count(self):
@@ -41,4 +43,4 @@ class DataContainer:
         return self.__frame.index.values.tolist()
 
     def _get_frame(self):
-        return self.__frame;
+        return self.__frame
