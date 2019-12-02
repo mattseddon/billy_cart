@@ -1,0 +1,572 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+APIHandler	../app/handler/api.py	/^class APIHandler(metaclass=Singleton):$/;"	kind:class	line:14
+APIHandler	../tests/handler/api_test.py	/^from app.handler.api import APIHandler$/;"	kind:namespace	line:2
+BlockingScheduler	../data/scheduleMarketExtracts.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:2
+BlockingScheduler	../data/scheduleModelRuns.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:2
+BlockingScheduler	../data/v2/liveTest_v2.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:1
+BlockingScheduler	../data/v3/liveTest_v3.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:1
+BlockingScheduler	../data/v4/liveTest_v4.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:1
+DataContainer	../app/data/handler.py	/^from app.third_party_adapter.data_container import DataContainer$/;"	kind:namespace	line:2
+DataContainer	../app/third_party_adapter/data_container.py	/^class DataContainer:$/;"	kind:class	line:4
+DataContainer	../tests/third_party_adapter/data_container_test.py	/^from app.third_party_adapter.data_container import DataContainer$/;"	kind:namespace	line:3
+DataFrame	../app/data/handler.py	/^from pandas import DataFrame$/;"	kind:namespace	line:3
+DataFrame	../app/third_party_adapter/data_container.py	/^from pandas import DataFrame$/;"	kind:namespace	line:1
+DataHandler	../app/data/handler.py	/^class DataHandler():$/;"	kind:class	line:8
+DataHandler	../tests/data/handler_test.py	/^from app.data.handler import DataHandler$/;"	kind:namespace	line:2
+DateTime	../app/data/external_api/adapter/item.py	/^from app.third_party_adapter.date_time import DateTime$/;"	kind:namespace	line:1
+DateTime	../app/data/external_api/adapter/record.py	/^from app.third_party_adapter.date_time import DateTime$/;"	kind:namespace	line:1
+DateTime	../app/third_party_adapter/date_time.py	/^class DateTime:$/;"	kind:class	line:6
+DateTime	../tests/data/handler_test.py	/^from app.third_party_adapter.date_time import DateTime$/;"	kind:namespace	line:4
+DateTime	../tests/handler/api_test.py	/^from app.third_party_adapter.date_time import DateTime$/;"	kind:namespace	line:5
+DateTime	../tests/third_party_adapter/date_time_test.py	/^from app.third_party_adapter.date_time import DateTime$/;"	kind:namespace	line:2
+ExternalAPIInterface	../app/data/external_api/interface.py	/^class ExternalAPIInterface(metaclass=Interface):$/;"	kind:class	line:3
+FileHandler	../app/handler/file.py	/^class FileHandler:$/;"	kind:class	line:10
+FileHandler	../tests/data/handler_test.py	/^from app.handler.file import FileHandler$/;"	kind:namespace	line:3
+FileHandler	../tests/handler/file_test.py	/^from app.handler.file import FileHandler$/;"	kind:namespace	line:2
+GIVEN	../tests/data/external_api/adapter/item_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/data/external_api/adapter/record_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/handler/api_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+GIVEN	../tests/handler/file_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file$/;"	kind:namespace	line:1
+GIVEN	../tests/third_party_adapter/data_container_test.py	/^from tests.utils import GIVEN, WHEN, THEN, lists_are_equal$/;"	kind:namespace	line:1
+GIVEN	../tests/third_party_adapter/date_time_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/third_party_adapter/json_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_file$/;"	kind:namespace	line:1
+GIVEN	../tests/third_party_adapter/os_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_directory$/;"	kind:namespace	line:1
+GIVEN	../tests/third_party_adapter/re_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/third_party_adapter/request_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+GIVEN	../tests/third_party_adapter/statsmodel_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/utils.py	/^def GIVEN(str):$/;"	kind:function	line:11
+Interface	../app/data/external_api/interface.py	/^from app.interface import Interface, abstractfunc$/;"	kind:namespace	line:1
+Interface	../app/interface.py	/^class Interface(type):$/;"	kind:class	line:5
+ItemAdapter	../app/data/external_api/adapter/item.py	/^class ItemAdapter:$/;"	kind:class	line:5
+ItemAdapter	../app/data/external_api/adapter/record.py	/^from app.data.external_api.adapter.item import ItemAdapter$/;"	kind:namespace	line:2
+ItemAdapter	../tests/data/external_api/adapter/item_test.py	/^from app.data.external_api.adapter.item import ItemAdapter$/;"	kind:namespace	line:2
+MagicMock	../tests/third_party_adapter/request_test.py	/^from unittest.mock import patch, MagicMock, Mock$/;"	kind:namespace	line:2
+Mock	../tests/third_party_adapter/request_test.py	/^from unittest.mock import patch, MagicMock, Mock$/;"	kind:namespace	line:2
+Model	../app/third_party_adapter/statsmodel.py	/^class Model:$/;"	kind:class	line:5
+Model	../tests/third_party_adapter/statsmodel_test.py	/^from app.third_party_adapter.statsmodel import Model$/;"	kind:namespace	line:2
+RecordAdapter	../app/data/external_api/adapter/record.py	/^class RecordAdapter:$/;"	kind:class	line:5
+RecordAdapter	../app/data/handler.py	/^from app.data.external_api.adapter.record import RecordAdapter$/;"	kind:namespace	line:1
+RecordAdapter	../tests/data/external_api/adapter/record_test.py	/^from app.data.external_api.adapter.record import RecordAdapter$/;"	kind:namespace	line:2
+Request	../app/handler/api.py	/^from urllib.request import Request, urlopen$/;"	kind:namespace	line:1
+Request	../app/third_party_adapter/request.py	/^from urllib.request import Request, urlopen$/;"	kind:namespace	line:2
+Singleton	../app/handler/api.py	/^from app.singleton import Singleton$/;"	kind:namespace	line:10
+Singleton	../app/singleton.py	/^class Singleton(type):$/;"	kind:class	line:4
+THEN	../tests/data/external_api/adapter/item_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/data/external_api/adapter/record_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/handler/api_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+THEN	../tests/handler/file_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file$/;"	kind:namespace	line:1
+THEN	../tests/third_party_adapter/data_container_test.py	/^from tests.utils import GIVEN, WHEN, THEN, lists_are_equal$/;"	kind:namespace	line:1
+THEN	../tests/third_party_adapter/date_time_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/third_party_adapter/json_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_file$/;"	kind:namespace	line:1
+THEN	../tests/third_party_adapter/os_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_directory$/;"	kind:namespace	line:1
+THEN	../tests/third_party_adapter/re_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/third_party_adapter/request_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+THEN	../tests/third_party_adapter/statsmodel_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/utils.py	/^def THEN(str):$/;"	kind:function	line:19
+URLError	../app/third_party_adapter/request.py	/^from urllib.error import URLError$/;"	kind:namespace	line:1
+URLError	../tests/handler/api_test.py	/^from urllib.error import URLError$/;"	kind:namespace	line:7
+URLError	../tests/third_party_adapter/request_test.py	/^from urllib.error import URLError$/;"	kind:namespace	line:5
+URLRequest	../app/third_party_adapter/request.py	/^class URLRequest:$/;"	kind:class	line:28
+UTCBfFormat	../data/billyCart.py	/^from app.shared import UTCNormalFormat, UTCBfFormat, betfairExchangeURL, ordersFile$/;"	kind:namespace	line:12
+UTCBfFormat	../data/marketExtractRunner.py	/^from shared import UTCNormalFormat, UTCBfFormat$/;"	kind:namespace	line:6
+UTCMinutesFromNow	../data/modelRunner.py	/^from dateHelpers import utc_seconds_before_datetime, UTCMinutesFromNow, getLocalNow$/;"	kind:namespace	line:1
+UTCNormalFormat	../data/billyCart.py	/^from app.shared import UTCNormalFormat, UTCBfFormat, betfairExchangeURL, ordersFile$/;"	kind:namespace	line:12
+UTCNormalFormat	../data/marketExtractRunner.py	/^from shared import UTCNormalFormat, UTCBfFormat$/;"	kind:namespace	line:6
+UTCNormalFormat	../data/modelRunner.py	/^from shared import UTCNormalFormat, timeFormat$/;"	kind:namespace	line:2
+WHEN	../tests/data/external_api/adapter/item_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/data/external_api/adapter/record_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/handler/api_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+WHEN	../tests/handler/file_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file$/;"	kind:namespace	line:1
+WHEN	../tests/third_party_adapter/data_container_test.py	/^from tests.utils import GIVEN, WHEN, THEN, lists_are_equal$/;"	kind:namespace	line:1
+WHEN	../tests/third_party_adapter/date_time_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/third_party_adapter/json_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_file$/;"	kind:namespace	line:1
+WHEN	../tests/third_party_adapter/os_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_directory$/;"	kind:namespace	line:1
+WHEN	../tests/third_party_adapter/re_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/third_party_adapter/request_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+WHEN	../tests/third_party_adapter/statsmodel_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/utils.py	/^def WHEN(str):$/;"	kind:function	line:15
+WLS	../app/third_party_adapter/statsmodel.py	/^from statsmodels.api import WLS, add_constant$/;"	kind:namespace	line:1
+WeakValueDictionary	../app/singleton.py	/^from weakref import WeakValueDictionary$/;"	kind:namespace	line:1
+__add_new_line	../app/handler/file.py	/^    def __add_new_line(self, file):$/;"	kind:member	line:34
+__add_path_to	../app/handler/file.py	/^    def __add_path_to(self, file):$/;"	kind:member	line:42
+__add_to	../app/third_party_adapter/date_time.py	/^    def __add_to(date_time, minutes=0, seconds=0):$/;"	kind:member	line:77
+__add_to_date_time	../app/third_party_adapter/date_time.py	/^    def __add_to_date_time(self, minutes=0, seconds=0):$/;"	kind:member	line:71
+__calc_back_size	../tests/data/external_api/adapter/item_test.py	/^def __calc_back_size(data):$/;"	kind:function	line:241
+__calc_comission_percentage	../app/data/handler.py	/^def __calc_comission_percentage(discount_rate=0):$/;"	kind:function	line:170
+__calc_ex_average_back_price	../app/data/external_api/adapter/item.py	/^    def __calc_ex_average_back_price(self):$/;"	kind:member	line:60
+__calc_ex_average_back_price	../tests/data/external_api/adapter/item_test.py	/^def __calc_ex_average_back_price(data):$/;"	kind:function	line:235
+__calc_ex_average_lay_price	../app/data/external_api/adapter/item.py	/^    def __calc_ex_average_lay_price(self):$/;"	kind:member	line:70
+__calc_ex_average_lay_price	../tests/data/external_api/adapter/item_test.py	/^def __calc_ex_average_lay_price(data):$/;"	kind:function	line:245
+__calc_lay_price	../app/data/external_api/adapter/item.py	/^    def __calc_lay_price(self, price):$/;"	kind:member	line:127
+__calc_lay_price	../tests/data/external_api/adapter/item_test.py	/^def __calc_lay_price(price):$/;"	kind:function	line:231
+__calc_lay_size	../tests/data/external_api/adapter/item_test.py	/^def __calc_lay_size(data):$/;"	kind:function	line:254
+__calc_lr_params	../app/data/handler.py	/^def __calc_lr_params(series, weights):$/;"	kind:function	line:123
+__calc_return	../app/data/handler.py	/^def __calc_return(price):$/;"	kind:function	line:166
+__calc_risk_percentage	../app/data/handler.py	/^def __calc_risk_percentage(probability, price, kf=1, cap=0.05):$/;"	kind:function	line:174
+__calc_sp_back_size	../app/data/external_api/adapter/item.py	/^    def __calc_sp_back_size(self):$/;"	kind:member	line:89
+__calc_sp_back_size	../tests/data/external_api/adapter/item_test.py	/^def __calc_sp_back_size(data):$/;"	kind:function	line:275
+__calc_sp_lay_size	../app/data/external_api/adapter/item.py	/^    def __calc_sp_lay_size(self):$/;"	kind:member	line:103
+__calc_sp_lay_size	../tests/data/external_api/adapter/item_test.py	/^def __calc_sp_lay_size(data):$/;"	kind:function	line:279
+__calc_total_back_sp	../app/data/handler.py	/^def __calc_total_back_sp(self):$/;"	kind:function	line:104
+__calc_total_lay_sp	../app/data/handler.py	/^def __calc_total_lay_sp(self):$/;"	kind:function	line:113
+__call__	../app/singleton.py	/^    def __call__(cls, *args, **kwargs):$/;"	kind:member	line:7
+__call_api	../app/handler/api.py	/^    def __call_api(self, url, request):$/;"	kind:member	line:94
+__confirm_path_removed	../app/third_party_adapter/os_utils.py	/^def __confirm_path_removed(path):$/;"	kind:function	line:44
+__convert_from_string	../app/third_party_adapter/date_time.py	/^    def __convert_from_string(self, format):$/;"	kind:member	line:87
+__convert_from_utc_api_string	../app/third_party_adapter/date_time.py	/^    def __convert_from_utc_api_string(self):$/;"	kind:member	line:84
+__convert_from_utc_string	../app/third_party_adapter/date_time.py	/^    def __convert_from_utc_string(self):$/;"	kind:member	line:81
+__convert_timezone_to_local	../app/third_party_adapter/date_time.py	/^    def __convert_timezone_to_local(self):$/;"	kind:member	line:105
+__convert_to_hms_string	../app/third_party_adapter/date_time.py	/^    def __convert_to_hms_string(self):$/;"	kind:member	line:96
+__convert_to_string	../app/third_party_adapter/date_time.py	/^    def __convert_to_string(date_time, format):$/;"	kind:member	line:102
+__convert_to_utc_string	../app/third_party_adapter/date_time.py	/^    def __convert_to_utc_string(date_time):$/;"	kind:member	line:91
+__file_exists	../app/handler/file.py	/^    def __file_exists(self):$/;"	kind:member	line:45
+__from_zone	../app/third_party_adapter/date_time.py	/^    __from_zone = tz.gettz("UTC")$/;"	kind:variable	line:10
+__get_data	../tests/data/external_api/adapter/item_test.py	/^def __get_data(sp=__get_sp_data(), ex=__get_ex_data()):$/;"	kind:function	line:198
+__get_ex_data	../tests/data/external_api/adapter/item_test.py	/^def __get_ex_data():$/;"	kind:function	line:160
+__get_ex_ex_offered_back_price	../app/data/external_api/adapter/item.py	/^    def __get_ex_ex_offered_back_price(self):$/;"	kind:member	line:110
+__get_ex_ex_offered_lay_price	../app/data/external_api/adapter/item.py	/^    def __get_ex_ex_offered_lay_price(self):$/;"	kind:member	line:117
+__get_ex_offered_back_price	../tests/data/external_api/adapter/item_test.py	/^def __get_ex_offered_back_price(data):$/;"	kind:function	line:267
+__get_ex_offered_lay_price	../tests/data/external_api/adapter/item_test.py	/^def __get_ex_offered_lay_price(data):$/;"	kind:function	line:271
+__get_id	../tests/data/external_api/adapter/item_test.py	/^def __get_id(data):$/;"	kind:function	line:223
+__get_inf_sp	../tests/data/external_api/adapter/item_test.py	/^def __get_inf_sp():$/;"	kind:function	line:189
+__get_items	../app/data/external_api/adapter/record.py	/^    def __get_items(self):$/;"	kind:member	line:32
+__get_market_info	../app/data/external_api/adapter/record.py	/^    def __get_market_info(self):$/;"	kind:member	line:36
+__get_number_columns	../tests/data/handler_test.py	/^def __get_number_columns(number_runners):$/;"	kind:function	line:87
+__get_number_columns_per_runner	../tests/data/handler_test.py	/^def __get_number_columns_per_runner():$/;"	kind:function	line:93
+__get_number_overarching_columns	../tests/data/handler_test.py	/^def __get_number_overarching_columns():$/;"	kind:function	line:97
+__get_number_runners	../tests/data/handler_test.py	/^def __get_number_runners(data):$/;"	kind:function	line:79
+__get_removal_date	../app/data/external_api/adapter/item.py	/^    def __get_removal_date(self):$/;"	kind:member	line:37
+__get_removed	../tests/data/external_api/adapter/item_test.py	/^def __get_removed():$/;"	kind:function	line:211
+__get_response	../app/handler/api.py	/^    def __get_response(self, url, request):$/;"	kind:member	line:101
+__get_response	../app/third_party_adapter/request.py	/^    def __get_response(self):$/;"	kind:member	line:44
+__get_runners	../tests/data/handler_test.py	/^def __get_runners(data):$/;"	kind:function	line:83
+__get_sp_back	../tests/data/external_api/adapter/item_test.py	/^def __get_sp_back(data):$/;"	kind:function	line:227
+__get_sp_data	../tests/data/external_api/adapter/item_test.py	/^def __get_sp_data():$/;"	kind:function	line:148
+__get_sp_lay	../app/data/external_api/adapter/item.py	/^    def __get_sp_lay(self):$/;"	kind:member	line:49
+__get_test_dict	../tests/third_party_adapter/data_container_test.py	/^def __get_test_dict():$/;"	kind:function	line:105
+__get_time_difference	../app/data/external_api/adapter/record.py	/^    def __get_time_difference(self):$/;"	kind:member	line:25
+__get_token	../app/handler/api.py	/^    def __get_token(self, data):$/;"	kind:member	line:81
+__get_traded_volume	../tests/data/external_api/adapter/item_test.py	/^def __get_traded_volume(data):$/;"	kind:function	line:261
+__get_utc_now	../app/third_party_adapter/date_time.py	/^    def __get_utc_now():$/;"	kind:member	line:62
+__get_value_or_default	../app/data/external_api/adapter/item.py	/^    def __get_value_or_default(self, value, default={}):$/;"	kind:member	line:124
+__has_token	../app/handler/api.py	/^    def __has_token(self):$/;"	kind:member	line:84
+__init__	../app/data/external_api/adapter/item.py	/^    def __init__(self, record):$/;"	kind:member	line:6
+__init__	../app/data/handler.py	/^    def __init__(self,adapter=RecordAdapter()):$/;"	kind:member	line:9
+__init__	../app/handler/api.py	/^    def __init__(self, environment="Prod"):$/;"	kind:member	line:15
+__init__	../app/handler/file.py	/^    def __init__(self, directory, file):$/;"	kind:member	line:11
+__init__	../app/interface.py	/^    def __init__(self, name, bases, namespace):$/;"	kind:member	line:7
+__init__	../app/third_party_adapter/data_container.py	/^    def __init__(self, data=None):$/;"	kind:member	line:5
+__init__	../app/third_party_adapter/date_time.py	/^    def __init__(self, str):$/;"	kind:member	line:13
+__init__	../app/third_party_adapter/request.py	/^    def __init__(self, url, request, headers):$/;"	kind:member	line:29
+__init__	../app/third_party_adapter/statsmodel.py	/^    def __init__(self, y, x, weights):$/;"	kind:member	line:6
+__init__.py	../app/__init__.py	1;"	kind:file	line:1
+__init__.py	../app/data/__init__.py	1;"	kind:file	line:1
+__init__.py	../app/data/external_api/adapter/__init__.py	1;"	kind:file	line:1
+__init__.py	../app/handler/__init__.py	1;"	kind:file	line:1
+__init__.py	../app/third_party_adapter/__init__.py	1;"	kind:file	line:1
+__init__.py	../private/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/data/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/data/external_api/adapter/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/handler/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/third_party_adapter/__init__.py	1;"	kind:file	line:1
+__is_ok	../app/third_party_adapter/request.py	/^    def __is_ok(self):$/;"	kind:member	line:51
+__is_ok	../app/third_party_adapter/request.py	/^def __is_ok(response):$/;"	kind:function	line:16
+__is_valid	../app/data/external_api/adapter/item.py	/^    def __is_valid(self, price):$/;"	kind:member	line:130
+__is_valid	../app/handler/file.py	/^    def __is_valid(self, line):$/;"	kind:member	line:21
+__local_hms_seconds_before	../app/third_party_adapter/date_time.py	/^    def __local_hms_seconds_before(self, seconds):$/;"	kind:member	line:65
+__login	../app/handler/api.py	/^    def __login(self):$/;"	kind:member	line:69
+__make_datetime	../app/third_party_adapter/date_time.py	/^    def __make_datetime(self):$/;"	kind:member	line:46
+__make_directory	../app/handler/file.py	/^    def __make_directory(self):$/;"	kind:member	line:38
+__make_headers	../app/handler/api.py	/^    def __make_headers(self):$/;"	kind:member	line:87
+__make_test_directory	../tests/utils.py	/^def __make_test_directory():$/;"	kind:function	line:40
+__new__	../app/interface.py	/^    def __new__(metaclass, name, bases, namespace):$/;"	kind:member	line:19
+__process	../app/data/external_api/adapter/record.py	/^    def __process(self, items):$/;"	kind:member	line:40
+__process_request	../app/handler/api.py	/^    def __process_request(self, url, request):$/;"	kind:member	line:97
+__run_weighted_linear_regression	../app/third_party_adapter/statsmodel.py	/^    def __run_weighted_linear_regression(self):$/;"	kind:member	line:16
+__set_ex_back_size	../app/data/external_api/adapter/item.py	/^    def __set_ex_back_size(self):$/;"	kind:member	line:83
+__set_ex_lay_size	../app/data/external_api/adapter/item.py	/^    def __set_ex_lay_size(self):$/;"	kind:member	line:96
+__set_sp_back_price	../app/data/external_api/adapter/item.py	/^    def __set_sp_back_price(self):$/;"	kind:member	line:44
+__set_traded_volume	../app/data/external_api/adapter/item.py	/^    def __set_traded_volume(self):$/;"	kind:member	line:53
+__test_ex_defaults	../tests/data/external_api/adapter/item_test.py	/^def __test_ex_defaults(record, data):$/;"	kind:function	line:139
+__test_ex_values	../tests/data/external_api/adapter/item_test.py	/^def __test_ex_values(record, data):$/;"	kind:function	line:130
+__test_sp_defaults	../tests/data/external_api/adapter/item_test.py	/^def __test_sp_defaults(record, data):$/;"	kind:function	line:122
+__test_sp_values	../tests/data/external_api/adapter/item_test.py	/^def __test_sp_values(record, data):$/;"	kind:function	line:115
+__time_format	../app/third_party_adapter/date_time.py	/^    __time_format = "%H:%M:%S"$/;"	kind:variable	line:9
+__to_zone	../app/third_party_adapter/date_time.py	/^    __to_zone = tz.gettz("Australia\/Sydney")$/;"	kind:variable	line:11
+__transform	../app/data/handler.py	/^    def __transform(self, data):$/;"	kind:member	line:49
+__try_get_result	../app/handler/api.py	/^    def __try_get_result(self, dict):$/;"	kind:member	line:106
+__utc_api_format	../app/third_party_adapter/date_time.py	/^    __utc_api_format = "%Y-%m-%dT%H:%M:%S.%fZ"$/;"	kind:variable	line:8
+__utc_format	../app/third_party_adapter/date_time.py	/^    __utc_format = "%Y-%m-%dT%H:%M:%SZ"$/;"	kind:variable	line:7
+__utc_minutes_from_now	../app/third_party_adapter/date_time.py	/^    def __utc_minutes_from_now(minutes):$/;"	kind:member	line:54
+__write_type	../app/handler/file.py	/^    def __write_type(self):$/;"	kind:member	line:31
+_add_ok_status	../app/third_party_adapter/request.py	/^def _add_ok_status(dict):$/;"	kind:function	line:55
+_calc_compositional_data	../app/data/handler.py	/^    def _calc_compositional_data(self, items, correct_probability=1):$/;"	kind:member	line:80
+_calc_probability	../app/data/handler.py	/^def _calc_probability(price):$/;"	kind:function	line:153
+_calc_total_return	../app/data/handler.py	/^def _calc_total_return(price):$/;"	kind:function	line:161
+_get_abstract_methods	../app/interface.py	/^    def _get_abstract_methods(namespace):$/;"	kind:member	line:25
+_get_all_methods	../app/interface.py	/^    def _get_all_methods(namespace):$/;"	kind:member	line:28
+_get_frame	../app/third_party_adapter/data_container.py	/^    def _get_frame(self):$/;"	kind:member	line:44
+_instances	../app/singleton.py	/^    _instances = WeakValueDictionary()$/;"	kind:variable	line:5
+abstractfunc	../app/data/external_api/interface.py	/^from app.interface import Interface, abstractfunc$/;"	kind:namespace	line:1
+abstractfunc	../app/interface.py	/^def abstractfunc(func):$/;"	kind:function	line:1
+add	../app/data/handler.py	/^    def add(self, data):$/;"	kind:member	line:14
+add_constant	../app/third_party_adapter/statsmodel.py	/^from statsmodels.api import WLS, add_constant$/;"	kind:namespace	line:1
+add_dict	../app/handler/file.py	/^    def add_dict(self, dict):$/;"	kind:member	line:24
+add_rows	../app/third_party_adapter/data_container.py	/^    def add_rows(self, container):$/;"	kind:member	line:12
+api.py	../app/handler/api.py	1;"	kind:file	line:1
+api_test.py	../tests/handler/api_test.py	1;"	kind:file	line:1
+appendFile	../data/v2/liveTest_v2.py	/^def appendFile(File,jsonDump):$/;"	kind:function	line:31
+appendFile	../data/v3/liveTest_v3.py	/^def appendFile(File,jsonDump):$/;"	kind:function	line:31
+appendFile	../data/v4/liveTest_v4.py	/^def appendFile(File,jsonDump):$/;"	kind:function	line:31
+bCerrorHandler	../data/billyCart.py	/^def bCerrorHandler(marketFile):$/;"	kind:function	line:641
+bet	../data/billyCart.py	/^def bet(wps, marketId):$/;"	kind:function	line:591
+betfairExchangeURL	../data/billyCart.py	/^from app.shared import UTCNormalFormat, UTCBfFormat, betfairExchangeURL, ordersFile$/;"	kind:namespace	line:12
+billyCart.py	../data/billyCart.py	1;"	kind:file	line:1
+calcBetPerc	../data/billyCart.py	/^def calcBetPerc(wp, odds, kf, bc):$/;"	kind:function	line:567
+calcBetPerc	../data/v2/liveTest_v2.py	/^def calcBetPerc(wp,odds,kf,cap):$/;"	kind:function	line:36
+calcBetPerc	../data/v3/liveTest_v3.py	/^def calcBetPerc(wp,odds,kf,bc):$/;"	kind:function	line:36
+calcBetPerc	../data/v4/liveTest_v4.py	/^def calcBetPerc(wp,odds,kf,bc):$/;"	kind:function	line:36
+calcCompDataDF	../data/v3/liveTest_v3.py	/^def calcCompDataDF(df,twp):$/;"	kind:function	line:61
+calcCompDataDF	../data/v4/liveTest_v4.py	/^def calcCompDataDF(df,twp):$/;"	kind:function	line:61
+calcCompositionalDf	../data/billyCart.py	/^def calcCompositionalDf(df, correctWinProbability):$/;"	kind:function	line:520
+calcLRParams	../data/billyCart.py	/^def calcLRParams(series, weights):$/;"	kind:function	line:535
+calcLayOdds	../data/billyCart.py	/^def calcLayOdds(odds):$/;"	kind:function	line:485
+calcLayOdds	../data/v3/liveTest_v3.py	/^def calcLayOdds(v):$/;"	kind:function	line:49
+calcLayOdds	../data/v4/liveTest_v4.py	/^def calcLayOdds(v):$/;"	kind:function	line:49
+calcTrueOdds	../data/billyCart.py	/^def calcTrueOdds(odds):$/;"	kind:function	line:497
+calcTrueOdds	../data/v3/liveTest_v3.py	/^def calcTrueOdds(odds):$/;"	kind:function	line:43
+calcTrueOdds	../data/v4/liveTest_v4.py	/^def calcTrueOdds(odds):$/;"	kind:function	line:43
+calcWAC	../data/billyCart.py	/^def calcWAC(dr):$/;"	kind:function	line:504
+calcWPFO	../data/billyCart.py	/^def calcWPFO(odds):$/;"	kind:function	line:512
+calcWPFO	../data/v3/liveTest_v3.py	/^def calcWPFO(odds):$/;"	kind:function	line:55
+calcWPFO	../data/v4/liveTest_v4.py	/^def calcWPFO(odds):$/;"	kind:function	line:55
+callAping	../data/billyCart.py	/^from app.api_helpers import callAping$/;"	kind:namespace	line:10
+callAping	../data/v2/liveTest_v2.py	/^def callAping(url,request,headers):$/;"	kind:function	line:74
+callAping	../data/v3/liveTest_v3.py	/^def callAping(url,request,headers):$/;"	kind:function	line:102
+callAping	../data/v4/liveTest_v4.py	/^def callAping(url,request,headers):$/;"	kind:function	line:102
+cleanup_test_directory	../tests/third_party_adapter/os_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_directory$/;"	kind:namespace	line:1
+cleanup_test_directory	../tests/utils.py	/^def cleanup_test_directory():$/;"	kind:function	line:54
+cleanup_test_file	../tests/handler/file_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file$/;"	kind:namespace	line:1
+cleanup_test_file	../tests/third_party_adapter/json_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_file$/;"	kind:namespace	line:1
+cleanup_test_file	../tests/utils.py	/^def cleanup_test_file(name):$/;"	kind:function	line:46
+convert	../app/data/external_api/adapter/record.py	/^    def convert(self, raw_record):$/;"	kind:member	line:6
+data_container.py	../app/third_party_adapter/data_container.py	1;"	kind:file	line:1
+data_container_test.py	../tests/third_party_adapter/data_container_test.py	1;"	kind:file	line:1
+date_time.py	../app/third_party_adapter/date_time.py	1;"	kind:file	line:1
+date_time_test.py	../tests/third_party_adapter/date_time_test.py	1;"	kind:file	line:1
+datetime	../app/third_party_adapter/date_time.py	/^from datetime import datetime, timedelta$/;"	kind:namespace	line:1
+datetime	../data/billyCart.py	/^from datetime import datetime$/;"	kind:namespace	line:6
+datetime	../data/marketExtractRunner.py	/^from datetime import datetime$/;"	kind:namespace	line:7
+datetime	../data/modelRunner.py	/^from datetime import datetime$/;"	kind:namespace	line:3
+datetime	../data/scheduleModelRuns.py	/^from datetime import datetime,timedelta$/;"	kind:namespace	line:4
+datetime	../data/v2/liveTest_v2.py	/^import datetime,dateutil$/;"	kind:namespace	line:6
+datetime	../data/v3/liveTest_v3.py	/^import datetime,dateutil$/;"	kind:namespace	line:6
+datetime	../data/v4/liveTest_v4.py	/^import datetime,dateutil$/;"	kind:namespace	line:6
+dateutil	../data/v2/liveTest_v2.py	/^import datetime,dateutil$/;"	kind:namespace	line:6
+dateutil	../data/v3/liveTest_v3.py	/^import datetime,dateutil$/;"	kind:namespace	line:6
+dateutil	../data/v4/liveTest_v4.py	/^import datetime,dateutil$/;"	kind:namespace	line:6
+details.py	../private/details.py	1;"	kind:file	line:1
+dump	../app/third_party_adapter/json_utils.py	/^from json import loads, dumps, dump$/;"	kind:namespace	line:1
+dumps	../app/third_party_adapter/json_utils.py	/^from json import loads, dumps, dump$/;"	kind:namespace	line:1
+ee5s	../data/v2/liveTest_v2.py	/^def ee5s():$/;"	kind:function	line:531
+ee5s	../data/v3/liveTest_v3.py	/^def ee5s():$/;"	kind:function	line:612
+ee5s	../data/v4/liveTest_v4.py	/^def ee5s():$/;"	kind:function	line:619
+eje15m	../data/v2/liveTest_v2.py	/^def eje15m(scheduler):$/;"	kind:function	line:542
+eje15m	../data/v3/liveTest_v3.py	/^def eje15m(scheduler):$/;"	kind:function	line:623
+eje15m	../data/v4/liveTest_v4.py	/^def eje15m(scheduler):$/;"	kind:function	line:630
+environ	../app/third_party_adapter/os_utils.py	/^from os import environ, linesep, makedirs, remove, rmdir$/;"	kind:namespace	line:1
+exists	../app/third_party_adapter/os_utils.py	/^from os.path import exists, join$/;"	kind:namespace	line:2
+extract	../data/billyCart.py	/^def extract(marketFile):$/;"	kind:function	line:47
+file.py	../app/handler/file.py	1;"	kind:file	line:1
+file_test.py	../tests/handler/file_test.py	1;"	kind:file	line:1
+freeze_time	../tests/third_party_adapter/date_time_test.py	/^from freezegun import freeze_time$/;"	kind:namespace	line:3
+from_zone	../data/v2/liveTest_v2.py	/^from_zone = dateutil.tz.gettz('UTC')$/;"	kind:variable	line:18
+from_zone	../data/v3/liveTest_v3.py	/^from_zone = dateutil.tz.gettz('UTC')$/;"	kind:variable	line:18
+from_zone	../data/v4/liveTest_v4.py	/^from_zone = dateutil.tz.gettz('UTC')$/;"	kind:variable	line:18
+get	../app/data/external_api/adapter/item.py	/^    def get(self, key):$/;"	kind:member	line:31
+get	../app/third_party_adapter/statsmodel.py	/^    def get(self, key):$/;"	kind:member	line:13
+getAccountStatus	../data/modelRunner.py	/^from wrangleAPI import getMarkets, getMarket, getAccountStatus$/;"	kind:namespace	line:4
+getFunds	../data/v2/liveTest_v2.py	/^def getFunds():$/;"	kind:function	line:92
+getFunds	../data/v3/liveTest_v3.py	/^def getFunds():$/;"	kind:function	line:120
+getFunds	../data/v4/liveTest_v4.py	/^def getFunds():$/;"	kind:function	line:120
+getLocalNow	../data/modelRunner.py	/^from dateHelpers import utc_seconds_before_datetime, UTCMinutesFromNow, getLocalNow$/;"	kind:namespace	line:1
+getMarket	../data/billyCart.py	/^from app.wrangleAPI import getMarket$/;"	kind:namespace	line:11
+getMarket	../data/marketExtractRunner.py	/^from wrangleAPI import getMarkets, getMarket$/;"	kind:namespace	line:8
+getMarket	../data/modelRunner.py	/^from wrangleAPI import getMarkets, getMarket, getAccountStatus$/;"	kind:namespace	line:4
+getMarkets	../data/marketExtractRunner.py	/^from wrangleAPI import getMarkets, getMarket$/;"	kind:namespace	line:8
+getMarkets	../data/modelRunner.py	/^from wrangleAPI import getMarkets, getMarket, getAccountStatus$/;"	kind:namespace	line:4
+getMarkets	../data/v2/liveTest_v2.py	/^def getMarkets(eventTypeID,toDateTime):$/;"	kind:function	line:108
+getMarkets	../data/v3/liveTest_v3.py	/^def getMarkets(eventTypeID,toDateTime):$/;"	kind:function	line:137
+getMarkets	../data/v4/liveTest_v4.py	/^def getMarkets(eventTypeID,toDateTime):$/;"	kind:function	line:137
+getMoney	../data/billyCart.py	/^def getMoney(market):$/;"	kind:function	line:16
+getMoney	../data/modelRunner.py	/^from billyCart import getMoney$/;"	kind:namespace	line:5
+getMoney	../data/v2/liveTest_v2.py	/^def getMoney(marketFile,eventName,eventCountry):$/;"	kind:function	line:184
+getMoney	../data/v3/liveTest_v3.py	/^def getMoney(marketFile,eventName,eventCountry):$/;"	kind:function	line:213
+getMoney	../data/v4/liveTest_v4.py	/^def getMoney(marketFile,eventName,eventCountry):$/;"	kind:function	line:213
+getOdds	../data/v2/liveTest_v2.py	/^def getOdds(market,runModel):$/;"	kind:function	line:133
+getOdds	../data/v3/liveTest_v3.py	/^def getOdds(market,runModel):$/;"	kind:function	line:162
+getOdds	../data/v4/liveTest_v4.py	/^def getOdds(market,runModel):$/;"	kind:function	line:162
+getResults	../data/v2/liveTest_v2.py	/^def getResults():$/;"	kind:function	line:473
+getResults	../data/v3/liveTest_v3.py	/^def getResults():$/;"	kind:function	line:554
+getResults	../data/v4/liveTest_v4.py	/^def getResults():$/;"	kind:function	line:561
+get_account_status	../app/handler/api.py	/^    def get_account_status(self):$/;"	kind:member	line:36
+get_account_str	../private/details.py	/^def get_account_str():$/;"	kind:function	line:21
+get_account_url	../private/details.py	/^def get_account_url():$/;"	kind:function	line:14
+get_app_key	../private/details.py	/^def get_app_key(environment="Prod"):$/;"	kind:function	line:1
+get_app_key	../tests/handler/api_test.py	/^from private.details import get_user_details, get_cert, get_app_key$/;"	kind:namespace	line:3
+get_catalogue_str	../private/details.py	/^def get_catalogue_str():$/;"	kind:function	line:24
+get_cert	../private/details.py	/^def get_cert():$/;"	kind:function	line:4
+get_cert	../tests/handler/api_test.py	/^from private.details import get_user_details, get_cert, get_app_key$/;"	kind:namespace	line:3
+get_column	../app/third_party_adapter/data_container.py	/^    def get_column(self,name):$/;"	kind:member	line:28
+get_column_count	../app/third_party_adapter/data_container.py	/^    def get_column_count(self):$/;"	kind:member	line:34
+get_column_group_values	../app/third_party_adapter/data_container.py	/^    def get_column_group_values(self, name):$/;"	kind:member	line:16
+get_data	../app/data/external_api/interface.py	/^    def get_data(self):$/;"	kind:member	line:5
+get_environment_variable	../app/third_party_adapter/os_utils.py	/^def get_environment_variable(variable):$/;"	kind:function	line:35
+get_epoch	../app/third_party_adapter/date_time.py	/^    def get_epoch(self):$/;"	kind:member	line:18
+get_exchange_url	../private/details.py	/^def get_exchange_url():$/;"	kind:function	line:17
+get_file_as_list	../app/handler/file.py	/^    def get_file_as_list(self):$/;"	kind:member	line:16
+get_file_path	../app/third_party_adapter/os_utils.py	/^def get_file_path(directory, file):$/;"	kind:function	line:9
+get_index	../app/third_party_adapter/data_container.py	/^    def get_index(self):$/;"	kind:member	line:41
+get_login_url	../private/details.py	/^def get_login_url():$/;"	kind:function	line:11
+get_market	../app/handler/api.py	/^    def get_market(self, market_id):$/;"	kind:member	line:45
+get_markets	../app/handler/api.py	/^    def get_markets(self, event_type_id, to_date_time):$/;"	kind:member	line:56
+get_newline	../app/third_party_adapter/os_utils.py	/^def get_newline():$/;"	kind:function	line:13
+get_newline	../tests/handler/file_test.py	/^from app.third_party_adapter.os_utils import path_exists, get_newline$/;"	kind:namespace	line:3
+get_ok_status	../app/third_party_adapter/request.py	/^def get_ok_status():$/;"	kind:function	line:60
+get_ok_status	../tests/third_party_adapter/request_test.py	/^from app.third_party_adapter.request import post_data, open_url, get_ok_status$/;"	kind:namespace	line:3
+get_probability	../app/data/handler.py	/^    def get_probability(self, id):$/;"	kind:member	line:42
+get_row_count	../app/third_party_adapter/data_container.py	/^    def get_row_count(self):$/;"	kind:member	line:31
+get_test_directory	../tests/handler/file_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file$/;"	kind:namespace	line:1
+get_test_directory	../tests/utils.py	/^def get_test_directory():$/;"	kind:function	line:28
+get_test_file_path	../tests/third_party_adapter/json_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_file$/;"	kind:namespace	line:1
+get_test_file_path	../tests/third_party_adapter/os_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_directory$/;"	kind:namespace	line:1
+get_test_file_path	../tests/utils.py	/^def get_test_file_path(name):$/;"	kind:function	line:32
+get_unique_ids	../app/data/handler.py	/^    def get_unique_ids(self):$/;"	kind:member	line:45
+get_user_details	../private/details.py	/^def get_user_details():$/;"	kind:function	line:7
+get_user_details	../tests/handler/api_test.py	/^from private.details import get_user_details, get_cert, get_app_key$/;"	kind:namespace	line:3
+get_utc_now	../app/third_party_adapter/date_time.py	/^    def get_utc_now():$/;"	kind:member	line:41
+handler.py	../app/data/handler.py	1;"	kind:file	line:1
+handler.py	../app/model/handler.py	1;"	kind:file	line:1
+handler_test.py	../tests/data/handler_test.py	1;"	kind:file	line:1
+interface.py	../app/data/external_api/interface.py	1;"	kind:file	line:1
+interface.py	../app/interface.py	1;"	kind:file	line:1
+io	../data/v2/liveTest_v2.py	/^import io$/;"	kind:namespace	line:10
+io	../data/v3/liveTest_v3.py	/^import io$/;"	kind:namespace	line:10
+io	../data/v4/liveTest_v4.py	/^import io$/;"	kind:namespace	line:10
+is_more_than_33_seconds_from_now	../app/third_party_adapter/date_time.py	/^    def is_more_than_33_seconds_from_now(self):$/;"	kind:member	line:25
+is_valid	../app/data/external_api/adapter/item.py	/^    def is_valid(self):$/;"	kind:member	line:34
+isnan	../app/data/external_api/adapter/item.py	/^from numpy import nan, isnan$/;"	kind:namespace	line:2
+isnan	../tests/data/external_api/adapter/item_test.py	/^from numpy import isnan$/;"	kind:namespace	line:3
+item.py	../app/data/external_api/adapter/item.py	1;"	kind:file	line:1
+item_test.py	../tests/data/external_api/adapter/item_test.py	1;"	kind:file	line:1
+itertools	../data/billyCart.py	/^import itertools$/;"	kind:namespace	line:4
+itertools	../data/v2/liveTest_v2.py	/^import itertools$/;"	kind:namespace	line:13
+itertools	../data/v3/liveTest_v3.py	/^import itertools$/;"	kind:namespace	line:13
+itertools	../data/v4/liveTest_v4.py	/^import itertools$/;"	kind:namespace	line:13
+join	../app/third_party_adapter/os_utils.py	/^from os.path import exists, join$/;"	kind:namespace	line:2
+json	../data/billyCart.py	/^import json$/;"	kind:namespace	line:1
+json	../data/v2/liveTest_v2.py	/^import json$/;"	kind:namespace	line:3
+json	../data/v3/liveTest_v3.py	/^import json$/;"	kind:namespace	line:3
+json	../data/v4/liveTest_v4.py	/^import json$/;"	kind:namespace	line:3
+json_utils.py	../app/third_party_adapter/json_utils.py	1;"	kind:file	line:1
+json_utils_test.py	../tests/third_party_adapter/json_utils_test.py	1;"	kind:file	line:1
+linesep	../app/third_party_adapter/os_utils.py	/^from os import environ, linesep, makedirs, remove, rmdir$/;"	kind:namespace	line:1
+lists_are_equal	../tests/third_party_adapter/data_container_test.py	/^from tests.utils import GIVEN, WHEN, THEN, lists_are_equal$/;"	kind:namespace	line:1
+lists_are_equal	../tests/utils.py	/^def lists_are_equal(first, second):$/;"	kind:function	line:37
+liveTest_v2.py	../data/v2/liveTest_v2.py	1;"	kind:file	line:1
+liveTest_v3.py	../data/v3/liveTest_v3.py	1;"	kind:file	line:1
+liveTest_v4.py	../data/v4/liveTest_v4.py	1;"	kind:file	line:1
+loads	../app/third_party_adapter/json_utils.py	/^from json import loads, dumps, dump$/;"	kind:namespace	line:1
+local_hms_30_seconds_before	../app/third_party_adapter/date_time.py	/^    def local_hms_30_seconds_before(self):$/;"	kind:member	line:37
+local_hms_45_seconds_before	../app/third_party_adapter/date_time.py	/^    def local_hms_45_seconds_before(self):$/;"	kind:member	line:34
+log	../app/data/handler.py	/^from numpy import sum, log, nan$/;"	kind:namespace	line:4
+log	../app/third_party_adapter/statsmodel.py	/^from numpy import log, nan$/;"	kind:namespace	line:2
+logging	../data/v2/liveTest_v2.py	/^import logging$/;"	kind:namespace	line:9
+logging	../data/v3/liveTest_v3.py	/^import logging$/;"	kind:namespace	line:9
+logging	../data/v4/liveTest_v4.py	/^import logging$/;"	kind:namespace	line:9
+login	../data/scheduleMarketExtracts.py	/^from APIHelpers import login$/;"	kind:namespace	line:3
+login	../data/scheduleModelRuns.py	/^from APIHelpers import login$/;"	kind:namespace	line:3
+login	../data/v2/liveTest_v2.py	/^def login():$/;"	kind:function	line:43
+login	../data/v3/liveTest_v3.py	/^def login():$/;"	kind:function	line:71
+login	../data/v4/liveTest_v4.py	/^def login():$/;"	kind:function	line:71
+make_dict	../app/handler/file.py	/^from app.third_party_adapter.json_utils import write_json_to,make_dict$/;"	kind:namespace	line:1
+make_dict	../app/third_party_adapter/json_utils.py	/^def make_dict(json_string):$/;"	kind:function	line:11
+make_dict	../app/third_party_adapter/request.py	/^from app.third_party_adapter.json_utils import make_dict$/;"	kind:namespace	line:4
+make_dict	../tests/third_party_adapter/json_utils_test.py	/^from app.third_party_adapter.json_utils import write_json_to, make_dict$/;"	kind:namespace	line:2
+make_directory_if_required	../app/third_party_adapter/os_utils.py	/^def make_directory_if_required(path):$/;"	kind:function	line:17
+make_json	../app/third_party_adapter/json_utils.py	/^def make_json(dict):$/;"	kind:function	line:3
+make_json	../tests/handler/api_test.py	/^from app.third_party_adapter.json_utils import make_json$/;"	kind:namespace	line:6
+make_json	../tests/third_party_adapter/request_test.py	/^from app.third_party_adapter.json_utils import make_json$/;"	kind:namespace	line:4
+makedirs	../app/third_party_adapter/os_utils.py	/^from os import environ, linesep, makedirs, remove, rmdir$/;"	kind:namespace	line:1
+marketExtractRunner	../data/marketExtractRunner.py	/^def marketExtractRunner():$/;"	kind:function	line:11
+marketExtractRunner	../data/scheduleMarketExtracts.py	/^from marketExtractRunner import marketExtractRunner$/;"	kind:namespace	line:1
+marketExtractRunner.py	../data/marketExtractRunner.py	1;"	kind:file	line:1
+md	../data/v2/liveTest_v2.py	/^def md(directory):$/;"	kind:function	line:21
+md	../data/v3/liveTest_v3.py	/^def md(directory):$/;"	kind:function	line:21
+md	../data/v4/liveTest_v4.py	/^def md(directory):$/;"	kind:function	line:21
+modelRunner	../data/modelRunner.py	/^def modelRunner(scheduler):$/;"	kind:function	line:8
+modelRunner	../data/scheduleModelRuns.py	/^from modelRunner import modelRunner$/;"	kind:namespace	line:1
+modelRunner.py	../data/modelRunner.py	1;"	kind:file	line:1
+nan	../app/data/external_api/adapter/item.py	/^from numpy import nan, isnan$/;"	kind:namespace	line:2
+nan	../app/data/handler.py	/^from numpy import sum, log, nan$/;"	kind:namespace	line:4
+nan	../app/third_party_adapter/statsmodel.py	/^from numpy import log, nan$/;"	kind:namespace	line:2
+nan	../tests/third_party_adapter/data_container_test.py	/^from numpy import nan,nan_to_num$/;"	kind:namespace	line:2
+nan_to_num	../tests/third_party_adapter/data_container_test.py	/^from numpy import nan,nan_to_num$/;"	kind:namespace	line:2
+np	../data/billyCart.py	/^import numpy as np$/;"	kind:namespace	line:3
+np	../data/v2/liveTest_v2.py	/^import numpy as np$/;"	kind:namespace	line:12
+np	../data/v3/liveTest_v3.py	/^import numpy as np$/;"	kind:namespace	line:12
+np	../data/v4/liveTest_v4.py	/^import numpy as np$/;"	kind:namespace	line:12
+open_url	../app/handler/api.py	/^from app.third_party_adapter.request import post_data, open_url$/;"	kind:namespace	line:11
+open_url	../app/third_party_adapter/request.py	/^def open_url(url, request, headers={}):$/;"	kind:function	line:20
+open_url	../tests/third_party_adapter/request_test.py	/^from app.third_party_adapter.request import post_data, open_url, get_ok_status$/;"	kind:namespace	line:3
+openurl	../app/third_party_adapter/request.py	/^    def openurl(self):$/;"	kind:member	line:34
+ordersFile	../data/billyCart.py	/^from app.shared import UTCNormalFormat, UTCBfFormat, betfairExchangeURL, ordersFile$/;"	kind:namespace	line:12
+os	../data/billyCart.py	/^import os$/;"	kind:namespace	line:7
+os	../data/v2/liveTest_v2.py	/^import os$/;"	kind:namespace	line:7
+os	../data/v3/liveTest_v3.py	/^import os$/;"	kind:namespace	line:7
+os	../data/v4/liveTest_v4.py	/^import os$/;"	kind:namespace	line:7
+os_utils.py	../app/third_party_adapter/os_utils.py	1;"	kind:file	line:1
+os_utils_test.py	../tests/third_party_adapter/os_utils_test.py	1;"	kind:file	line:1
+patch	../tests/handler/api_test.py	/^from unittest.mock import patch$/;"	kind:namespace	line:4
+patch	../tests/third_party_adapter/request_test.py	/^from unittest.mock import patch, MagicMock, Mock$/;"	kind:namespace	line:2
+path_exists	../app/third_party_adapter/os_utils.py	/^def path_exists(path):$/;"	kind:function	line:5
+path_exists	../tests/handler/file_test.py	/^from app.third_party_adapter.os_utils import path_exists, get_newline$/;"	kind:namespace	line:3
+pd	../data/billyCart.py	/^import pandas as pd$/;"	kind:namespace	line:2
+pd	../data/v2/liveTest_v2.py	/^import pandas as pd$/;"	kind:namespace	line:5
+pd	../data/v3/liveTest_v3.py	/^import pandas as pd$/;"	kind:namespace	line:5
+pd	../data/v4/liveTest_v4.py	/^import pandas as pd$/;"	kind:namespace	line:5
+post	../app/third_party_adapter/request.py	/^from requests import post$/;"	kind:namespace	line:3
+post_data	../app/handler/api.py	/^from app.third_party_adapter.request import post_data, open_url$/;"	kind:namespace	line:11
+post_data	../app/third_party_adapter/request.py	/^def post_data(url, data=None, cert=None, headers=None):$/;"	kind:function	line:7
+post_data	../tests/third_party_adapter/request_test.py	/^from app.third_party_adapter.request import post_data, open_url, get_ok_status$/;"	kind:namespace	line:3
+pth	../data/v2/liveTest_v2.py	/^pth      = 'D:\/Betfair\/liveTest\/data\/'$/;"	kind:variable	line:17
+pth	../data/v3/liveTest_v3.py	/^pth      = 'D:\/Betfair\/liveTest\/data\/'$/;"	kind:variable	line:17
+pth	../data/v4/liveTest_v4.py	/^pth      = 'D:\/Betfair\/liveTest\/data\/'$/;"	kind:variable	line:17
+re	../app/third_party_adapter/re_utils.py	/^import re$/;"	kind:namespace	line:1
+re_utils.py	../app/third_party_adapter/re_utils.py	1;"	kind:file	line:1
+re_utils_test.py	../tests/third_party_adapter/re_utils_test.py	1;"	kind:file	line:1
+record.py	../app/data/external_api/adapter/record.py	1;"	kind:file	line:1
+record_test.py	../tests/data/external_api/adapter/record_test.py	1;"	kind:file	line:1
+regex_match	../app/third_party_adapter/date_time.py	/^from app.third_party_adapter.re_utils import regex_match$/;"	kind:namespace	line:3
+regex_match	../app/third_party_adapter/re_utils.py	/^def regex_match(str,pattern):$/;"	kind:function	line:3
+regex_match	../tests/third_party_adapter/re_utils_test.py	/^from app.third_party_adapter.re_utils import regex_match$/;"	kind:namespace	line:2
+remove	../app/third_party_adapter/os_utils.py	/^from os import environ, linesep, makedirs, remove, rmdir$/;"	kind:namespace	line:1
+remove_directory	../app/third_party_adapter/os_utils.py	/^def remove_directory(path):$/;"	kind:function	line:23
+remove_file	../app/third_party_adapter/os_utils.py	/^def remove_file(path):$/;"	kind:function	line:29
+request.py	../app/third_party_adapter/request.py	1;"	kind:file	line:1
+request_test.py	../tests/third_party_adapter/request_test.py	1;"	kind:file	line:1
+requests	../data/v2/liveTest_v2.py	/^import requests$/;"	kind:namespace	line:4
+requests	../data/v3/liveTest_v3.py	/^import requests$/;"	kind:namespace	line:4
+requests	../data/v4/liveTest_v4.py	/^import requests$/;"	kind:namespace	line:4
+rmdir	../app/third_party_adapter/os_utils.py	/^from os import environ, linesep, makedirs, remove, rmdir$/;"	kind:namespace	line:1
+runModels	../data/billyCart.py	/^def runModels(odfT, eventCountry, lastRemoved):$/;"	kind:function	line:248
+scheduleMarketExtracts.py	../data/scheduleMarketExtracts.py	1;"	kind:file	line:1
+scheduleModelRuns.py	../data/scheduleModelRuns.py	1;"	kind:file	line:1
+scheduler	../data/scheduleMarketExtracts.py	/^scheduler = BlockingScheduler()$/;"	kind:variable	line:9
+scheduler	../data/scheduleModelRuns.py	/^scheduler = BlockingScheduler()$/;"	kind:variable	line:12
+seconds_in_a_day	../app/third_party_adapter/date_time.py	/^    def seconds_in_a_day():$/;"	kind:member	line:111
+set_column_group_name	../app/third_party_adapter/data_container.py	/^    def set_column_group_name(self, name=None,names=None, level=None):$/;"	kind:member	line:20
+set_environment_variable	../app/third_party_adapter/os_utils.py	/^def set_environment_variable(variable, value):$/;"	kind:function	line:39
+set_headers	../app/handler/api.py	/^    def set_headers(self, environment="Prod"):$/;"	kind:member	line:24
+set_index	../app/third_party_adapter/data_container.py	/^    def set_index(self, columns):$/;"	kind:member	line:37
+set_probability	../app/data/handler.py	/^    def set_probability(self, id, probability):$/;"	kind:member	line:38
+shared	../data/billyCart.py	/^import shared$/;"	kind:namespace	line:13
+shared	../data/scheduleMarketExtracts.py	/^import shared$/;"	kind:namespace	line:4
+shared	../data/scheduleModelRuns.py	/^import shared$/;"	kind:namespace	line:5
+should_test_real_api	../tests/handler/api_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+should_test_real_api	../tests/third_party_adapter/request_test.py	/^from tests.utils import GIVEN, WHEN, THEN, should_test_real_api$/;"	kind:namespace	line:1
+should_test_real_api	../tests/utils.py	/^def should_test_real_api():$/;"	kind:function	line:23
+shutil	../data/v2/liveTest_v2.py	/^import shutil$/;"	kind:namespace	line:11
+shutil	../data/v3/liveTest_v3.py	/^import shutil$/;"	kind:namespace	line:11
+shutil	../data/v4/liveTest_v4.py	/^import shutil$/;"	kind:namespace	line:11
+singleton.py	../app/singleton.py	1;"	kind:file	line:1
+sm	../app/data/handler.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:5
+sm	../data/billyCart.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:5
+sm	../data/v2/liveTest_v2.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:14
+sm	../data/v3/liveTest_v3.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:14
+sm	../data/v4/liveTest_v4.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:14
+statsmodel.py	../app/third_party_adapter/statsmodel.py	1;"	kind:file	line:1
+statsmodel_test.py	../tests/third_party_adapter/statsmodel_test.py	1;"	kind:file	line:1
+statsmodels	../app/data/handler.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:5
+statsmodels	../data/billyCart.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:5
+statsmodels	../data/v2/liveTest_v2.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:14
+statsmodels	../data/v3/liveTest_v3.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:14
+statsmodels	../data/v4/liveTest_v4.py	/^import statsmodels.api as sm$/;"	kind:namespace	line:14
+sum	../app/data/handler.py	/^from numpy import sum, log, nan$/;"	kind:namespace	line:4
+sum_columns	../app/third_party_adapter/data_container.py	/^    def sum_columns(self, output, columns):$/;"	kind:member	line:24
+test_add_rows	../tests/third_party_adapter/data_container_test.py	/^def test_add_rows():$/;"	kind:function	line:6
+test_api_handler	../tests/handler/api_test.py	/^    def test_api_handler():$/;"	kind:function	line:44
+test_api_is_singleton	../tests/handler/api_test.py	/^    def test_api_is_singleton():$/;"	kind:function	line:88
+test_column_group_name	../tests/third_party_adapter/data_container_test.py	/^def test_column_group_name():$/;"	kind:function	line:46
+test_create_comp_df	../tests/data/handler_test.py	/^def test_create_comp_df():$/;"	kind:function	line:55
+test_create_df	../tests/data/handler_test.py	/^def test_create_df():$/;"	kind:function	line:7
+test_create_record	../tests/data/external_api/adapter/item_test.py	/^def test_create_record():$/;"	kind:function	line:6
+test_date_time_epoch	../tests/third_party_adapter/date_time_test.py	/^def test_date_time_epoch():$/;"	kind:function	line:98
+test_date_time_str_converters	../tests/third_party_adapter/date_time_test.py	/^def test_date_time_str_converters():$/;"	kind:function	line:62
+test_datetime_helpers	../tests/third_party_adapter/date_time_test.py	/^def test_datetime_helpers():$/;"	kind:function	line:7
+test_empty_ex	../tests/data/external_api/adapter/item_test.py	/^def test_empty_ex():$/;"	kind:function	line:73
+test_empty_input	../tests/data/external_api/adapter/item_test.py	/^def test_empty_input():$/;"	kind:function	line:20
+test_empty_input	../tests/data/external_api/adapter/record_test.py	/^def test_empty_input():$/;"	kind:function	line:4
+test_empty_sp	../tests/data/external_api/adapter/item_test.py	/^def test_empty_sp():$/;"	kind:function	line:34
+test_error_handling	../tests/handler/api_test.py	/^def test_error_handling(mock_urlopen, mock_set_headers):$/;"	kind:function	line:133
+test_error_handling	../tests/third_party_adapter/request_test.py	/^def test_error_handling(mock_urlopen):$/;"	kind:function	line:29
+test_file_handler	../tests/handler/file_test.py	/^def test_file_handler():$/;"	kind:function	line:6
+test_get_account_status	../tests/handler/api_test.py	/^    def test_get_account_status():$/;"	kind:function	line:12
+test_get_environment_variable	../tests/third_party_adapter/os_utils_test.py	/^def test_get_environment_variable():$/;"	kind:function	line:14
+test_get_file_path	../tests/third_party_adapter/os_utils_test.py	/^def test_get_file_path():$/;"	kind:function	line:116
+test_get_newline	../tests/third_party_adapter/os_utils_test.py	/^def test_get_newline():$/;"	kind:function	line:54
+test_invalid_near_price	../tests/data/external_api/adapter/item_test.py	/^def test_invalid_near_price():$/;"	kind:function	line:61
+test_json_utils	../tests/third_party_adapter/json_utils_test.py	/^def test_json_utils():$/;"	kind:function	line:5
+test_make_dict	../tests/third_party_adapter/json_utils_test.py	/^def test_make_dict():$/;"	kind:function	line:23
+test_make_directory	../tests/third_party_adapter/os_utils_test.py	/^def test_make_directory():$/;"	kind:function	line:63
+test_missing_ex	../tests/data/external_api/adapter/item_test.py	/^def test_missing_ex():$/;"	kind:function	line:85
+test_missing_market_info	../tests/data/external_api/adapter/record_test.py	/^def test_missing_market_info():$/;"	kind:function	line:13
+test_missing_sp	../tests/data/external_api/adapter/item_test.py	/^def test_missing_sp():$/;"	kind:function	line:48
+test_model	../tests/third_party_adapter/statsmodel_test.py	/^def test_model():$/;"	kind:function	line:5
+test_open_url	../tests/third_party_adapter/request_test.py	/^    def test_open_url():$/;"	kind:function	line:18
+test_path_exists	../tests/third_party_adapter/os_utils_test.py	/^def test_path_exists():$/;"	kind:function	line:34
+test_post_data	../tests/third_party_adapter/request_test.py	/^    def test_post_data():$/;"	kind:function	line:9
+test_regex_match	../tests/third_party_adapter/re_utils_test.py	/^def test_regex_match():$/;"	kind:function	line:4
+test_remove_directory	../tests/third_party_adapter/os_utils_test.py	/^def test_remove_directory():$/;"	kind:function	line:79
+test_remove_file	../tests/third_party_adapter/os_utils_test.py	/^def test_remove_file():$/;"	kind:function	line:93
+test_removed	../tests/data/external_api/adapter/item_test.py	/^def test_removed():$/;"	kind:function	line:100
+test_removed_runner_df	../tests/data/handler_test.py	/^def test_removed_runner_df():$/;"	kind:function	line:31
+test_set_headers	../tests/handler/api_test.py	/^def test_set_headers(mock_post):$/;"	kind:function	line:113
+test_set_index	../tests/third_party_adapter/data_container_test.py	/^def test_set_index():$/;"	kind:function	line:25
+test_sum_columns	../tests/third_party_adapter/data_container_test.py	/^def test_sum_columns():$/;"	kind:function	line:93
+time	../data/v2/liveTest_v2.py	/^import time$/;"	kind:namespace	line:8
+time	../data/v3/liveTest_v3.py	/^import time$/;"	kind:namespace	line:8
+time	../data/v4/liveTest_v4.py	/^import time$/;"	kind:namespace	line:8
+timeFormat	../data/modelRunner.py	/^from shared import UTCNormalFormat, timeFormat$/;"	kind:namespace	line:2
+timedelta	../app/third_party_adapter/date_time.py	/^from datetime import datetime, timedelta$/;"	kind:namespace	line:1
+timedelta	../data/scheduleModelRuns.py	/^from datetime import datetime,timedelta$/;"	kind:namespace	line:4
+to_zone	../data/v2/liveTest_v2.py	/^to_zone   = dateutil.tz.gettz('Australia\/Sydney')$/;"	kind:variable	line:19
+to_zone	../data/v3/liveTest_v3.py	/^to_zone   = dateutil.tz.gettz('Australia\/Sydney')$/;"	kind:variable	line:19
+to_zone	../data/v4/liveTest_v4.py	/^to_zone   = dateutil.tz.gettz('Australia\/Sydney')$/;"	kind:variable	line:19
+transform	../data/billyCart.py	/^def transform(odf):$/;"	kind:function	line:217
+tz	../app/third_party_adapter/date_time.py	/^from dateutil import tz$/;"	kind:namespace	line:2
+urllib2	../data/v2/liveTest_v2.py	/^import urllib2$/;"	kind:namespace	line:2
+urllib2	../data/v3/liveTest_v3.py	/^import urllib2$/;"	kind:namespace	line:2
+urllib2	../data/v4/liveTest_v4.py	/^import urllib2$/;"	kind:namespace	line:2
+urlopen	../app/handler/api.py	/^from urllib.request import Request, urlopen$/;"	kind:namespace	line:1
+urlopen	../app/third_party_adapter/request.py	/^from urllib.request import Request, urlopen$/;"	kind:namespace	line:2
+utc_5_minutes_from_now	../app/third_party_adapter/date_time.py	/^    def utc_5_minutes_from_now():$/;"	kind:member	line:22
+utc_seconds_before_datetime	../data/modelRunner.py	/^from dateHelpers import utc_seconds_before_datetime, UTCMinutesFromNow, getLocalNow$/;"	kind:namespace	line:1
+utils.py	../tests/utils.py	1;"	kind:file	line:1
+valid	../app/data/handler.py	/^def valid(price):$/;"	kind:function	line:157
+writeFile	../data/billyCart.py	/^from fileHelpers import writeFile$/;"	kind:namespace	line:9
+writeFile	../data/v2/liveTest_v2.py	/^def writeFile(File,jsonDump):$/;"	kind:function	line:26
+writeFile	../data/v3/liveTest_v3.py	/^def writeFile(File,jsonDump):$/;"	kind:function	line:26
+writeFile	../data/v4/liveTest_v4.py	/^def writeFile(File,jsonDump):$/;"	kind:function	line:26
+write_json_to	../app/handler/file.py	/^from app.third_party_adapter.json_utils import write_json_to,make_dict$/;"	kind:namespace	line:1
+write_json_to	../app/third_party_adapter/json_utils.py	/^def write_json_to(file,dict):$/;"	kind:function	line:7
+write_json_to	../tests/third_party_adapter/json_utils_test.py	/^from app.third_party_adapter.json_utils import write_json_to, make_dict$/;"	kind:namespace	line:2
