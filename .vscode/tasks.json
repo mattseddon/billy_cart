@@ -1,35 +1,35 @@
 {
-	// See https://go.microsoft.com/fwlink/?LinkId=733558
-	// for the documentation about the tasks.json format
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "Run Black",
-			"type": "shell",
-			"command": "black ${file}",
-			"problemMatcher": []
-		},
-		{
-			"label": "Run Pytest",
-			"type": "shell",
-			"command": "export test_suite=online && pipenv run pytest --cov=app/ tests/ --cov-report=xml:cov.xml",
-			"problemMatcher": [],
-			"group": {
-				"kind": "test",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "Run Pytest - OFFLINE",
-			"type": "shell",
-			"command": "pipenv run pytest",
-			"problemMatcher": []
-		},
-		{
-			"label": "Run Pipenv Install",
-			"type": "shell",
-			"command": "pipenv lock --pre && pipenv install",
-			"problemMatcher": []
-		}
-	],
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Black",
+      "type": "shell",
+      "command": "black ${file}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Pytest",
+      "type": "shell",
+      "command": "export test_suite=online && pipenv run pytest --cov-config=.coveragerc --cov=./ tests/ --cov-report=xml:cov.xml",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run Pytest - OFFLINE",
+      "type": "shell",
+      "command": "pipenv run pytest",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Pipenv Install",
+      "type": "shell",
+      "command": "pipenv lock --pre && pipenv install",
+      "problemMatcher": []
+    }
+  ]
 }

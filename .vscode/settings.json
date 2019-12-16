@@ -10,11 +10,13 @@
 		"isnan",
 		"numpy",
 		"rmdir",
+		"standardise",
 		"strftime",
 		"strptime",
 		"tzinfo",
 		"wwwaaaahhhhhhh",
 		"wwweeeeeeeeeee",
 		"wwweeeeeeeeeeeeeeeeee"
-	]
+	],
+	"python.formatting.provider": "black"
 }

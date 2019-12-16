@@ -1,7 +1,8 @@
+from infrastructure.class_construction.abstract_base import AbstractBaseMetaclass
 from weakref import WeakValueDictionary
 
 
-class Singleton(type):
+class Singleton(AbstractBaseMetaclass):
     _instances = WeakValueDictionary()
 
     def __call__(cls, *args, **kwargs):

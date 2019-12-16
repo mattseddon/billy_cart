@@ -1,4 +1,4 @@
-from app.third_party_adapter.os_utils import (
+from infrastructure.built_in.adapter.os_utils import (
     get_environment_variable,
     get_file_path,
     make_directory_if_required,
@@ -34,8 +34,14 @@ def get_test_file_path(name):
     file_path = get_file_path(directory=directory, file=name) if directory else None
     return file_path
 
+
 def lists_are_equal(first, second):
     return len(first) == len(second) and sorted(first) == sorted(second)
+
+
+def almost_equal(first, second):
+    return abs((first) - (second)) < 0.0000001
+
 
 def __make_test_directory():
     directory = get_test_directory()

@@ -1,8 +1,6 @@
-def abstractfunc(func):
-    func.__isabstract__ = True
-    return func
+from infrastructure.class_construction.abstract_base import AbstractBaseMetaclass
 
-class Interface(type):
+class Interface(AbstractBaseMetaclass):
 
     def __init__(self, name, bases, namespace):
         for base in bases:
@@ -23,7 +21,7 @@ class Interface(type):
         return cls
 
     def _get_abstract_methods(namespace):
-        return [name for name, val in namespace.items() if callable(val) and getattr(val, '__isabstract__', False)]
+        return [name for name, val in namespace.items() if callable(val) and getattr(val, '__isabstractmethod__', False)]
 
     def _get_all_methods(namespace):
         return [name for name, val in namespace.items() if callable(val)]
