@@ -1,4 +1,4 @@
-from app.market.data.compositional.handler import CompositionalDataHandler
+from app.market.data.compositional_data.handler import CompositionalDataHandler
 
 
 class DataHandler:

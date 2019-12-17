@@ -26,7 +26,7 @@ class CompositionalDataHandler:
     def __calc_adjusted_values(self, item):
         data = {}
         data["id"] = item.get("id")
-        data["adj_price"] = self.__calc_total_return(item.get(self.__price_name))
+        data["adj_price"] = self.__calc_total_return(price=item.get(self.__price_name))
         data["probability"] = self.__calc_probability(data.get("adj_price"))
         return data
 
