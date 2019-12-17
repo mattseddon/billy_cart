@@ -2,7 +2,7 @@ from tests.utils import GIVEN, WHEN, THEN, almost_equal
 from app.market.data.handler import DataHandler
 from infrastructure.third_party.adapter.data_container import DataContainer
 from infrastructure.storage.handler import FileHandler
-from infrastructure.external_api.market.adapter.record import RecordAdapter
+from infrastructure.external_api.market.record.adapter import RecordAdapter
 
 
 def test_handler():

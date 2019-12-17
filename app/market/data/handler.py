@@ -11,14 +11,14 @@ class DataHandler:
 
         transformed_data = self._transform(data=data)
         if transformed_data:
-            record_container = self._container.new(transformed_data)
+            record_container = self._container.new(data=transformed_data)
             record_container.set_index(("extract_time", ""))
             record_container.set_column_group_name(names=["variable", "id"])
             # if self.__probabilities then (override probabilities) or (miss the item completely)
             record_container.sum_columns(
                 output="market_back_size", columns=["ex_back_size", "sp_back_size"]
             )
-            # when creating the compositional probs will need to take into account any static ones
+            # when creating the compositional probabilities will need to take into account any static ones
             # if item has 60% then rest should sum to 40%
             self._container.add_rows(container=record_container)
 
@@ -44,14 +44,6 @@ class DataHandler:
         adapted_data = self.__adapter.convert(data)
         items = adapted_data.get("items") or []
 
-        compositional_sp_back_data = self.__get_compositional_data(
-            items=items, price_name="sp_back_price"
-        )
-
-        compositional_ex_back_data = self.__get_compositional_data(
-            items=items, price_name="ex_average_back_price"
-        )
-
         transformed_data = self.__make_initial_transformed_dict(items=items)
 
         transformed_data.update(
@@ -61,6 +53,10 @@ class DataHandler:
                 ): [item.get("ex_back_size") + item.get("sp_back_size")]
                 for item in items
             }
+        )
+
+        compositional_sp_back_data = self.__get_compositional_data(
+            items=items, price_name="sp_back_price"
         )
 
         transformed_data.update(
@@ -77,6 +73,10 @@ class DataHandler:
                 items=compositional_sp_back_data,
                 in_column="compositional_price",
             )
+        )
+
+        compositional_ex_back_data = self.__get_compositional_data(
+            items=items, price_name="ex_average_back_price"
         )
 
         transformed_data.update(
@@ -101,12 +101,12 @@ class DataHandler:
         return transformed_data
 
     def __make_initial_transformed_dict(self, items):
-        intial_data = {}
+        initial_data = {}
         for column in self.__get_column_list():
-            intial_data.update(
+            initial_data.update(
                 self.__make_transformed_dict(out_column=column, items=items)
             )
-        return intial_data
+        return initial_data
 
     def __make_transformed_dict(self, out_column, items, in_column=None):
         if not (in_column):
@@ -138,34 +138,34 @@ class DataHandler:
 
     def __get_compositional_data(self, items, price_name, correct_probability=1):
         compositional_data_handler = CompositionalDataHandler(
-            items=items, price_name=price_name, correct_probability=1,
+            items=items, price_name=price_name, correct_probability=correct_probability,
         )
         compositional_items = compositional_data_handler.calc_compositional_data()
         return compositional_items
 
     def __get_item_model_data(self, id):
-        data = {}
-        data["id"] = id
-        data["combined_back_size"] = self._container.get_last_column_entry(
-            name=("combined_back_size", id)
-        )
-        data["compositional_sp_probability"] = self._container.get_last_column_entry(
-            name=("compositional_sp_probability", id)
-        )
-        data["compositional_ex_probability"] = self._container.get_last_column_entry(
-            name=("compositional_ex_probability", id)
-        )
-        data["ex_offered_back_price"] = self._container.get_last_column_entry(
-            name=("ex_offered_back_price", id)
+        data = {
+            "id": id,
+            "extract_time_ts": self._container.get_index(),
+        }
+
+        data.update(
+            {
+                column: self._container.get_last_column_entry(name=(column, id))
+                for column in [
+                    "combined_back_size",
+                    "compositional_sp_probability",
+                    "compositional_ex_probability",
+                    "ex_offered_back_price",
+                ]
+            }
         )
 
-        data["compositional_sp_back_price_ts"] = self._container.get_column(
-            name=("compositional_sp_back_price", id)
+        data.update(
+            {
+                column + "_ts": self._container.get_column(name=(column, id))
+                for column in ["compositional_sp_back_price", "combined_back_size"]
+            }
         )
 
-        data["extract_time_ts"] = self._container.get_index()
-
-        data["combined_back_size_ts"] = self._container.get_column(
-            name=("combined_back_size", id)
-        )
         return data

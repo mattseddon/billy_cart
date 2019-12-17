@@ -1,6 +1,6 @@
-from infrastructure.built_in.adapter.date_time import DateTime
-from infrastructure.external_api.market.adapter.item import ItemAdapter
 from app.market.data.interface import ExternalAPIMarketDataInterface
+from infrastructure.built_in.adapter.date_time import DateTime
+from infrastructure.external_api.market.record.item.adapter import ItemAdapter
 
 
 class RecordAdapter(ExternalAPIMarketDataInterface):
@@ -39,11 +39,11 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
         return market_info[0] if type(market_info) is list else market_info
 
     def __process(self, items):
-        data = {"items": []}
-        for item in items:
-            item_data = ItemAdapter(
-                item
-            )  # this is returning objects, should be simple data as it is crossing an architectural boundary
-            if item_data.is_valid():
-                data["items"].append(item_data)
+        data = {}
+        data["items"] = self.__non_empty(
+            map(lambda item: ItemAdapter(item).get_adapted_data(), items)
+        )
         return data
+
+    def __non_empty(self, items):
+        return list(filter(None, items))

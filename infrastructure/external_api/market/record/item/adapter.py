@@ -1,8 +1,9 @@
 from infrastructure.built_in.adapter.date_time import DateTime
 from infrastructure.third_party.adapter.numpy_utils import not_a_number
+from infrastructure.external_api.market.record.interface import ItemAdapterInterface
 
 
-class ItemAdapter:
+class ItemAdapter(ItemAdapterInterface):
     def __init__(self, record):
         self.__record = record
 
@@ -28,10 +29,10 @@ class ItemAdapter:
             "ex_offered_lay_price": self.__get_ex_ex_offered_lay_price(),
         }
 
-    def get(self, key):
-        return self.__data.get(key)
+    def get_adapted_data(self):
+        return self.__data if self.__is_valid_item() else {}
 
-    def is_valid(self):
+    def __is_valid_item(self):
         return True if self.__id else False
 
     def __get_removal_date(self):
@@ -45,7 +46,9 @@ class ItemAdapter:
 
     def __set_sp_back_price(self):
         price = self.__sp.get("nearPrice")
-        self.__sp_back_price = price if self.__is_valid(price) else not_a_number()
+        self.__sp_back_price = (
+            price if self.__is_valid_price(price=price) else not_a_number()
+        )
         return None
 
     def __get_sp_lay(self):
@@ -129,7 +132,7 @@ class ItemAdapter:
         return value or default
 
     def __calc_lay_price(self, price):
-        return 1 / (1 - (1 / price)) if self.__is_valid(price) else not_a_number()
+        return 1 / (1 - (1 / price)) if self.__is_valid_price(price) else not_a_number()
 
-    def __is_valid(self, price):
+    def __is_valid_price(self, price):
         return True if type(price) is float and price > 0 else False

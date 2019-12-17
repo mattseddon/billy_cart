@@ -3,7 +3,7 @@ from app.market.model.handler import ModelHandler
 from app.market.orders.handler import OrdersHandler
 
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
-from infrastructure.external_api.market.adapter.record import RecordAdapter
+from infrastructure.external_api.market.record.adapter import RecordAdapter
 
 from infrastructure.third_party.adapter.data_container import DataContainer
 from infrastructure.third_party.adapter.stats_model import WeightedLinearRegression
