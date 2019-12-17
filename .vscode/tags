@@ -15,9 +15,6 @@ BlockingScheduler	../data/scheduleModelRuns.py	/^from apscheduler.schedulers.blo
 BlockingScheduler	../data/v2/liveTest_v2.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:1
 BlockingScheduler	../data/v3/liveTest_v3.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:1
 BlockingScheduler	../data/v4/liveTest_v4.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:1
-CompositionalDataHandler	../app/market/data/compositional_data/handler.py	/^class CompositionalDataHandler:$/;"	kind:class	line:1
-CompositionalDataHandler	../app/market/data/handler.py	/^from app.market.data.compositional_data.handler import CompositionalDataHandler$/;"	kind:namespace	line:1
-CompositionalDataHandler	../tests/app/market/data/compositional_data/handler_test.py	/^from app.market.data.compositional_data.handler import CompositionalDataHandler$/;"	kind:namespace	line:2
 DataContainer	../app/market/handler.py	/^from infrastructure.third_party.adapter.data_container import DataContainer$/;"	kind:namespace	line:8
 DataContainer	../infrastructure/third_party/adapter/data_container.py	/^class DataContainer:$/;"	kind:class	line:4
 DataContainer	../tests/app/market/data/handler_test.py	/^from infrastructure.third_party.adapter.data_container import DataContainer$/;"	kind:namespace	line:3
@@ -44,7 +41,7 @@ ExternalAPIHandler	../infrastructure/external_api/schedule/handler.py	/^from inf
 ExternalAPIHandler	../tests/infrastructure/external_api/handler_test.py	/^from infrastructure.external_api.handler import ExternalAPIHandler$/;"	kind:namespace	line:2
 ExternalAPIMarketDataInterface	../app/market/data/interface.py	/^class ExternalAPIMarketDataInterface(metaclass=Interface):$/;"	kind:class	line:5
 ExternalAPIMarketDataInterface	../infrastructure/external_api/market/record/adapter.py	/^from app.market.data.interface import ExternalAPIMarketDataInterface$/;"	kind:namespace	line:1
-ExternalAPIMarketDataInterface	../tests/app/market/data/handler_test.py	/^from app.market.data.interface import ExternalAPIMarketDataInterface$/;"	kind:namespace	line:258
+ExternalAPIMarketDataInterface	../tests/app/market/data/handler_test.py	/^from app.market.data.interface import ExternalAPIMarketDataInterface$/;"	kind:namespace	line:262
 ExternalAPIMarketDataInterface	../tests/app/market/data/interface_test.py	/^from app.market.data.interface import ExternalAPIMarketDataInterface$/;"	kind:namespace	line:2
 ExternalAPIMarketHandler	../app/market/handler.py	/^from infrastructure.external_api.market.handler import ExternalAPIMarketHandler$/;"	kind:namespace	line:5
 ExternalAPIMarketHandler	../infrastructure/external_api/market/handler.py	/^class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):$/;"	kind:class	line:5
@@ -58,13 +55,15 @@ ExternalAPIScheduleHandler	../tests/infrastructure/external_api/schedule/handler
 ExternalAPIScheduleInterface	../app/schedule/interface.py	/^class ExternalAPIScheduleInterface(metaclass=SingletonInterfaceMixin):$/;"	kind:class	line:10
 ExternalAPIScheduleInterface	../infrastructure/external_api/schedule/handler.py	/^from app.schedule.interface import ExternalAPIScheduleInterface$/;"	kind:namespace	line:2
 ExternalAPIScheduleInterface	../tests/app/schedule/interface_test.py	/^from app.schedule.interface import ExternalAPIScheduleInterface$/;"	kind:namespace	line:2
-FakeAdapter	../tests/app/market/data/handler_test.py	/^class FakeAdapter(ExternalAPIMarketDataInterface):$/;"	kind:class	line:261
+FakeAdapter	../tests/app/market/data/handler_test.py	/^class FakeAdapter(ExternalAPIMarketDataInterface):$/;"	kind:class	line:265
 FileHandler	../infrastructure/storage/handler.py	/^class FileHandler:$/;"	kind:class	line:10
 FileHandler	../tests/app/market/data/handler_test.py	/^from infrastructure.storage.handler import FileHandler$/;"	kind:namespace	line:4
 FileHandler	../tests/infrastructure/storage/handler_test.py	/^from infrastructure.storage.handler import FileHandler$/;"	kind:namespace	line:2
-GIVEN	../tests/app/market/data/compositional_data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 GIVEN	../tests/app/market/data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 GIVEN	../tests/app/market/data/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/app/market/data/transform/price/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+GIVEN	../tests/app/market/data/transform/probability/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
+GIVEN	../tests/app/market/data/utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
 GIVEN	../tests/app/market/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
 GIVEN	../tests/app/market/model/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, lists_are_equal$/;"	kind:namespace	line:1
 GIVEN	../tests/app/market/model/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
@@ -111,6 +110,12 @@ ModelHandler	../app/market/model/handler.py	/^class ModelHandler:$/;"	kind:class
 ModelHandler	../tests/app/market/model/handler_test.py	/^from app.market.model.handler import ModelHandler$/;"	kind:namespace	line:2
 OrdersHandler	../app/market/handler.py	/^from app.market.orders.handler import OrdersHandler$/;"	kind:namespace	line:3
 OrdersHandler	../app/market/orders/handler.py	/^class OrdersHandler:$/;"	kind:class	line:1
+PriceHandler	../app/market/data/transform/handler.py	/^from app.market.data.transform.price.handler import PriceHandler$/;"	kind:namespace	line:2
+PriceHandler	../app/market/data/transform/price/handler.py	/^class PriceHandler:$/;"	kind:class	line:4
+PriceHandler	../tests/app/market/data/transform/price/handler_test.py	/^from app.market.data.transform.price.handler import PriceHandler$/;"	kind:namespace	line:2
+ProbabilityHandler	../app/market/data/transform/handler.py	/^from app.market.data.transform.probability.handler import ProbabilityHandler$/;"	kind:namespace	line:1
+ProbabilityHandler	../app/market/data/transform/probability/handler.py	/^class ProbabilityHandler:$/;"	kind:class	line:4
+ProbabilityHandler	../tests/app/market/data/transform/probability/handler_test.py	/^from app.market.data.transform.probability.handler import ProbabilityHandler$/;"	kind:namespace	line:2
 RecordAdapter	../app/market/handler.py	/^from infrastructure.external_api.market.record.adapter import RecordAdapter$/;"	kind:namespace	line:6
 RecordAdapter	../infrastructure/external_api/market/record/adapter.py	/^class RecordAdapter(ExternalAPIMarketDataInterface):$/;"	kind:class	line:6
 RecordAdapter	../tests/app/market/data/handler_test.py	/^from infrastructure.external_api.market.record.adapter import RecordAdapter$/;"	kind:namespace	line:5
@@ -119,9 +124,11 @@ Request	../infrastructure/built_in/adapter/request.py	/^from urllib.request impo
 Singleton	../app/schedule/interface.py	/^from app.singleton import Singleton$/;"	kind:namespace	line:2
 Singleton	../app/singleton.py	/^class Singleton(AbstractBaseMetaclass):$/;"	kind:class	line:5
 SingletonInterfaceMixin	../app/schedule/interface.py	/^class SingletonInterfaceMixin(Singleton, Interface):$/;"	kind:class	line:6
-THEN	../tests/app/market/data/compositional_data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 THEN	../tests/app/market/data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 THEN	../tests/app/market/data/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/app/market/data/transform/price/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+THEN	../tests/app/market/data/transform/probability/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
+THEN	../tests/app/market/data/utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
 THEN	../tests/app/market/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
 THEN	../tests/app/market/model/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, lists_are_equal$/;"	kind:namespace	line:1
 THEN	../tests/app/market/model/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
@@ -143,6 +150,8 @@ THEN	../tests/infrastructure/third_party/adapter/data_container_test.py	/^from t
 THEN	../tests/infrastructure/third_party/adapter/numpy_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 THEN	../tests/infrastructure/third_party/adapter/stats_model_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 THEN	../tests/utils.py	/^def THEN(str):$/;"	kind:function	line:19
+TransformHandler	../app/market/data/handler.py	/^from app.market.data.transform.handler import TransformHandler$/;"	kind:namespace	line:1
+TransformHandler	../app/market/data/transform/handler.py	/^class TransformHandler:$/;"	kind:class	line:5
 URLError	../infrastructure/built_in/adapter/request.py	/^from urllib.error import URLError$/;"	kind:namespace	line:1
 URLError	../tests/infrastructure/built_in/adapter/request_test.py	/^from urllib.error import URLError$/;"	kind:namespace	line:9
 URLRequest	../infrastructure/built_in/adapter/request.py	/^class URLRequest:$/;"	kind:class	line:29
@@ -152,9 +161,11 @@ UTCMinutesFromNow	../data/modelRunner.py	/^from dateHelpers import utc_seconds_b
 UTCNormalFormat	../data/billyCart.py	/^from app.shared import UTCNormalFormat, UTCBfFormat, betfairExchangeURL, ordersFile$/;"	kind:namespace	line:12
 UTCNormalFormat	../data/marketExtractRunner.py	/^from shared import UTCNormalFormat, UTCBfFormat$/;"	kind:namespace	line:6
 UTCNormalFormat	../data/modelRunner.py	/^from shared import UTCNormalFormat, timeFormat$/;"	kind:namespace	line:2
-WHEN	../tests/app/market/data/compositional_data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 WHEN	../tests/app/market/data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 WHEN	../tests/app/market/data/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/app/market/data/transform/price/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
+WHEN	../tests/app/market/data/transform/probability/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
+WHEN	../tests/app/market/data/utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
 WHEN	../tests/app/market/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
 WHEN	../tests/app/market/model/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, lists_are_equal$/;"	kind:namespace	line:1
 WHEN	../tests/app/market/model/interface_test.py	/^from tests.utils import GIVEN, WHEN, THEN$/;"	kind:namespace	line:1
@@ -185,35 +196,38 @@ WeightedLinearRegression	../tests/infrastructure/third_party/adapter/stats_model
 WeightedLinearRegressionInterface	../app/market/model/interface.py	/^class WeightedLinearRegressionInterface(metaclass=Interface):$/;"	kind:class	line:5
 WeightedLinearRegressionInterface	../infrastructure/third_party/adapter/stats_model.py	/^from app.market.model.interface import WeightedLinearRegressionInterface$/;"	kind:namespace	line:1
 WeightedLinearRegressionInterface	../tests/app/market/model/interface_test.py	/^from app.market.model.interface import WeightedLinearRegressionInterface$/;"	kind:namespace	line:2
+__add_combined_back_size	../app/market/data/transform/handler.py	/^    def __add_combined_back_size(self):$/;"	kind:member	line:47
+__add_compositional_data	../app/market/data/transform/handler.py	/^    def __add_compositional_data(self, name):$/;"	kind:member	line:63
+__add_compositional_ex_data	../app/market/data/transform/handler.py	/^    def __add_compositional_ex_data(self):$/;"	kind:member	line:59
+__add_compositional_price	../app/market/data/transform/handler.py	/^    def __add_compositional_price(self, item):$/;"	kind:member	line:120
+__add_compositional_sp_data	../app/market/data/transform/handler.py	/^    def __add_compositional_sp_data(self):$/;"	kind:member	line:55
+__add_default_data	../app/market/data/transform/handler.py	/^    def __add_default_data(self):$/;"	kind:member	line:23
 __add_new_line	../infrastructure/storage/handler.py	/^    def __add_new_line(self, file):$/;"	kind:member	line:36
 __add_path_to	../infrastructure/storage/handler.py	/^    def __add_path_to(self, file):$/;"	kind:member	line:44
 __add_to	../infrastructure/built_in/adapter/date_time.py	/^    def __add_to(date_time, minutes=0, seconds=0):$/;"	kind:member	line:77
 __add_to_date_time	../infrastructure/built_in/adapter/date_time.py	/^    def __add_to_date_time(self, minutes=0, seconds=0):$/;"	kind:member	line:71
-__calc_adjusted_values	../app/market/data/compositional_data/handler.py	/^    def __calc_adjusted_values(self, item):$/;"	kind:member	line:26
 __calc_back_size	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __calc_back_size(item_data):$/;"	kind:function	line:249
-__calc_comission_percentage	../app/market/data/compositional_data/handler.py	/^    def __calc_comission_percentage(self, discount_rate=0):$/;"	kind:member	line:54
-__calc_comission_percentage	../app/market/orders/handler.py	/^    def __calc_comission_percentage(self, discount_rate=0):$/;"	kind:member	line:61
-__calc_compositional_data	../tests/app/market/data/compositional_data/handler_test.py	/^def __calc_compositional_data(items, correct_probability):$/;"	kind:function	line:114
-__calc_compositional_values	../app/market/data/compositional_data/handler.py	/^    def __calc_compositional_values(self, item):$/;"	kind:member	line:33
+__calc_comission_percentage	../app/market/data/transform/price/handler.py	/^    def __calc_comission_percentage(self):$/;"	kind:member	line:32
+__calc_compositional_probabilities	../tests/app/market/data/transform/probability/handler_test.py	/^def __calc_compositional_probabilities(items, correct_probability):$/;"	kind:function	line:127
+__calc_compositional_probability	../app/market/data/transform/probability/handler.py	/^    def __calc_compositional_probability(self, item):$/;"	kind:member	line:27
 __calc_ex_average_back_price	../infrastructure/external_api/market/record/item/adapter.py	/^    def __calc_ex_average_back_price(self):$/;"	kind:member	line:65
 __calc_ex_average_back_price	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __calc_ex_average_back_price(item_data):$/;"	kind:function	line:242
 __calc_ex_average_lay_price	../infrastructure/external_api/market/record/item/adapter.py	/^    def __calc_ex_average_lay_price(self):$/;"	kind:member	line:77
 __calc_ex_average_lay_price	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __calc_ex_average_lay_price(item_data):$/;"	kind:function	line:253
+__calc_initial_probability	../app/market/data/transform/handler.py	/^    def __calc_initial_probability(self, item, price_name):$/;"	kind:member	line:110
 __calc_lay_price	../infrastructure/external_api/market/record/item/adapter.py	/^    def __calc_lay_price(self, price):$/;"	kind:member	line:134
 __calc_lay_price	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __calc_lay_price(price):$/;"	kind:function	line:238
 __calc_lay_size	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __calc_lay_size(item_data):$/;"	kind:function	line:262
 __calc_log_weights	../infrastructure/third_party/adapter/stats_model.py	/^    def __calc_log_weights(self, weights):$/;"	kind:member	line:42
-__calc_probability	../app/market/data/compositional_data/handler.py	/^    def __calc_probability(self, price):$/;"	kind:member	line:44
-__calc_return	../app/market/data/compositional_data/handler.py	/^    def __calc_return(self, price):$/;"	kind:member	line:51
-__calc_return	../app/market/orders/handler.py	/^    def __calc_return(self, price):$/;"	kind:member	line:58
-__calc_risk_percentage	../app/market/orders/handler.py	/^    def __calc_risk_percentage(self, probability, price, kf=1, cap=0.05):$/;"	kind:member	line:64
+__calc_profit	../app/market/data/transform/price/handler.py	/^    def __calc_profit(self, price):$/;"	kind:member	line:26
+__calc_risk_percentage	../app/market/orders/handler.py	/^    def __calc_risk_percentage(self, probability, price, kf=1, cap=0.05):$/;"	kind:member	line:54
 __calc_sp_back_size	../infrastructure/external_api/market/record/item/adapter.py	/^    def __calc_sp_back_size(self):$/;"	kind:member	line:96
 __calc_sp_back_size	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __calc_sp_back_size(item_data):$/;"	kind:function	line:283
 __calc_sp_lay_size	../infrastructure/external_api/market/record/item/adapter.py	/^    def __calc_sp_lay_size(self):$/;"	kind:member	line:110
 __calc_sp_lay_size	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __calc_sp_lay_size(item_data):$/;"	kind:function	line:287
-__calc_total_return	../app/market/data/compositional_data/handler.py	/^    def __calc_total_return(self, price):$/;"	kind:member	line:47
 __calc_valid_records	../infrastructure/third_party/adapter/stats_model.py	/^    def __calc_valid_records(self):$/;"	kind:member	line:48
 __call__	../app/singleton.py	/^    def __call__(cls, *args, **kwargs):$/;"	kind:member	line:8
+__can_divide	../app/market/data/utils.py	/^def __can_divide(value):$/;"	kind:function	line:12
 __confirm_path_removed	../infrastructure/built_in/adapter/os_utils.py	/^def __confirm_path_removed(path):$/;"	kind:function	line:44
 __convert_from_string	../infrastructure/built_in/adapter/date_time.py	/^    def __convert_from_string(self, format):$/;"	kind:member	line:87
 __convert_from_utc_api_string	../infrastructure/built_in/adapter/date_time.py	/^    def __convert_from_utc_api_string(self):$/;"	kind:member	line:84
@@ -224,9 +238,9 @@ __convert_to_string	../infrastructure/built_in/adapter/date_time.py	/^    def __
 __convert_to_utc_string	../infrastructure/built_in/adapter/date_time.py	/^    def __convert_to_utc_string(date_time):$/;"	kind:member	line:91
 __file_exists	../infrastructure/storage/handler.py	/^    def __file_exists(self):$/;"	kind:member	line:47
 __from_zone	../infrastructure/built_in/adapter/date_time.py	/^    __from_zone = tz.gettz("UTC")$/;"	kind:variable	line:10
-__get_column_list	../app/market/data/handler.py	/^    def __get_column_list(self):$/;"	kind:member	line:121
-__get_composite_column_name	../app/market/data/handler.py	/^    def __get_composite_column_name(self, variable, item):$/;"	kind:member	line:136
-__get_compositional_data	../app/market/data/handler.py	/^    def __get_compositional_data(self, items, price_name, correct_probability=1):$/;"	kind:member	line:139
+__get_column_list	../app/market/data/transform/handler.py	/^    def __get_column_list(self):$/;"	kind:member	line:31
+__get_composite_column_name	../app/market/data/transform/handler.py	/^    def __get_composite_column_name(self, variable, item):$/;"	kind:member	line:81
+__get_compositional_probabilities	../app/market/data/transform/handler.py	/^    def __get_compositional_probabilities($/;"	kind:member	line:84
 __get_data	../tests/infrastructure/external_api/market/record/adapter_test.py	/^def __get_data():$/;"	kind:function	line:65
 __get_data	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_data(sp=__get_sp_data(), ex=__get_ex_data()):$/;"	kind:function	line:205
 __get_ex_data	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_ex_data():$/;"	kind:function	line:167
@@ -236,20 +250,20 @@ __get_ex_offered_back_price	../tests/infrastructure/external_api/market/record/i
 __get_ex_offered_lay_price	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_ex_offered_lay_price(item_data):$/;"	kind:function	line:279
 __get_id	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_id(item_data):$/;"	kind:function	line:230
 __get_inf_sp	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_inf_sp():$/;"	kind:function	line:196
-__get_item_model_data	../app/market/data/handler.py	/^    def __get_item_model_data(self, id):$/;"	kind:member	line:146
+__get_item_model_data	../app/market/data/handler.py	/^    def __get_item_model_data(self, id):$/;"	kind:member	line:56
 __get_items	../infrastructure/external_api/market/record/adapter.py	/^    def __get_items(self):$/;"	kind:member	line:33
 __get_market_back_size	../app/market/model/handler.py	/^    def __get_market_back_size(self, items):$/;"	kind:member	line:130
 __get_market_info	../infrastructure/external_api/market/record/adapter.py	/^    def __get_market_info(self):$/;"	kind:member	line:37
-__get_number_columns	../tests/app/market/data/handler_test.py	/^def __get_number_columns(number_runners):$/;"	kind:function	line:244
-__get_number_columns_per_runner	../tests/app/market/data/handler_test.py	/^def __get_number_columns_per_runner():$/;"	kind:function	line:250
-__get_number_overarching_columns	../tests/app/market/data/handler_test.py	/^def __get_number_overarching_columns():$/;"	kind:function	line:254
-__get_number_runners	../tests/app/market/data/handler_test.py	/^def __get_number_runners(data):$/;"	kind:function	line:236
+__get_number_columns	../tests/app/market/data/handler_test.py	/^def __get_number_columns(number_runners):$/;"	kind:function	line:248
+__get_number_columns_per_runner	../tests/app/market/data/handler_test.py	/^def __get_number_columns_per_runner():$/;"	kind:function	line:254
+__get_number_overarching_columns	../tests/app/market/data/handler_test.py	/^def __get_number_overarching_columns():$/;"	kind:function	line:258
+__get_number_runners	../tests/app/market/data/handler_test.py	/^def __get_number_runners(data):$/;"	kind:function	line:240
 __get_order_str	../infrastructure/external_api/market/handler.py	/^    def __get_order_str(self, order):$/;"	kind:member	line:57
 __get_orders_str	../infrastructure/external_api/market/handler.py	/^    def __get_orders_str(self, orders):$/;"	kind:member	line:53
 __get_removal_date	../infrastructure/external_api/market/record/item/adapter.py	/^    def __get_removal_date(self):$/;"	kind:member	line:38
 __get_removed	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_removed():$/;"	kind:function	line:218
 __get_response	../infrastructure/built_in/adapter/request.py	/^    def __get_response(self):$/;"	kind:member	line:45
-__get_runners	../tests/app/market/data/handler_test.py	/^def __get_runners(data):$/;"	kind:function	line:240
+__get_runners	../tests/app/market/data/handler_test.py	/^def __get_runners(data):$/;"	kind:function	line:244
 __get_sp_back	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_sp_back(item_data):$/;"	kind:function	line:234
 __get_sp_data	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def __get_sp_data():$/;"	kind:function	line:155
 __get_sp_lay	../infrastructure/external_api/market/record/item/adapter.py	/^    def __get_sp_lay(self):$/;"	kind:member	line:54
@@ -259,8 +273,10 @@ __get_traded_volume	../tests/infrastructure/external_api/market/record/item/adap
 __get_utc_now	../infrastructure/built_in/adapter/date_time.py	/^    def __get_utc_now():$/;"	kind:member	line:62
 __get_value_or_default	../infrastructure/external_api/market/record/item/adapter.py	/^    def __get_value_or_default(self, value, default={}):$/;"	kind:member	line:131
 __init__	../app/interface.py	/^    def __init__(self, name, bases, namespace):$/;"	kind:member	line:5
-__init__	../app/market/data/compositional_data/handler.py	/^    def __init__(self, items, price_name, correct_probability):$/;"	kind:member	line:2
 __init__	../app/market/data/handler.py	/^    def __init__(self, adapter, container):$/;"	kind:member	line:5
+__init__	../app/market/data/transform/handler.py	/^    def __init__(self):$/;"	kind:member	line:6
+__init__	../app/market/data/transform/price/handler.py	/^    def __init__(self, discount_rate=0):$/;"	kind:member	line:5
+__init__	../app/market/data/transform/probability/handler.py	/^    def __init__(self, items, name, correct_probability):$/;"	kind:member	line:5
 __init__	../app/market/handler.py	/^    def __init__($/;"	kind:member	line:13
 __init__	../app/market/model/handler.py	/^    def __init__(self, wls_model, event_country="AU"):$/;"	kind:member	line:6
 __init__	../app/market/orders/handler.py	/^    def __init__(self, bank=5000):$/;"	kind:member	line:2
@@ -274,7 +290,9 @@ __init__	../infrastructure/storage/handler.py	/^    def __init__(self, directory
 __init__	../infrastructure/third_party/adapter/data_container.py	/^    def __init__(self, data=None):$/;"	kind:member	line:5
 __init__.py	../app/__init__.py	1;"	kind:file	line:1
 __init__.py	../app/market/data/__init__.py	1;"	kind:file	line:1
-__init__.py	../app/market/data/compositional_data/__init__.py	1;"	kind:file	line:1
+__init__.py	../app/market/data/transform/__init__.py	1;"	kind:file	line:1
+__init__.py	../app/market/data/transform/price/__init__.py	1;"	kind:file	line:1
+__init__.py	../app/market/data/transform/probability/__init__.py	1;"	kind:file	line:1
 __init__.py	../app/market/model/__init__.py	1;"	kind:file	line:1
 __init__.py	../app/market/orders/__init__.py	1;"	kind:file	line:1
 __init__.py	../app/schedule/__init__.py	1;"	kind:file	line:1
@@ -290,7 +308,9 @@ __init__.py	../tests/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/app/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/app/market/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/app/market/data/__init__.py	1;"	kind:file	line:1
-__init__.py	../tests/app/market/data/compositional_data/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/app/market/data/transform/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/app/market/data/transform/price/__init__.py	1;"	kind:file	line:1
+__init__.py	../tests/app/market/data/transform/probability/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/app/market/model/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/app/schedule/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/infrastructure/__init__.py	1;"	kind:file	line:1
@@ -305,6 +325,7 @@ __init__.py	../tests/infrastructure/storage/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/infrastructure/third_party/__init__.py	1;"	kind:file	line:1
 __init__.py	../tests/infrastructure/third_party/adapter/__init__.py	1;"	kind:file	line:1
 __inputs_lengths_are_valid	../infrastructure/third_party/adapter/stats_model.py	/^    def __inputs_lengths_are_valid(self):$/;"	kind:member	line:45
+__invert	../app/market/data/transform/price/handler.py	/^    def __invert(self, value):$/;"	kind:member	line:23
 __is_ok	../infrastructure/built_in/adapter/request.py	/^    def __is_ok(self):$/;"	kind:member	line:52
 __is_ok	../infrastructure/built_in/adapter/request.py	/^def __is_ok(response):$/;"	kind:function	line:17
 __is_valid	../infrastructure/external_api/market/handler.py	/^    def __is_valid(self, order):$/;"	kind:member	line:41
@@ -314,11 +335,10 @@ __is_valid_price	../infrastructure/external_api/market/record/item/adapter.py	/^
 __local_hms_seconds_before	../infrastructure/built_in/adapter/date_time.py	/^    def __local_hms_seconds_before(self, seconds):$/;"	kind:member	line:65
 __make_datetime	../infrastructure/built_in/adapter/date_time.py	/^    def __make_datetime(self):$/;"	kind:member	line:46
 __make_directory	../infrastructure/storage/handler.py	/^    def __make_directory(self):$/;"	kind:member	line:40
-__make_initial_transformed_dict	../app/market/data/handler.py	/^    def __make_initial_transformed_dict(self, items):$/;"	kind:member	line:103
 __make_test_directory	../tests/utils.py	/^def __make_test_directory():$/;"	kind:function	line:46
-__make_transformed_dict	../app/market/data/handler.py	/^    def __make_transformed_dict(self, out_column, items, in_column=None):$/;"	kind:member	line:111
 __new__	../app/interface.py	/^    def __new__(metaclass, name, bases, namespace):$/;"	kind:member	line:17
 __non_empty	../infrastructure/external_api/market/record/adapter.py	/^    def __non_empty(self, items):$/;"	kind:member	line:48
+__percentage_after_commission	../app/market/data/transform/price/handler.py	/^    def __percentage_after_commission(self):$/;"	kind:member	line:29
 __process	../infrastructure/external_api/market/record/adapter.py	/^    def __process(self, items):$/;"	kind:member	line:41
 __run_model	../infrastructure/third_party/adapter/stats_model.py	/^    def __run_model(self):$/;"	kind:member	line:29
 __set_ex_back_size	../infrastructure/external_api/market/record/item/adapter.py	/^    def __set_ex_back_size(self):$/;"	kind:member	line:92
@@ -337,9 +357,9 @@ __utc_format	../infrastructure/built_in/adapter/date_time.py	/^    __utc_format 
 __utc_minutes_from_now	../infrastructure/built_in/adapter/date_time.py	/^    def __utc_minutes_from_now(minutes):$/;"	kind:member	line:54
 __write_type	../infrastructure/storage/handler.py	/^    def __write_type(self):$/;"	kind:member	line:33
 _add_ok_status	../infrastructure/built_in/adapter/request.py	/^def _add_ok_status(dict):$/;"	kind:function	line:56
-_calc_total_return	../app/market/orders/handler.py	/^    def _calc_total_return(self, price):$/;"	kind:member	line:54
 _call_api	../infrastructure/external_api/handler.py	/^    def _call_api(self, url, request):$/;"	kind:member	line:44
 _call_exchange	../infrastructure/external_api/handler.py	/^    def _call_exchange(self, request):$/;"	kind:member	line:40
+_extract	../app/market/data/handler.py	/^    def _extract(self, data):$/;"	kind:member	line:45
 _get_abstract_methods	../app/interface.py	/^    def _get_abstract_methods(namespace):$/;"	kind:member	line:23
 _get_all_methods	../app/interface.py	/^    def _get_all_methods(namespace):$/;"	kind:member	line:26
 _get_existing_order_risk_percentages	../app/market/orders/handler.py	/^    def _get_existing_order_risk_percentages(self):$/;"	kind:member	line:51
@@ -355,7 +375,7 @@ _meets_high_back_size_threshold	../app/market/model/handler.py	/^    def _meets_
 _meets_low_back_size_threshold	../app/market/model/handler.py	/^    def _meets_low_back_size_threshold(self, item):$/;"	kind:member	line:110
 _meets_wlr_criteria	../app/market/model/handler.py	/^    def _meets_wlr_criteria(self, item):$/;"	kind:member	line:81
 _meets_wlr_threshold	../app/market/model/handler.py	/^    def _meets_wlr_threshold(self, item):$/;"	kind:member	line:96
-_transform	../app/market/data/handler.py	/^    def _transform(self, data):$/;"	kind:member	line:43
+_transform	../app/market/data/handler.py	/^    def _transform(self, extracted_data):$/;"	kind:member	line:49
 _try_get_data	../infrastructure/external_api/handler.py	/^    def _try_get_data(self, dict):$/;"	kind:member	line:49
 _validate_orders	../infrastructure/external_api/market/handler.py	/^    def _validate_orders(self, orders):$/;"	kind:member	line:37
 abstract_base.py	../infrastructure/class_construction/abstract_base.py	1;"	kind:file	line:1
@@ -369,13 +389,13 @@ adapter.py	../infrastructure/external_api/market/record/adapter.py	1;"	kind:file
 adapter.py	../infrastructure/external_api/market/record/item/adapter.py	1;"	kind:file	line:1
 adapter_test.py	../tests/infrastructure/external_api/market/record/adapter_test.py	1;"	kind:file	line:1
 adapter_test.py	../tests/infrastructure/external_api/market/record/item/adapter_test.py	1;"	kind:file	line:1
-add	../app/market/data/handler.py	/^    def add(self, data):$/;"	kind:member	line:10
+add	../app/market/data/handler.py	/^    def add(self, data):$/;"	kind:member	line:11
 add_constant	../infrastructure/third_party/adapter/stats_model.py	/^from statsmodels.api import WLS, add_constant$/;"	kind:namespace	line:2
 add_dict	../infrastructure/storage/handler.py	/^    def add_dict(self, dict):$/;"	kind:member	line:26
 add_rows	../infrastructure/third_party/adapter/data_container.py	/^    def add_rows(self, container):$/;"	kind:member	line:14
 all_the_methods	../app/market/data/interface.py	/^    def all_the_methods(self):$/;"	kind:member	line:13
-almost_equal	../tests/app/market/data/compositional_data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 almost_equal	../tests/app/market/data/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
+almost_equal	../tests/app/market/data/transform/probability/handler_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 almost_equal	../tests/infrastructure/third_party/adapter/numpy_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 almost_equal	../tests/infrastructure/third_party/adapter/stats_model_test.py	/^from tests.utils import GIVEN, WHEN, THEN, almost_equal$/;"	kind:namespace	line:1
 almost_equal	../tests/utils.py	/^def almost_equal(first, second):$/;"	kind:function	line:42
@@ -404,7 +424,10 @@ calcWAC	../data/billyCart.py	/^def calcWAC(dr):$/;"	kind:function	line:504
 calcWPFO	../data/billyCart.py	/^def calcWPFO(odds):$/;"	kind:function	line:512
 calcWPFO	../data/v3/liveTest_v3.py	/^def calcWPFO(odds):$/;"	kind:function	line:55
 calcWPFO	../data/v4/liveTest_v4.py	/^def calcWPFO(odds):$/;"	kind:function	line:55
-calc_compositional_data	../app/market/data/compositional_data/handler.py	/^    def calc_compositional_data(self):$/;"	kind:member	line:7
+calc_compositional_probabilities	../app/market/data/transform/probability/handler.py	/^    def calc_compositional_probabilities(self):$/;"	kind:member	line:10
+calc_discounted_probability	../app/market/data/transform/price/handler.py	/^    def calc_discounted_probability(self, price):$/;"	kind:member	line:11
+calc_price	../app/market/data/transform/price/handler.py	/^    def calc_price(self, probability):$/;"	kind:member	line:20
+calc_probability	../app/market/data/transform/price/handler.py	/^    def calc_probability(self, price):$/;"	kind:member	line:17
 calculate_log	../app/market/model/handler.py	/^from infrastructure.third_party.adapter.numpy_utils import calculate_log, not_a_number$/;"	kind:namespace	line:1
 calculate_log	../infrastructure/third_party/adapter/numpy_utils.py	/^def calculate_log(expression):$/;"	kind:function	line:4
 calculate_log	../tests/app/market/model/handler_test.py	/^from infrastructure.third_party.adapter.numpy_utils import is_not_a_number, calculate_log$/;"	kind:namespace	line:4
@@ -419,7 +442,7 @@ cleanup_test_file	../tests/infrastructure/storage/handler_test.py	/^from tests.u
 cleanup_test_file	../tests/utils.py	/^def cleanup_test_file(name):$/;"	kind:function	line:52
 convert	../app/market/data/interface.py	/^    def convert(self):$/;"	kind:member	line:7
 convert	../infrastructure/external_api/market/record/adapter.py	/^    def convert(self, raw_record):$/;"	kind:member	line:7
-convert	../tests/app/market/data/handler_test.py	/^    def convert(self, data):$/;"	kind:member	line:262
+convert	../tests/app/market/data/handler_test.py	/^    def convert(self, data):$/;"	kind:member	line:266
 convert	../tests/app/market/data/interface_test.py	/^        def convert(self):$/;"	kind:member	line:22
 copy_utils.py	../infrastructure/built_in/adapter/copy_utils.py	1;"	kind:file	line:1
 copy_utils_test.py	../tests/infrastructure/built_in/adapter/copy_utils_test.py	1;"	kind:file	line:1
@@ -518,14 +541,14 @@ get_login_url	../private/details.py	/^def get_login_url():$/;"	kind:function	lin
 get_market	../app/market/interface.py	/^    def get_market(self):$/;"	kind:member	line:7
 get_market	../infrastructure/external_api/market/handler.py	/^    def get_market(self):$/;"	kind:member	line:11
 get_market	../tests/app/market/interface_test.py	/^        def get_market(self):$/;"	kind:member	line:22
-get_model_data	../app/market/data/handler.py	/^    def get_model_data(self):$/;"	kind:member	line:27
+get_model_data	../app/market/data/handler.py	/^    def get_model_data(self):$/;"	kind:member	line:29
 get_model_data	../tests/app/market/model/handler_test.py	/^def get_model_data():$/;"	kind:function	line:66
 get_model_data_item	../tests/app/market/model/handler_test.py	/^def get_model_data_item(id):$/;"	kind:function	line:1121
 get_new_orders	../app/market/orders/handler.py	/^    def get_new_orders(self, wps):$/;"	kind:member	line:11
 get_newline	../infrastructure/built_in/adapter/os_utils.py	/^def get_newline():$/;"	kind:function	line:13
 get_newline	../tests/infrastructure/storage/handler_test.py	/^from infrastructure.built_in.adapter.os_utils import path_exists, get_newline$/;"	kind:namespace	line:3
 get_ok_status	../infrastructure/built_in/adapter/request.py	/^def get_ok_status():$/;"	kind:function	line:61
-get_probability	../app/market/data/handler.py	/^    def get_probability(self, id):$/;"	kind:member	line:36
+get_probability	../app/market/data/handler.py	/^    def get_probability(self, id):$/;"	kind:member	line:38
 get_results	../app/market/model/handler.py	/^    def get_results(self, items):$/;"	kind:member	line:10
 get_row_count	../infrastructure/third_party/adapter/data_container.py	/^    def get_row_count(self):$/;"	kind:member	line:35
 get_schedule	../app/schedule/interface.py	/^    def get_schedule(self):$/;"	kind:member	line:12
@@ -536,11 +559,13 @@ get_test_directory	../tests/utils.py	/^def get_test_directory():$/;"	kind:functi
 get_test_file_path	../tests/infrastructure/built_in/adapter/json_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_file$/;"	kind:namespace	line:1
 get_test_file_path	../tests/infrastructure/built_in/adapter/os_utils_test.py	/^from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_directory$/;"	kind:namespace	line:1
 get_test_file_path	../tests/utils.py	/^def get_test_file_path(name):$/;"	kind:function	line:32
-get_unique_ids	../app/market/data/handler.py	/^    def get_unique_ids(self):$/;"	kind:member	line:39
+get_unique_ids	../app/market/data/handler.py	/^    def get_unique_ids(self):$/;"	kind:member	line:41
 get_user_details	../private/details.py	/^def get_user_details():$/;"	kind:function	line:7
 get_utc_now	../infrastructure/built_in/adapter/date_time.py	/^    def get_utc_now():$/;"	kind:member	line:41
-handler.py	../app/market/data/compositional_data/handler.py	1;"	kind:file	line:1
 handler.py	../app/market/data/handler.py	1;"	kind:file	line:1
+handler.py	../app/market/data/transform/handler.py	1;"	kind:file	line:1
+handler.py	../app/market/data/transform/price/handler.py	1;"	kind:file	line:1
+handler.py	../app/market/data/transform/probability/handler.py	1;"	kind:file	line:1
 handler.py	../app/market/handler.py	1;"	kind:file	line:1
 handler.py	../app/market/model/handler.py	1;"	kind:file	line:1
 handler.py	../app/market/orders/handler.py	1;"	kind:file	line:1
@@ -548,8 +573,9 @@ handler.py	../infrastructure/external_api/handler.py	1;"	kind:file	line:1
 handler.py	../infrastructure/external_api/market/handler.py	1;"	kind:file	line:1
 handler.py	../infrastructure/external_api/schedule/handler.py	1;"	kind:file	line:1
 handler.py	../infrastructure/storage/handler.py	1;"	kind:file	line:1
-handler_test.py	../tests/app/market/data/compositional_data/handler_test.py	1;"	kind:file	line:1
 handler_test.py	../tests/app/market/data/handler_test.py	1;"	kind:file	line:1
+handler_test.py	../tests/app/market/data/transform/price/handler_test.py	1;"	kind:file	line:1
+handler_test.py	../tests/app/market/data/transform/probability/handler_test.py	1;"	kind:file	line:1
 handler_test.py	../tests/app/market/model/handler_test.py	1;"	kind:file	line:1
 handler_test.py	../tests/infrastructure/external_api/handler_test.py	1;"	kind:file	line:1
 handler_test.py	../tests/infrastructure/external_api/market/handler_test.py	1;"	kind:file	line:1
@@ -569,8 +595,14 @@ interface_test.py	../tests/infrastructure/external_api/market/record/interface_t
 io	../data/v2/liveTest_v2.py	/^import io$/;"	kind:namespace	line:10
 io	../data/v3/liveTest_v3.py	/^import io$/;"	kind:namespace	line:10
 io	../data/v4/liveTest_v4.py	/^import io$/;"	kind:namespace	line:10
+is_a_number	../app/market/data/transform/probability/handler.py	/^from app.market.data.utils import is_a_number$/;"	kind:namespace	line:1
+is_a_number	../app/market/data/utils.py	/^def is_a_number(value):$/;"	kind:function	line:4
+is_a_number	../tests/app/market/data/utils_test.py	/^from app.market.data.utils import is_a_number, try_divide$/;"	kind:namespace	line:2
 is_more_than_33_seconds_from_now	../infrastructure/built_in/adapter/date_time.py	/^    def is_more_than_33_seconds_from_now(self):$/;"	kind:member	line:25
+is_not_a_number	../app/market/data/utils.py	/^from infrastructure.third_party.adapter.numpy_utils import is_not_a_number, not_a_number$/;"	kind:namespace	line:1
 is_not_a_number	../infrastructure/third_party/adapter/numpy_utils.py	/^def is_not_a_number(var):$/;"	kind:function	line:12
+is_not_a_number	../tests/app/market/data/transform/probability/handler_test.py	/^from infrastructure.third_party.adapter.numpy_utils import not_a_number, is_not_a_number$/;"	kind:namespace	line:4
+is_not_a_number	../tests/app/market/data/utils_test.py	/^from infrastructure.third_party.adapter.numpy_utils import not_a_number, is_not_a_number$/;"	kind:namespace	line:3
 is_not_a_number	../tests/app/market/model/handler_test.py	/^from infrastructure.third_party.adapter.numpy_utils import is_not_a_number, calculate_log$/;"	kind:namespace	line:4
 is_not_a_number	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^from infrastructure.third_party.adapter.numpy_utils import is_not_a_number$/;"	kind:namespace	line:3
 is_not_a_number	../tests/infrastructure/third_party/adapter/stats_model_test.py	/^from infrastructure.third_party.adapter.numpy_utils import is_not_a_number, not_a_number$/;"	kind:namespace	line:3
@@ -609,7 +641,7 @@ login	../data/v3/liveTest_v3.py	/^def login():$/;"	kind:function	line:71
 login	../data/v4/liveTest_v4.py	/^def login():$/;"	kind:function	line:71
 make_copy	../app/market/model/handler.py	/^from infrastructure.built_in.adapter.copy_utils import make_copy$/;"	kind:namespace	line:2
 make_copy	../infrastructure/built_in/adapter/copy_utils.py	/^def make_copy(reference):$/;"	kind:function	line:4
-make_copy	../tests/app/market/data/compositional_data/handler_test.py	/^from infrastructure.built_in.adapter.copy_utils import make_copy$/;"	kind:namespace	line:3
+make_copy	../tests/app/market/data/transform/probability/handler_test.py	/^from infrastructure.built_in.adapter.copy_utils import make_copy$/;"	kind:namespace	line:3
 make_copy	../tests/infrastructure/built_in/adapter/copy_utils_test.py	/^from infrastructure.built_in.adapter.copy_utils import make_copy$/;"	kind:namespace	line:2
 make_dict	../infrastructure/built_in/adapter/json_utils.py	/^def make_dict(json_string):$/;"	kind:function	line:11
 make_dict	../infrastructure/built_in/adapter/request.py	/^from infrastructure.built_in.adapter.json_utils import make_dict$/;"	kind:namespace	line:4
@@ -633,9 +665,12 @@ modelRunner.py	../data/modelRunner.py	1;"	kind:file	line:1
 nan	../infrastructure/third_party/adapter/numpy_utils.py	/^from numpy import isnan, nan, log, nan_to_num$/;"	kind:namespace	line:1
 nan_to_num	../infrastructure/third_party/adapter/numpy_utils.py	/^from numpy import isnan, nan, log, nan_to_num$/;"	kind:namespace	line:1
 new	../infrastructure/third_party/adapter/data_container.py	/^    def new(self, data=None):$/;"	kind:member	line:11
+not_a_number	../app/market/data/utils.py	/^from infrastructure.third_party.adapter.numpy_utils import is_not_a_number, not_a_number$/;"	kind:namespace	line:1
 not_a_number	../app/market/model/handler.py	/^from infrastructure.third_party.adapter.numpy_utils import calculate_log, not_a_number$/;"	kind:namespace	line:1
 not_a_number	../infrastructure/external_api/market/record/item/adapter.py	/^from infrastructure.third_party.adapter.numpy_utils import not_a_number$/;"	kind:namespace	line:2
 not_a_number	../infrastructure/third_party/adapter/numpy_utils.py	/^def not_a_number():$/;"	kind:function	line:8
+not_a_number	../tests/app/market/data/transform/probability/handler_test.py	/^from infrastructure.third_party.adapter.numpy_utils import not_a_number, is_not_a_number$/;"	kind:namespace	line:4
+not_a_number	../tests/app/market/data/utils_test.py	/^from infrastructure.third_party.adapter.numpy_utils import not_a_number, is_not_a_number$/;"	kind:namespace	line:3
 not_a_number	../tests/infrastructure/third_party/adapter/stats_model_test.py	/^from infrastructure.third_party.adapter.numpy_utils import is_not_a_number, not_a_number$/;"	kind:namespace	line:3
 not_a_number_to_number	../infrastructure/third_party/adapter/numpy_utils.py	/^def not_a_number_to_number(var):$/;"	kind:function	line:16
 np	../data/billyCart.py	/^import numpy as np$/;"	kind:namespace	line:3
@@ -672,6 +707,7 @@ post_data	../infrastructure/external_api/schedule/handler.py	/^from infrastructu
 post_order	../app/market/interface.py	/^    def post_order(self):$/;"	kind:member	line:11
 post_order	../infrastructure/external_api/market/handler.py	/^    def post_order(self, orders):$/;"	kind:member	line:23
 post_order	../tests/app/market/interface_test.py	/^        def post_order(self):$/;"	kind:member	line:25
+process	../app/market/data/transform/handler.py	/^    def process(self, items):$/;"	kind:member	line:12
 process	../app/market/handler.py	/^    def process(self, data):$/;"	kind:member	line:35
 pth	../data/v2/liveTest_v2.py	/^pth      = 'D:\/Betfair\/liveTest\/data\/'$/;"	kind:variable	line:17
 pth	../data/v3/liveTest_v3.py	/^pth      = 'D:\/Betfair\/liveTest\/data\/'$/;"	kind:variable	line:17
@@ -688,6 +724,7 @@ regex_match	../infrastructure/built_in/adapter/date_time.py	/^from infrastructur
 regex_match	../infrastructure/built_in/adapter/re_utils.py	/^def regex_match(str,pattern):$/;"	kind:function	line:3
 regex_match	../tests/infrastructure/built_in/adapter/re_utils_test.py	/^from infrastructure.built_in.adapter.re_utils import regex_match$/;"	kind:namespace	line:2
 remove	../infrastructure/built_in/adapter/os_utils.py	/^from os import environ, linesep, makedirs, remove, rmdir$/;"	kind:namespace	line:1
+remove_commission	../app/market/data/transform/price/handler.py	/^    def remove_commission(self, price):$/;"	kind:member	line:14
 remove_directory	../infrastructure/built_in/adapter/os_utils.py	/^def remove_directory(path):$/;"	kind:function	line:23
 remove_file	../infrastructure/built_in/adapter/os_utils.py	/^def remove_file(path):$/;"	kind:function	line:29
 request.py	../infrastructure/built_in/adapter/request.py	1;"	kind:file	line:1
@@ -704,10 +741,12 @@ scheduler	../data/scheduleMarketExtracts.py	/^scheduler = BlockingScheduler()$/;
 scheduler	../data/scheduleModelRuns.py	/^scheduler = BlockingScheduler()$/;"	kind:variable	line:12
 seconds_in_a_day	../infrastructure/built_in/adapter/date_time.py	/^    def seconds_in_a_day():$/;"	kind:member	line:111
 set_column_group_name	../infrastructure/third_party/adapter/data_container.py	/^    def set_column_group_name(self, name=None, names=None, level=None):$/;"	kind:member	line:24
+set_discount_rate	../app/market/data/transform/price/handler.py	/^    def set_discount_rate(self, discount_rate):$/;"	kind:member	line:8
 set_environment_variable	../infrastructure/built_in/adapter/os_utils.py	/^def set_environment_variable(variable, value):$/;"	kind:function	line:39
 set_headers	../infrastructure/external_api/handler.py	/^    def set_headers(self):$/;"	kind:member	line:28
 set_index	../infrastructure/third_party/adapter/data_container.py	/^    def set_index(self, columns):$/;"	kind:member	line:41
-set_probability	../app/market/data/handler.py	/^    def set_probability(self, id, probability):$/;"	kind:member	line:32
+set_items	../app/market/data/transform/handler.py	/^    def set_items(self, items):$/;"	kind:member	line:9
+set_probability	../app/market/data/handler.py	/^    def set_probability(self, id, probability):$/;"	kind:member	line:34
 shared	../data/billyCart.py	/^import shared$/;"	kind:namespace	line:13
 shared	../data/scheduleMarketExtracts.py	/^import shared$/;"	kind:namespace	line:4
 shared	../data/scheduleModelRuns.py	/^import shared$/;"	kind:namespace	line:5
@@ -732,6 +771,8 @@ statsmodels	../data/v4/liveTest_v4.py	/^import statsmodels.api as sm$/;"	kind:na
 stub	../app/market/handler.py	/^    def stub(self):  # need to work out how to schedule this to run every 5 seconds$/;"	kind:member	line:26
 sum_columns	../infrastructure/third_party/adapter/data_container.py	/^    def sum_columns(self, output, columns):$/;"	kind:member	line:28
 test_add_rows	../tests/infrastructure/third_party/adapter/data_container_test.py	/^def test_add_rows():$/;"	kind:function	line:21
+test_calc_discounted_probability	../tests/app/market/data/transform/price/handler_test.py	/^def test_calc_discounted_probability():$/;"	kind:function	line:48
+test_calc_probability	../tests/app/market/data/transform/price/handler_test.py	/^def test_calc_probability():$/;"	kind:function	line:36
 test_column_group_name	../tests/infrastructure/third_party/adapter/data_container_test.py	/^def test_column_group_name():$/;"	kind:function	line:61
 test_create_item	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def test_create_item():$/;"	kind:function	line:6
 test_date_time_epoch	../tests/infrastructure/built_in/adapter/date_time_test.py	/^def test_date_time_epoch():$/;"	kind:function	line:98
@@ -756,7 +797,7 @@ test_handler	../tests/app/market/data/handler_test.py	/^def test_handler():$/;"	
 test_invalid_near_price	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def test_invalid_near_price():$/;"	kind:function	line:58
 test_invalid_order	../tests/infrastructure/external_api/market/handler_test.py	/^def test_invalid_order():$/;"	kind:function	line:80
 test_item_adapter_interface	../tests/infrastructure/external_api/market/record/interface_test.py	/^def test_item_adapter_interface():$/;"	kind:function	line:6
-test_item_removed_comp_data	../tests/app/market/data/compositional_data/handler_test.py	/^def test_item_removed_comp_data():$/;"	kind:function	line:73
+test_item_removed_comp_data	../tests/app/market/data/transform/probability/handler_test.py	/^def test_item_removed_comp_data():$/;"	kind:function	line:88
 test_json_utils	../tests/infrastructure/built_in/adapter/json_utils_test.py	/^def test_json_utils():$/;"	kind:function	line:5
 test_less_than_3_valid	../tests/infrastructure/third_party/adapter/stats_model_test.py	/^def test_less_than_3_valid():$/;"	kind:function	line:80
 test_log	../tests/infrastructure/third_party/adapter/numpy_utils_test.py	/^def test_log():$/;"	kind:function	line:37
@@ -770,31 +811,43 @@ test_meets_wlr_criteria	../tests/app/market/model/handler_test.py	/^def test_mee
 test_missing_ex	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def test_missing_ex():$/;"	kind:function	line:82
 test_missing_market_info	../tests/infrastructure/external_api/market/record/adapter_test.py	/^def test_missing_market_info():$/;"	kind:function	line:18
 test_missing_sp	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def test_missing_sp():$/;"	kind:function	line:45
-test_more_data	../tests/app/market/data/handler_test.py	/^def test_more_data():$/;"	kind:function	line:110
+test_more_data	../tests/app/market/data/handler_test.py	/^def test_more_data():$/;"	kind:function	line:112
 test_mostly_valid_record	../tests/infrastructure/external_api/market/record/adapter_test.py	/^def test_mostly_valid_record():$/;"	kind:function	line:47
 test_nan	../tests/infrastructure/third_party/adapter/numpy_utils_test.py	/^def test_nan():$/;"	kind:function	line:10
+test_nan_comp_data	../tests/app/market/data/transform/probability/handler_test.py	/^def test_nan_comp_data():$/;"	kind:function	line:25
 test_nan_to_num	../tests/infrastructure/third_party/adapter/numpy_utils_test.py	/^def test_nan_to_num():$/;"	kind:function	line:28
 test_new	../tests/infrastructure/third_party/adapter/data_container_test.py	/^def test_new():$/;"	kind:function	line:10
 test_non_uniform_lists	../tests/infrastructure/third_party/adapter/stats_model_test.py	/^def test_non_uniform_lists():$/;"	kind:function	line:30
 test_not_nan	../tests/infrastructure/third_party/adapter/numpy_utils_test.py	/^def test_not_nan():$/;"	kind:function	line:19
+test_number_dict	../tests/app/market/data/utils_test.py	/^def test_number_dict():$/;"	kind:function	line:42
+test_number_list	../tests/app/market/data/utils_test.py	/^def test_number_list():$/;"	kind:function	line:33
+test_number_nan	../tests/app/market/data/utils_test.py	/^def test_number_nan():$/;"	kind:function	line:15
+test_number_none	../tests/app/market/data/utils_test.py	/^def test_number_none():$/;"	kind:function	line:58
+test_number_number	../tests/app/market/data/utils_test.py	/^def test_number_number():$/;"	kind:function	line:6
+test_number_str	../tests/app/market/data/utils_test.py	/^def test_number_str():$/;"	kind:function	line:24
 test_object_is_singleton	../tests/infrastructure/external_api/schedule/handler_test.py	/^    def test_object_is_singleton():$/;"	kind:function	line:123
 test_open_url	../tests/infrastructure/built_in/adapter/request_test.py	/^    def test_open_url():$/;"	kind:function	line:22
 test_path_exists	../tests/infrastructure/built_in/adapter/os_utils_test.py	/^def test_path_exists():$/;"	kind:function	line:34
 test_post_data	../tests/infrastructure/built_in/adapter/request_test.py	/^    def test_post_data():$/;"	kind:function	line:13
 test_post_data	../tests/infrastructure/external_api/market/handler_test.py	/^def test_post_data(_call_exchange):$/;"	kind:function	line:41
-test_real_comp_data	../tests/app/market/data/compositional_data/handler_test.py	/^def test_real_comp_data():$/;"	kind:function	line:33
+test_real_comp_data	../tests/app/market/data/transform/probability/handler_test.py	/^def test_real_comp_data():$/;"	kind:function	line:48
 test_regex_match	../tests/infrastructure/built_in/adapter/re_utils_test.py	/^def test_regex_match():$/;"	kind:function	line:4
+test_remove_commission	../tests/app/market/data/transform/price/handler_test.py	/^def test_remove_commission():$/;"	kind:function	line:5
+test_remove_commission_with_discount	../tests/app/market/data/transform/price/handler_test.py	/^def test_remove_commission_with_discount():$/;"	kind:function	line:20
 test_remove_directory	../tests/infrastructure/built_in/adapter/os_utils_test.py	/^def test_remove_directory():$/;"	kind:function	line:79
 test_remove_file	../tests/infrastructure/built_in/adapter/os_utils_test.py	/^def test_remove_file():$/;"	kind:function	line:93
 test_removed	../tests/infrastructure/external_api/market/record/item/adapter_test.py	/^def test_removed():$/;"	kind:function	line:97
-test_removed_runner_df	../tests/app/market/data/handler_test.py	/^def test_removed_runner_df():$/;"	kind:function	line:212
+test_removed_runner_df	../tests/app/market/data/handler_test.py	/^def test_removed_runner_df():$/;"	kind:function	line:216
 test_schedule_handler	../tests/infrastructure/external_api/schedule/handler_test.py	/^    def test_schedule_handler():$/;"	kind:function	line:86
 test_scheduler_interface	../tests/app/schedule/interface_test.py	/^def test_scheduler_interface():$/;"	kind:function	line:6
 test_set_headers	../tests/infrastructure/external_api/schedule/handler_test.py	/^def test_set_headers(mock_post):$/;"	kind:function	line:8
 test_set_index	../tests/infrastructure/third_party/adapter/data_container_test.py	/^def test_set_index():$/;"	kind:function	line:40
-test_simple_comp_data	../tests/app/market/data/compositional_data/handler_test.py	/^def test_simple_comp_data():$/;"	kind:function	line:6
+test_simple_comp_data	../tests/app/market/data/transform/probability/handler_test.py	/^def test_simple_comp_data():$/;"	kind:function	line:7
 test_single_invalid_record	../tests/infrastructure/third_party/adapter/stats_model_test.py	/^def test_single_invalid_record():$/;"	kind:function	line:56
 test_sum_columns	../tests/infrastructure/third_party/adapter/data_container_test.py	/^def test_sum_columns():$/;"	kind:function	line:108
+test_try_divide_nan	../tests/app/market/data/utils_test.py	/^def test_try_divide_nan():$/;"	kind:function	line:77
+test_try_divide_number	../tests/app/market/data/utils_test.py	/^def test_try_divide_number():$/;"	kind:function	line:67
+test_try_divide_zero	../tests/app/market/data/utils_test.py	/^def test_try_divide_zero():$/;"	kind:function	line:99
 test_valid_and_invalid_orders	../tests/infrastructure/external_api/market/handler_test.py	/^def test_valid_and_invalid_orders():$/;"	kind:function	line:93
 test_valid_orders	../tests/infrastructure/external_api/market/handler_test.py	/^def test_valid_orders():$/;"	kind:function	line:64
 test_valid_record	../tests/infrastructure/external_api/market/record/adapter_test.py	/^def test_valid_record():$/;"	kind:function	line:34
@@ -810,6 +863,9 @@ to_zone	../data/v2/liveTest_v2.py	/^to_zone   = dateutil.tz.gettz('Australia\/Sy
 to_zone	../data/v3/liveTest_v3.py	/^to_zone   = dateutil.tz.gettz('Australia\/Sydney')$/;"	kind:variable	line:19
 to_zone	../data/v4/liveTest_v4.py	/^to_zone   = dateutil.tz.gettz('Australia\/Sydney')$/;"	kind:variable	line:19
 transform	../data/billyCart.py	/^def transform(odf):$/;"	kind:function	line:217
+try_divide	../app/market/data/transform/price/handler.py	/^from app.market.data.utils import try_divide$/;"	kind:namespace	line:1
+try_divide	../app/market/data/utils.py	/^def try_divide(value, by):$/;"	kind:function	line:8
+try_divide	../tests/app/market/data/utils_test.py	/^from app.market.data.utils import is_a_number, try_divide$/;"	kind:namespace	line:2
 tz	../infrastructure/built_in/adapter/date_time.py	/^from dateutil import tz$/;"	kind:namespace	line:2
 urllib2	../data/v2/liveTest_v2.py	/^import urllib2$/;"	kind:namespace	line:2
 urllib2	../data/v3/liveTest_v3.py	/^import urllib2$/;"	kind:namespace	line:2
@@ -817,7 +873,9 @@ urllib2	../data/v4/liveTest_v4.py	/^import urllib2$/;"	kind:namespace	line:2
 urlopen	../infrastructure/built_in/adapter/request.py	/^from urllib.request import Request, urlopen$/;"	kind:namespace	line:2
 utc_5_minutes_from_now	../infrastructure/built_in/adapter/date_time.py	/^    def utc_5_minutes_from_now():$/;"	kind:member	line:22
 utc_seconds_before_datetime	../data/modelRunner.py	/^from dateHelpers import utc_seconds_before_datetime, UTCMinutesFromNow, getLocalNow$/;"	kind:namespace	line:1
+utils.py	../app/market/data/utils.py	1;"	kind:file	line:1
 utils.py	../tests/utils.py	1;"	kind:file	line:1
+utils_test.py	../tests/app/market/data/utils_test.py	1;"	kind:file	line:1
 writeFile	../data/billyCart.py	/^from fileHelpers import writeFile$/;"	kind:namespace	line:9
 writeFile	../data/v2/liveTest_v2.py	/^def writeFile(File,jsonDump):$/;"	kind:function	line:26
 writeFile	../data/v3/liveTest_v3.py	/^def writeFile(File,jsonDump):$/;"	kind:function	line:26

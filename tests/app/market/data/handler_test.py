@@ -55,9 +55,11 @@ def test_handler():
             THEN(
                 "the data contains the compositional ex probability which is between 0 and 1"
             )
-            compositional_ex_probability = data.get("compositional_ex_probability")
-            total_ex_probability += compositional_ex_probability
-            assert 1 > compositional_ex_probability > 0
+            compositional_ex_average_probability = data.get(
+                "compositional_ex_average_probability"
+            )
+            total_ex_probability += compositional_ex_average_probability
+            assert 1 > compositional_ex_average_probability > 0
 
             THEN("the data contains the correct offered price")
             offered_price = data.get("ex_offered_back_price")
@@ -157,9 +159,11 @@ def test_more_data():
             THEN(
                 "the data contains the compositional ex probability which is between 0 and 1"
             )
-            compositional_ex_probability = data.get("compositional_ex_probability")
-            total_ex_probability += compositional_ex_probability
-            assert 1 > compositional_ex_probability > 0
+            compositional_ex_average_probability = data.get(
+                "compositional_ex_average_probability"
+            )
+            total_ex_probability += compositional_ex_average_probability
+            assert 1 > compositional_ex_average_probability > 0
 
             THEN("the data contains the correct offered price")
             offered_price = data.get("ex_offered_back_price")

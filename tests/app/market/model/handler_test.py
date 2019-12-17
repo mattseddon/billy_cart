@@ -69,7 +69,7 @@ def get_model_data():
             "id": 14554375,
             "combined_back_size": 25180.289999999997,
             "compositional_sp_probability": 0.10941023595912089,
-            "compositional_ex_probability": 0.11242339752790073,
+            "compositional_ex_average_probability": 0.11242339752790073,
             "ex_offered_back_price": 9.0,
             "compositional_sp_back_price_ts": [
                 8.522544664658614,
@@ -244,7 +244,7 @@ def get_model_data():
             "id": 16397186,
             "combined_back_size": 53065.26,
             "compositional_sp_probability": 0.19889500121124917,
-            "compositional_ex_probability": 0.15361551489380376,
+            "compositional_ex_average_probability": 0.15361551489380376,
             "ex_offered_back_price": 6.4,
             "compositional_sp_back_price_ts": [
                 5.896905347266066,
@@ -419,7 +419,7 @@ def get_model_data():
             "id": 19431900,
             "combined_back_size": 31737.340000000004,
             "compositional_sp_probability": 0.1272450241632378,
-            "compositional_ex_probability": 0.1329281256034261,
+            "compositional_ex_average_probability": 0.1329281256034261,
             "ex_offered_back_price": 7.4,
             "compositional_sp_back_price_ts": [
                 7.585357164722829,
@@ -594,7 +594,7 @@ def get_model_data():
             "id": 20600580,
             "combined_back_size": 24858.42,
             "compositional_sp_probability": 0.10672396343251382,
-            "compositional_ex_probability": 0.10624493529438954,
+            "compositional_ex_average_probability": 0.10624493529438954,
             "ex_offered_back_price": 9.4,
             "compositional_sp_back_price_ts": [
                 9.491957887798765,
@@ -769,7 +769,7 @@ def get_model_data():
             "id": 22953710,
             "combined_back_size": 356441.94000000006,
             "compositional_sp_probability": 0.3625564460882883,
-            "compositional_ex_probability": 0.4002802936197602,
+            "compositional_ex_average_probability": 0.4002802936197602,
             "ex_offered_back_price": 2.48,
             "compositional_sp_back_price_ts": [
                 2.686776612316264,
@@ -944,7 +944,7 @@ def get_model_data():
             "id": 25887695,
             "combined_back_size": 35117.64000000001,
             "compositional_sp_probability": 0.09516932914559002,
-            "compositional_ex_probability": 0.0945077330607197,
+            "compositional_ex_average_probability": 0.0945077330607197,
             "ex_offered_back_price": 10.5,
             "compositional_sp_back_price_ts": [
                 9.642719629348342,

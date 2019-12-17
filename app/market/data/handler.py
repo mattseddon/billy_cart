@@ -1,15 +1,17 @@
-from app.market.data.compositional_data.handler import CompositionalDataHandler
+from app.market.data.transform.handler import TransformHandler
 
 
 class DataHandler:
     def __init__(self, adapter, container):
         self._container = container.new()
-        self.__adapter = adapter
+        self.__extractor = adapter
+        self.__transformer = TransformHandler()
         self.__probabilities = {}
 
     def add(self, data):
 
-        transformed_data = self._transform(data=data)
+        extracted_data = self._extract(data=data)
+        transformed_data = self._transform(extracted_data=extracted_data)
         if transformed_data:
             record_container = self._container.new(data=transformed_data)
             record_container.set_index(("extract_time", ""))
@@ -40,108 +42,16 @@ class DataHandler:
         index = self._container.get_column_group_values(name="id")
         return [id for id in index if type(id) is int]
 
-    def _transform(self, data):
-        adapted_data = self.__adapter.convert(data)
-        items = adapted_data.get("items") or []
+    def _extract(self, data):
+        extracted_data = self.__extractor.convert(data)
+        return extracted_data
 
-        transformed_data = self.__make_initial_transformed_dict(items=items)
-
-        transformed_data.update(
-            {
-                self.__get_composite_column_name(
-                    variable="combined_back_size", item=item
-                ): [item.get("ex_back_size") + item.get("sp_back_size")]
-                for item in items
-            }
-        )
-
-        compositional_sp_back_data = self.__get_compositional_data(
-            items=items, price_name="sp_back_price"
-        )
-
-        transformed_data.update(
-            self.__make_transformed_dict(
-                out_column="compositional_sp_probability",
-                items=compositional_sp_back_data,
-                in_column="compositional_probability",
-            )
-        )
-
-        transformed_data.update(
-            self.__make_transformed_dict(
-                out_column="compositional_sp_back_price",
-                items=compositional_sp_back_data,
-                in_column="compositional_price",
-            )
-        )
-
-        compositional_ex_back_data = self.__get_compositional_data(
-            items=items, price_name="ex_average_back_price"
-        )
-
-        transformed_data.update(
-            self.__make_transformed_dict(
-                out_column="compositional_ex_probability",
-                items=compositional_ex_back_data,
-                in_column="compositional_probability",
-            )
-        )
-
-        transformed_data.update(
-            self.__make_transformed_dict(
-                out_column="compositional_ex_back_price",
-                items=compositional_ex_back_data,
-                in_column="compositional_price",
-            )
-        )
-
+    def _transform(self, extracted_data):
+        items = extracted_data.get("items") or []
+        transformed_data = self.__transformer.process(items)
         if transformed_data:
-            transformed_data[("extract_time", "")] = adapted_data.get("extract_time")
-
+            transformed_data[("extract_time", "")] = extracted_data.get("extract_time")
         return transformed_data
-
-    def __make_initial_transformed_dict(self, items):
-        initial_data = {}
-        for column in self.__get_column_list():
-            initial_data.update(
-                self.__make_transformed_dict(out_column=column, items=items)
-            )
-        return initial_data
-
-    def __make_transformed_dict(self, out_column, items, in_column=None):
-        if not (in_column):
-            in_column = out_column
-        return {
-            self.__get_composite_column_name(variable=out_column, item=item): [
-                item.get(in_column)
-            ]
-            for item in items
-        }
-
-    def __get_column_list(self):
-        return [
-            "removal_date",
-            "sp_back_price",
-            "sp_back_size",
-            "sp_lay_price",
-            "sp_lay_size",
-            "ex_average_back_price",
-            "ex_back_size",
-            "ex_average_lay_price",
-            "ex_lay_size",
-            "ex_offered_back_price",
-            "ex_offered_lay_price",
-        ]
-
-    def __get_composite_column_name(self, variable, item):
-        return (variable, item.get("id"))
-
-    def __get_compositional_data(self, items, price_name, correct_probability=1):
-        compositional_data_handler = CompositionalDataHandler(
-            items=items, price_name=price_name, correct_probability=correct_probability,
-        )
-        compositional_items = compositional_data_handler.calc_compositional_data()
-        return compositional_items
 
     def __get_item_model_data(self, id):
         data = {
@@ -155,7 +65,7 @@ class DataHandler:
                 for column in [
                     "combined_back_size",
                     "compositional_sp_probability",
-                    "compositional_ex_probability",
+                    "compositional_ex_average_probability",
                     "ex_offered_back_price",
                 ]
             }

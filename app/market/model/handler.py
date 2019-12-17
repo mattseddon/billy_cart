@@ -34,12 +34,12 @@ class ModelHandler:
                 self._meets_high_back_size_threshold(item=item)
                 and self.__event_country == "AU"
                 and self._has_overlay(
-                    item=item, probability="compositional_ex_probability"
+                    item=item, probability="compositional_ex_average_probability"
                 )
             ):
                 has_value = self.__standardise_result(
                     item=item,
-                    probability="compositional_ex_probability",
+                    probability="compositional_ex_average_probability",
                     type="BUY",
                     model_id="MBG2",
                     buy_price="ex_offered_back_price",
@@ -51,12 +51,12 @@ class ModelHandler:
                 self._meets_low_back_size_threshold(item=item)
                 and self.__event_country == "AU"
                 and self._has_overlay(
-                    item=item, probability="compositional_ex_probability"
+                    item=item, probability="compositional_ex_average_probability"
                 )
             ):
                 has_value = self.__standardise_result(
                     item=item,
-                    probability="compositional_ex_probability",
+                    probability="compositional_ex_average_probability",
                     type="BUY",
                     model_id="MBL2",
                     buy_price="ex_offered_back_price",
