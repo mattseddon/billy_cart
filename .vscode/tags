@@ -4,12 +4,12 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-ABC	../infrastructure/class_construction/abstract_base.py	/^from abc import ABCMeta,ABC$/;"	kind:namespace	line:1
-ABCMeta	../infrastructure/class_construction/abstract_base.py	/^from abc import ABCMeta,ABC$/;"	kind:namespace	line:1
-AbstractBaseClass	../infrastructure/class_construction/abstract_base.py	/^class AbstractBaseClass(ABC):$/;"	kind:class	line:6
-AbstractBaseMetaclass	../app/interface.py	/^from infrastructure.class_construction.abstract_base import AbstractBaseMetaclass$/;"	kind:namespace	line:1
-AbstractBaseMetaclass	../app/singleton.py	/^from infrastructure.class_construction.abstract_base import AbstractBaseMetaclass$/;"	kind:namespace	line:1
-AbstractBaseMetaclass	../infrastructure/class_construction/abstract_base.py	/^class AbstractBaseMetaclass(ABCMeta):$/;"	kind:class	line:3
+ABC	../infrastructure/built_in/adapter/abstract_base.py	/^from abc import ABCMeta,ABC$/;"	kind:namespace	line:1
+ABCMeta	../infrastructure/built_in/adapter/abstract_base.py	/^from abc import ABCMeta,ABC$/;"	kind:namespace	line:1
+AbstractBaseClass	../infrastructure/built_in/adapter/abstract_base.py	/^class AbstractBaseClass(ABC):$/;"	kind:class	line:6
+AbstractBaseMetaclass	../app/interface.py	/^from infrastructure.built_in.adapter.abstract_base import AbstractBaseMetaclass$/;"	kind:namespace	line:1
+AbstractBaseMetaclass	../app/singleton.py	/^from infrastructure.built_in.adapter.abstract_base import AbstractBaseMetaclass$/;"	kind:namespace	line:1
+AbstractBaseMetaclass	../infrastructure/built_in/adapter/abstract_base.py	/^class AbstractBaseMetaclass(ABCMeta):$/;"	kind:class	line:3
 BlockingScheduler	../data/scheduleMarketExtracts.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:2
 BlockingScheduler	../data/scheduleModelRuns.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:2
 BlockingScheduler	../data/v2/liveTest_v2.py	/^from apscheduler.schedulers.blocking import BlockingScheduler$/;"	kind:namespace	line:1
@@ -90,7 +90,7 @@ Implements	../tests/app/market/interface_test.py	/^    class Implements(External
 Implements	../tests/app/market/model/interface_test.py	/^    class Implements(WeightedLinearRegressionInterface):$/;"	kind:class	line:21
 Implements	../tests/app/schedule/interface_test.py	/^    class Implements(ExternalAPIScheduleInterface):$/;"	kind:class	line:21
 Implements	../tests/infrastructure/external_api/market/record/interface_test.py	/^    class Implements(ItemAdapterInterface):$/;"	kind:class	line:21
-Interface	../app/interface.py	/^class Interface(AbstractBaseMetaclass):$/;"	kind:class	line:3
+Interface	../app/interface.py	/^class Interface(AbstractBaseMetaclass):$/;"	kind:class	line:4
 Interface	../app/market/data/interface.py	/^from app.interface import Interface$/;"	kind:namespace	line:1
 Interface	../app/market/interface.py	/^from app.interface import Interface$/;"	kind:namespace	line:1
 Interface	../app/market/model/interface.py	/^from app.interface import Interface$/;"	kind:namespace	line:1
@@ -361,7 +361,7 @@ _call_api	../infrastructure/external_api/handler.py	/^    def _call_api(self, ur
 _call_exchange	../infrastructure/external_api/handler.py	/^    def _call_exchange(self, request):$/;"	kind:member	line:40
 _extract	../app/market/data/handler.py	/^    def _extract(self, data):$/;"	kind:member	line:45
 _get_abstract_methods	../app/interface.py	/^    def _get_abstract_methods(namespace):$/;"	kind:member	line:23
-_get_all_methods	../app/interface.py	/^    def _get_all_methods(namespace):$/;"	kind:member	line:26
+_get_all_methods	../app/interface.py	/^    def _get_all_methods(namespace):$/;"	kind:member	line:30
 _get_existing_order_risk_percentages	../app/market/orders/handler.py	/^    def _get_existing_order_risk_percentages(self):$/;"	kind:member	line:51
 _get_frame	../infrastructure/third_party/adapter/data_container.py	/^    def _get_frame(self):$/;"	kind:member	line:51
 _get_log_returns	../app/market/model/handler.py	/^    def _get_log_returns(self, y):$/;"	kind:member	line:120
@@ -378,13 +378,13 @@ _meets_wlr_threshold	../app/market/model/handler.py	/^    def _meets_wlr_thresho
 _transform	../app/market/data/handler.py	/^    def _transform(self, extracted_data):$/;"	kind:member	line:49
 _try_get_data	../infrastructure/external_api/handler.py	/^    def _try_get_data(self, dict):$/;"	kind:member	line:49
 _validate_orders	../infrastructure/external_api/market/handler.py	/^    def _validate_orders(self, orders):$/;"	kind:member	line:37
-abstract_base.py	../infrastructure/class_construction/abstract_base.py	1;"	kind:file	line:1
-abstract_method	../app/market/data/interface.py	/^from infrastructure.class_construction.abstract_base import abstract_method$/;"	kind:namespace	line:2
-abstract_method	../app/market/interface.py	/^from infrastructure.class_construction.abstract_base import abstract_method$/;"	kind:namespace	line:2
-abstract_method	../app/market/model/interface.py	/^from infrastructure.class_construction.abstract_base import abstract_method$/;"	kind:namespace	line:2
-abstract_method	../app/schedule/interface.py	/^from infrastructure.class_construction.abstract_base import abstract_method$/;"	kind:namespace	line:3
-abstract_method	../infrastructure/class_construction/abstract_base.py	/^def abstract_method(method):$/;"	kind:function	line:9
-abstract_method	../infrastructure/external_api/market/record/interface.py	/^from infrastructure.class_construction.abstract_base import abstract_method$/;"	kind:namespace	line:2
+abstract_base.py	../infrastructure/built_in/adapter/abstract_base.py	1;"	kind:file	line:1
+abstract_method	../app/market/data/interface.py	/^from infrastructure.built_in.adapter.abstract_base import abstract_method$/;"	kind:namespace	line:2
+abstract_method	../app/market/interface.py	/^from infrastructure.built_in.adapter.abstract_base import abstract_method$/;"	kind:namespace	line:2
+abstract_method	../app/market/model/interface.py	/^from infrastructure.built_in.adapter.abstract_base import abstract_method$/;"	kind:namespace	line:2
+abstract_method	../app/schedule/interface.py	/^from infrastructure.built_in.adapter.abstract_base import abstract_method$/;"	kind:namespace	line:3
+abstract_method	../infrastructure/built_in/adapter/abstract_base.py	/^def abstract_method(method):$/;"	kind:function	line:9
+abstract_method	../infrastructure/external_api/market/record/interface.py	/^from infrastructure.built_in.adapter.abstract_base import abstract_method$/;"	kind:namespace	line:2
 adapter.py	../infrastructure/external_api/market/record/adapter.py	1;"	kind:file	line:1
 adapter.py	../infrastructure/external_api/market/record/item/adapter.py	1;"	kind:file	line:1
 adapter_test.py	../tests/infrastructure/external_api/market/record/adapter_test.py	1;"	kind:file	line:1
@@ -707,7 +707,7 @@ post_data	../infrastructure/external_api/schedule/handler.py	/^from infrastructu
 post_order	../app/market/interface.py	/^    def post_order(self):$/;"	kind:member	line:11
 post_order	../infrastructure/external_api/market/handler.py	/^    def post_order(self, orders):$/;"	kind:member	line:23
 post_order	../tests/app/market/interface_test.py	/^        def post_order(self):$/;"	kind:member	line:25
-process	../app/market/data/transform/handler.py	/^    def process(self, items):$/;"	kind:member	line:12
+process	../app/market/data/transform/handler.py	/^    def process(self, items={}):$/;"	kind:member	line:12
 process	../app/market/handler.py	/^    def process(self, data):$/;"	kind:member	line:35
 pth	../data/v2/liveTest_v2.py	/^pth      = 'D:\/Betfair\/liveTest\/data\/'$/;"	kind:variable	line:17
 pth	../data/v3/liveTest_v3.py	/^pth      = 'D:\/Betfair\/liveTest\/data\/'$/;"	kind:variable	line:17

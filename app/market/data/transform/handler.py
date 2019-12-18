@@ -9,7 +9,7 @@ class TransformHandler:
     def set_items(self, items):
         self.__items = items
 
-    def process(self, items):
+    def process(self, items={}):
         self.set_items(items=items)
 
         self.__transformed_data = {}

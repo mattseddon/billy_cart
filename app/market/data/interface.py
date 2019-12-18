@@ -1,5 +1,5 @@
 from app.interface import Interface
-from infrastructure.class_construction.abstract_base import abstract_method
+from infrastructure.built_in.adapter.abstract_base import abstract_method
 
 
 class ExternalAPIMarketDataInterface(metaclass=Interface):

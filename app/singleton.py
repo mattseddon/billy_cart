@@ -1,4 +1,4 @@
-from infrastructure.class_construction.abstract_base import AbstractBaseMetaclass
+from infrastructure.built_in.adapter.abstract_base import AbstractBaseMetaclass
 from weakref import WeakValueDictionary
 
 
