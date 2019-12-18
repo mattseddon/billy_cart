@@ -1,10 +1,12 @@
 from app.market.data.transform.probability.handler import ProbabilityHandler
 from app.market.data.transform.price.handler import PriceHandler
+from app.market.metadata.handler import MetadataHandler
 
 
 class TransformHandler:
     def __init__(self):
         self.__pricer = PriceHandler()
+        self.__metadata = MetadataHandler()
 
     def set_items(self, items):
         self.__items = items
@@ -14,6 +16,7 @@ class TransformHandler:
 
         self.__transformed_data = {}
         self.__add_default_data()
+        self.__add_adj_back_prices()
         self.__add_combined_back_size()
         self.__add_compositional_sp_data()
         self.__add_compositional_ex_data()
@@ -21,28 +24,21 @@ class TransformHandler:
         return self.__transformed_data
 
     def __add_default_data(self):
-        for column in self.__get_column_list():
+        for column in self.__metadata.get_required_variables():
             for item in self.__items:
                 self.__transformed_data[
                     self.__get_composite_column_name(variable=column, item=item)
                 ] = [item.get(column)]
         return None
 
-    def __get_column_list(self):
-        return [
-            "removal_date",
-            "sp_back_price",
-            "sp_back_size",
-            "sp_lay_price",
-            "sp_lay_size",
-            "ex_average_back_price",
-            "ex_back_size",
-            "ex_average_lay_price",
-            "ex_lay_size",
-            "ex_offered_back_price",
-            "ex_offered_lay_price",
-        ]  # all prices should be adjusted as they come in here instead of elsewhere in the app - use price handler
-        # move this into metadata folder
+    def __add_adj_back_prices(self):
+        for column in self.__metadata.get_back_prices():
+            for item in self.__items:
+                self.__transformed_data[
+                    self.__get_composite_column_name(
+                        variable=(column + "_minus_commission"), item=item
+                    )
+                ] = [self.__pricer.remove_commission(item.get(column))]
 
     def __add_combined_back_size(self):
         for item in self.__items:
@@ -50,7 +46,7 @@ class TransformHandler:
                 self.__get_composite_column_name(
                     variable="combined_back_size", item=item
                 )
-            ] = [item.get("ex_back_size") + item.get("sp_back_size")]
+            ] = [sum(item.get(size) for size in self.__metadata.get_back_sizes())]
 
     def __add_compositional_sp_data(self):
         self.__add_compositional_data(name="sp")
@@ -61,7 +57,7 @@ class TransformHandler:
         return None
 
     def __add_compositional_data(self, name):
-        compositional_data = self.__get_compositional_probabilities(
+        compositional_data = self.__get_compositional_data(
             items=self.__items, price_name=(name + "_back_price")
         )
 
@@ -81,9 +77,7 @@ class TransformHandler:
     def __get_composite_column_name(self, variable, item):
         return (variable, item.get("id"))
 
-    def __get_compositional_probabilities(
-        self, items, price_name, correct_probability=1
-    ):
+    def __get_compositional_data(self, items, price_name, correct_probability=1):
 
         probabilities = list(
             map(lambda item: self.__calc_initial_probability(item, price_name), items)

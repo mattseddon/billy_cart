@@ -10,7 +10,7 @@ def not_a_number():
 
 
 def is_not_a_number(var):
-    return isnan(var)
+    return isnan(var) if var else False
 
 
 def not_a_number_to_number(var):

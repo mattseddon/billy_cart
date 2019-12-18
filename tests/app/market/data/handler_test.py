@@ -1,5 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN, almost_equal
 from app.market.data.handler import DataHandler
+from app.market.metadata.handler import MetadataHandler
 from infrastructure.third_party.adapter.data_container import DataContainer
 from infrastructure.storage.handler import FileHandler
 from infrastructure.external_api.market.record.adapter import RecordAdapter
@@ -252,7 +253,17 @@ def __get_number_columns(number_runners):
 
 
 def __get_number_columns_per_runner():
-    return 16
+    metadata_handler = MetadataHandler()
+    number_default_columns = len(metadata_handler.get_required_variables())
+    number_compositional_columns = 4
+    number_size_columns = 1
+    number_commission_adj_columns = len(metadata_handler.get_back_prices())
+    return (
+        number_default_columns
+        + number_compositional_columns
+        + number_size_columns
+        + number_commission_adj_columns
+    )
 
 
 def __get_number_overarching_columns():
