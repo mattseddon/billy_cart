@@ -8,20 +8,39 @@ class TransformHandler:
         self.__pricer = PriceHandler()
         self.__metadata = MetadataHandler()
 
-    def set_items(self, items):
-        self.__items = items
-
-    def process(self, items={}):
-        self.set_items(items=items)
+    def process(self, extracted_data={}):
+        items = extracted_data.get("items") or []
+        extract_time = extracted_data.get("extract_time")
 
         self.__transformed_data = {}
-        self.__add_default_data()
-        self.__add_adj_back_prices()
-        self.__add_combined_back_size()
-        self.__add_compositional_sp_data()
-        self.__add_compositional_ex_data()
+        self._set_items(items=items)
+        self._set_extract_time(extract_time=extract_time)
+
+        if self.__is_valid_record():
+            self.__add_extract_time()
+            self.__add_default_data()
+            self.__add_adj_back_prices()
+            self.__add_combined_back_size()
+            self.__add_compositional_sp_data()
+            self.__add_compositional_ex_data()
+            self.__add_market_back_size()
 
         return self.__transformed_data
+
+    def _set_items(self, items):
+        self.__items = items
+        return None
+
+    def _set_extract_time(self, extract_time):
+        self.__extract_time = extract_time
+        return None
+
+    def __is_valid_record(self):
+        return self.__items and self.__extract_time
+
+    def __add_extract_time(self):
+        self.__transformed_data[("extract_time", "")] = [self.__extract_time]
+        return None
 
     def __add_default_data(self):
         for column in self.__metadata.get_required_variables():
@@ -36,17 +55,25 @@ class TransformHandler:
             for item in self.__items:
                 self.__transformed_data[
                     self.__get_composite_column_name(
-                        variable=(column + "_minus_commission"), item=item
+                        variable=(
+                            column + self.__metadata.get_minus_commission_suffix()
+                        ),
+                        item=item,
                     )
                 ] = [self.__pricer.remove_commission(item.get(column))]
+        return None
 
     def __add_combined_back_size(self):
         for item in self.__items:
+            combined_back_size = sum(
+                item.get(size) for size in self.__metadata.get_back_sizes()
+            )
             self.__transformed_data[
                 self.__get_composite_column_name(
                     variable="combined_back_size", item=item
                 )
-            ] = [sum(item.get(size) for size in self.__metadata.get_back_sizes())]
+            ] = [combined_back_size]
+        return None
 
     def __add_compositional_sp_data(self):
         self.__add_compositional_data(name="sp")
@@ -57,8 +84,8 @@ class TransformHandler:
         return None
 
     def __add_compositional_data(self, name):
-        compositional_data = self.__get_compositional_data(
-            items=self.__items, price_name=(name + "_back_price")
+        compositional_data = self._get_compositional_data(
+            price_name=(name + "_back_price")
         )
 
         for item in compositional_data:
@@ -74,13 +101,30 @@ class TransformHandler:
                 )
             ] = [item.get("compositional_price")]
 
+        return None
+
+    def __add_market_back_size(self):
+        self.__transformed_data[("market_back_size", "")] = [
+            sum(
+                item.get(size)
+                for size in self.__metadata.get_back_sizes()
+                for item in self.__items
+            )
+        ]
+        return None
+
     def __get_composite_column_name(self, variable, item):
         return (variable, item.get("id"))
 
-    def __get_compositional_data(self, items, price_name, correct_probability=1):
+    def _get_compositional_data(self, price_name, correct_probability=1):
 
         probabilities = list(
-            map(lambda item: self.__calc_initial_probability(item, price_name), items)
+            map(
+                lambda item: self.__calc_initial_probability(
+                    item=item, price_name=price_name
+                ),
+                self.__items,
+            )
         )
 
         probability_handler = ProbabilityHandler(

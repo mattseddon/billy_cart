@@ -17,15 +17,16 @@ class ModelHandler:
                 self._meets_wlr_criteria(item=item)
                 and self._meets_wlr_threshold(item=item)
                 and self._has_overlay(
-                    item=item, probability="compositional_sp_probability"
+                    item=item, probability="compositional_sp_probability_pit"
                 )
             ):
                 has_value = self.__standardise_result(
                     item=item,
-                    probability="compositional_sp_probability",
+                    probability="compositional_sp_probability_pit",
                     type="BUY",
                     model_id="SPMB",
-                    buy_price="ex_offered_back_price",
+                    buy_price="ex_offered_back_price_pit",
+                    returns_price="ex_offered_back_price_mc_pit",
                 )
                 results.append(has_value)
                 continue
@@ -34,15 +35,16 @@ class ModelHandler:
                 self._meets_high_back_size_threshold(item=item)
                 and self.__event_country == "AU"
                 and self._has_overlay(
-                    item=item, probability="compositional_ex_average_probability"
+                    item=item, probability="compositional_ex_average_probability_pit"
                 )
             ):
                 has_value = self.__standardise_result(
                     item=item,
-                    probability="compositional_ex_average_probability",
+                    probability="compositional_ex_average_probability_pit",
                     type="BUY",
                     model_id="MBG2",
-                    buy_price="ex_offered_back_price",
+                    buy_price="ex_offered_back_price_pit",
+                    returns_price="ex_offered_back_price_mc_pit",
                 )
                 results.append(has_value)
                 continue
@@ -51,32 +53,36 @@ class ModelHandler:
                 self._meets_low_back_size_threshold(item=item)
                 and self.__event_country == "AU"
                 and self._has_overlay(
-                    item=item, probability="compositional_ex_average_probability"
+                    item=item, probability="compositional_ex_average_probability_pit"
                 )
             ):
                 has_value = self.__standardise_result(
                     item=item,
-                    probability="compositional_ex_average_probability",
+                    probability="compositional_ex_average_probability_pit",
                     type="BUY",
                     model_id="MBL2",
-                    buy_price="ex_offered_back_price",
+                    buy_price="ex_offered_back_price_pit",
+                    returns_price="ex_offered_back_price_mc_pit",
                 )
                 results.append(has_value)
                 continue
 
         return results
 
-    def __standardise_result(self, item, probability, type, model_id, buy_price):
+    def __standardise_result(
+        self, item, probability, type, model_id, buy_price, returns_price
+    ):
         has_value = {}
         has_value["id"] = item.get("id")
         has_value["probability"] = item.get(probability)
         has_value["type"] = type
         has_value["model_id"] = model_id
         has_value["buy_price"] = item.get(buy_price)
+        has_value["returns_price"] = item.get(returns_price)
         return has_value
 
     def _has_overlay(self, item, probability):
-        return item.get(probability) > (1 / item.get("ex_offered_back_price"))
+        return item.get(probability) > (1 / item.get("ex_offered_back_price_mc_pit"))
 
     def _meets_wlr_criteria(self, item):
 
@@ -94,22 +100,22 @@ class ModelHandler:
         return Beta < 0 and alpha < -0.00001
 
     def _meets_wlr_threshold(self, item):
-        back_size = item.get("combined_back_size")
+        back_size = item.get("combined_back_size_pit")
         return (
             back_size >= 5000 and self.__event_country != "GB"
         ) or back_size >= 30000
 
     def _meets_high_back_size_threshold(self, item):
-        back_size = item.get("combined_back_size")
+        back_size = item.get("combined_back_size_pit")
         return (
-            item.get("ex_offered_back_price") > 2
+            item.get("ex_offered_back_price_pit") > 2
             and (back_size / self.__market_back_size) >= 0.6
             and back_size >= 20000
         )
 
     def _meets_low_back_size_threshold(self, item):
-        back_size = item.get("combined_back_size")
-        offered_back_price = item.get("ex_offered_back_price")
+        back_size = item.get("combined_back_size_pit")
+        offered_back_price = item.get("ex_offered_back_price_pit")
         return (
             offered_back_price <= 2
             and (back_size / self.__market_back_size)
@@ -130,6 +136,6 @@ class ModelHandler:
     def __get_market_back_size(self, items):
         market_back_size = 0
         for item in items:
-            market_back_size += item.get("combined_back_size")
+            market_back_size += item.get("combined_back_size_pit")
         return market_back_size
 

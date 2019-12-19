@@ -1,12 +1,14 @@
 from app.market.data.transform.handler import TransformHandler
+from app.market.metadata.handler import MetadataHandler
 
 
 class DataHandler:
-    def __init__(self, adapter, container):
+    def __init__(self, adapter, container, transformer=TransformHandler()):
         self._container = container.new()
         self.__extractor = adapter
-        self.__transformer = TransformHandler()
+        self.__transformer = transformer
         self.__probabilities = {}
+        self.__metadata = MetadataHandler()
 
     def add(self, data):
 
@@ -14,12 +16,9 @@ class DataHandler:
         transformed_data = self._transform(extracted_data=extracted_data)
         if transformed_data:
             record_container = self._container.new(data=transformed_data)
-            record_container.set_index(("extract_time", ""))
+            record_container.set_index((self.__metadata.get_index_name(), ""))
             record_container.set_column_group_name(names=["variable", "id"])
             # if self.__probabilities then (override probabilities) or (miss the item completely)
-            record_container.sum_columns(
-                output="market_back_size", columns=["ex_back_size", "sp_back_size"]
-            )
             # when creating the compositional probabilities will need to take into account any static ones
             # if item has 60% then rest should sum to 40%
             self._container.add_rows(container=record_container)
@@ -47,34 +46,33 @@ class DataHandler:
         return extracted_data
 
     def _transform(self, extracted_data):
-        items = extracted_data.get("items") or []
-        transformed_data = self.__transformer.process(items)
-        if transformed_data:
-            transformed_data[("extract_time", "")] = extracted_data.get("extract_time")
+        transformed_data = self.__transformer.process(extracted_data)
         return transformed_data
 
     def __get_item_model_data(self, id):
         data = {
             "id": id,
-            "extract_time_ts": self._container.get_index(),
+            self.__metadata.get_index_name()
+            + self.__metadata.get_time_series_suffix(): self._container.get_index(),
         }
 
         data.update(
             {
-                column: self._container.get_last_column_entry(name=(column, id))
-                for column in [
-                    "combined_back_size",
-                    "compositional_sp_probability",
-                    "compositional_ex_average_probability",
-                    "ex_offered_back_price",
-                ]
+                column
+                + self.__metadata.get_point_in_time_suffix(): self._container.get_last_column_entry(
+                    name=(column, id)
+                )
+                for column in self.__metadata.get_point_in_time_model_variables()
             }
         )
 
         data.update(
             {
-                column + "_ts": self._container.get_column(name=(column, id))
-                for column in ["compositional_sp_back_price", "combined_back_size"]
+                column
+                + self.__metadata.get_time_series_suffix(): self._container.get_column(
+                    name=(column, id)
+                )
+                for column in self.__metadata.get_time_series_model_variables()
             }
         )
 

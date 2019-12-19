@@ -36,3 +36,27 @@ class MetadataHandler:
             "ex_average_lay_price",
             "ex_offered_lay_price",
         ]
+
+    def get_point_in_time_model_variables(self):
+        return [
+            "combined_back_size",
+            "compositional_sp_probability",
+            "compositional_ex_average_probability",
+            "ex_offered_back_price",
+            "ex_offered_back_price" + self.get_minus_commission_suffix(),
+        ]
+
+    def get_index_name(self):
+        return "extract_time"
+
+    def get_time_series_model_variables(self):
+        return ["compositional_sp_back_price", "combined_back_size"]
+
+    def get_point_in_time_suffix(self):
+        return "_pit"
+
+    def get_time_series_suffix(self):
+        return "_ts"
+
+    def get_minus_commission_suffix(self):
+        return "_mc"
