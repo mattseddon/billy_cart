@@ -59,7 +59,7 @@ def test_get_results():
     original_item = get_model_data_item(id=16397186)
     assert result == {
         "id": original_item.get("id"),
-        "buy_price": original_item.get("ex_offered_back_price_pit"),
+        "ex_price": original_item.get("ex_offered_back_price_pit"),
         "returns_price": original_item.get("ex_offered_back_price_mc_pit"),
         "probability": original_item.get("compositional_sp_probability_pit"),
         "type": "BUY",

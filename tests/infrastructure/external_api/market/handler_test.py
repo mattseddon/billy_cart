@@ -36,7 +36,7 @@ if should_test_real_api():
 
 
 @patch(
-    "infrastructure.external_api.market.handler.ExternalAPIMarketHandler._call_exchange"
+    "infrastructure.external_api.market.handler.ExternalAPIMarketHandler._post_instructions"
 )
 def test_post_data(_call_exchange):
 
@@ -45,20 +45,41 @@ def test_post_data(_call_exchange):
         environment="Dev", headers={}, market_id=123456
     )
     orders = [
-        {"id": 9999999, "type": "BUY", "size": 100, "price": 2.0},
-        {"id": 8888888, "type": "SELL", "size": 6.18, "price": 75.0},
-        {"id": 7777777, "type": "BUY", "size": 5, "price": 12.6},
+        {"id": 9999999, "type": "BUY", "size": 100, "ex_price": 2.0},
+        {"id": 8888888, "type": "SELL", "size": 6.18, "ex_price": 75.0},
+        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": 12.6},
     ]
     WHEN("we post the orders")
     market_handler.post_order(orders=orders)
-    THEN("the orders can be converted from json to a dict")
+    THEN("the exchange was called with the correct request")
     args, kwargs = _call_exchange.call_args
     request = make_dict(kwargs.get("request"))
-    expected_request = get_expected()
+    expected_request = get_expected_request()
     assert args == ()
     assert request.get("params").get("instructions") == expected_request.get(
         "params"
     ).get("instructions")
+
+
+@patch("infrastructure.external_api.handler.open_url")
+def test_order_response(open_url):
+    GIVEN("a market handler and some orders")
+    market_handler = ExternalAPIMarketHandler(
+        environment="Dev", headers={}, market_id=123456
+    )
+    orders = [
+        {"id": 9999999, "type": "BUY", "size": 100, "ex_price": 2.0},
+        {"id": 8888888, "type": "SELL", "size": 6.18, "ex_price": 75.0},
+        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": 12.6},
+    ]
+    open_url.return_value = __get_expected_response()
+    WHEN("we post the orders")
+    data = market_handler.post_order(orders=orders)
+    THEN("the returned response is a list")
+    assert type(data) is list
+    assert len(data) == 3
+    for order in data:
+        assert order.get("status") == "SUCCESS"
 
 
 def test_valid_orders():
@@ -67,9 +88,9 @@ def test_valid_orders():
         environment="Dev", headers={}, market_id=123456
     )
     orders = [
-        {"id": 9999999, "type": "BUY", "size": 100, "price": 2.0},
-        {"id": 8888888, "type": "SELL", "size": 6.18, "price": 75.0},
-        {"id": 7777777, "type": "BUY", "size": 5, "price": 12.6},
+        {"id": 9999999, "type": "BUY", "size": 100, "ex_price": 2.0},
+        {"id": 8888888, "type": "SELL", "size": 6.18, "ex_price": 75.0},
+        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": 12.6},
     ]
     WHEN("we validate the orders")
     valid_orders = market_handler._validate_orders(orders=orders)
@@ -83,7 +104,7 @@ def test_invalid_order():
         environment="Dev", headers={}, market_id=123456
     )
     orders = [
-        {"type": "BUY", "size": 100, "price": 2.0},
+        {"type": "BUY", "size": 100, "ex_price": 2.0},
     ]
     valid_orders = market_handler._validate_orders(orders=orders)
     THEN("the order is marked as invalid and omitted from the returned list")
@@ -96,17 +117,17 @@ def test_valid_and_invalid_orders():
         environment="Dev", headers={}, market_id=123456
     )
     orders = [
-        {"id": 9999999, "size": 100, "price": 2.0},
-        {"id": 8888888, "type": "SELL", "size": 6.18, "price": 75.0},
-        {"id": 7777777, "type": "BUY", "size": 5, "price": 12.6},
-        {"id": 7777777, "type": "BUY", "size": 5, "price": "THE BEST YOU HAVE"},
+        {"id": 9999999, "size": 100, "ex_price": 2.0},
+        {"id": 8888888, "type": "SELL", "size": 6.18, "ex_price": 75.0},
+        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": 12.6},
+        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": "THE BEST YOU HAVE"},
     ]
     valid_orders = market_handler._validate_orders(orders=orders)
     THEN("the valid orders are returned")
     assert valid_orders == orders[1:3]
 
 
-def get_expected():
+def get_expected_request():
     return {
         "jsonrpc": "2.0",
         "method": "SportsAPING/v1.0/placeOrders",
@@ -149,4 +170,70 @@ def get_expected():
             ],
         },
         "id": 1,
+    }
+
+
+def __get_expected_response():
+    return {
+        "status": "SUCCESS",
+        "instructionReports": [
+            {
+                "status": "SUCCESS",
+                "sizeMatched": 100,
+                "betId": "177444942426",
+                "instruction": {
+                    "handicap": 0.0,
+                    "orderType": "LIMIT",
+                    "selectionId": 9999999,
+                    "limitOrder": {
+                        "price": 2.0,
+                        "persistenceType": "LAPSE",
+                        "size": 100,
+                    },
+                    "side": "BACK",
+                },
+                "orderStatus": "EXECUTION_COMPLETE",
+                "placedDate": "2019-09-05T06:26:30.000Z",
+                "averagePriceMatched": 2,
+            },
+            {
+                "status": "SUCCESS",
+                "sizeMatched": 6.18,
+                "betId": "177444942426",
+                "instruction": {
+                    "handicap": 0.0,
+                    "orderType": "LIMIT",
+                    "selectionId": 8888888,
+                    "limitOrder": {
+                        "price": 75.0,
+                        "persistenceType": "LAPSE",
+                        "size": 6.18,
+                    },
+                    "side": "LAY",
+                },
+                "orderStatus": "EXECUTION_COMPLETE",
+                "placedDate": "2019-09-05T06:26:30.000Z",
+                "averagePriceMatched": 75.0,
+            },
+            {
+                "status": "SUCCESS",
+                "sizeMatched": 5,
+                "betId": "177444942426",
+                "instruction": {
+                    "handicap": 0.0,
+                    "orderType": "LIMIT",
+                    "selectionId": 7777777,
+                    "limitOrder": {
+                        "price": 12.6,
+                        "persistenceType": "LAPSE",
+                        "size": 5,
+                    },
+                    "side": "BACK",
+                },
+                "orderStatus": "EXECUTION_COMPLETE",
+                "placedDate": "2019-09-05T06:26:30.000Z",
+                "averagePriceMatched": 12.8,
+            },
+        ],
+        "marketId": "123456",
     }

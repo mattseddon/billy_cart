@@ -18,20 +18,25 @@ def test_handler():
     metadata = MetadataHandler()
 
     WHEN("we feed the data into a handler one record at a time")
-    handler = DataHandler(adapter=FakeAdapter(), container=DataContainer())
+    handler = DataHandler(adapter=adapter, container=DataContainer())
     for i, raw_record in enumerate(raw_data):
-        adapted_data = adapter.convert(raw_record)
-        handler.add(adapted_data)
+        handler.add(raw_record)
         number_records_processed = i + 1
         THEN("the handler's data has the correct number of records")
         assert handler._container.get_row_count() == number_records_processed
+        assert (
+            handler._container.get_last_column_entry(name=("closed_indicator", ""))
+            == False
+        )
 
         WHEN("we get the model data")
         model_data = handler.get_model_data()
         THEN("there is a record for each of the runners")
         assert len(model_data) == number_runners
 
-        test_record = {each.get("id"): each for each in adapted_data.get("items")}
+        test_record = {
+            each.get("id"): each for each in adapter.convert(raw_record).get("items")
+        }
         total_sp_probability = 0
         total_ex_probability = 0
 
@@ -127,9 +132,9 @@ def test_handler():
         assert almost_equal(total_ex_probability, 1)
 
     WHEN("we have finished")
-    THEN("the dataframe has the correct number of columns")
+    THEN("the data container has the correct number of columns")
     assert handler._container.get_column_count() == __get_number_columns(number_runners)
-    THEN("the dataframe has the same number of records as the raw data")
+    THEN("the data container has the same number of records as the raw data")
     assert handler._container.get_row_count() == len(raw_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
@@ -147,10 +152,9 @@ def test_more_data():
     metadata = MetadataHandler()
 
     WHEN("we feed the data into a handler one record at a time")
-    handler = DataHandler(adapter=FakeAdapter(), container=DataContainer())
+    handler = DataHandler(adapter=RecordAdapter(), container=DataContainer())
     for i, raw_record in enumerate(raw_data):
-        adapted_data = adapter.convert(raw_record)
-        handler.add(adapted_data)
+        handler.add(raw_record)
         number_records_processed = i + 1
         THEN("the handler's data has the correct number of records")
         assert handler._container.get_row_count() == number_records_processed
@@ -160,7 +164,9 @@ def test_more_data():
         THEN("there is a record for each of the runners")
         assert len(model_data) == number_runners
 
-        test_record = {each.get("id"): each for each in adapted_data.get("items")}
+        test_record = {
+            each.get("id"): each for each in adapter.convert(raw_record).get("items")
+        }
         total_sp_probability = 0
         total_ex_probability = 0
 
@@ -256,9 +262,9 @@ def test_more_data():
         assert almost_equal(total_ex_probability, 1)
 
     WHEN("we have finished")
-    THEN("the dataframe has the correct number of columns")
+    THEN("the data container has the correct number of columns")
     assert handler._container.get_column_count() == __get_number_columns(number_runners)
-    THEN("the dataframe has the same number of records as the raw data")
+    THEN("the data container has the same number of records as the raw data")
     assert handler._container.get_row_count() == len(raw_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
@@ -276,13 +282,13 @@ def test_removed_runner_df():
     for i, raw_record in enumerate(raw_data):
         handler.add(raw_record)
         number_records_processed = i + 1
-        THEN("the dataframe the correct number of records")
+        THEN("the data container the correct number of records")
         assert handler._container.get_row_count() == number_records_processed
 
     WHEN("we have finished")
-    THEN("the dataframe has the correct number of columns")
+    THEN("the data container has the correct number of columns")
     assert handler._container.get_column_count() == __get_number_columns(number_runners)
-    THEN("the dataframe has the same number of records as the raw data")
+    THEN("the data container has the same number of records as the raw data")
     assert handler._container.get_row_count() == len(raw_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
@@ -317,12 +323,7 @@ def __get_number_columns_per_runner():
 
 
 def __get_number_overarching_columns():
-    return 1
+    number_index_columns = 1
+    number_indicator_columns = 1
+    return number_index_columns + number_indicator_columns
 
-
-from app.market.data.interface import ExternalAPIMarketDataInterface
-
-
-class FakeAdapter(ExternalAPIMarketDataInterface):
-    def convert(self, data):
-        return data

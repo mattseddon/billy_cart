@@ -19,6 +19,7 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
         data = self.__process(items)
         if data.get("items"):
             data["extract_time"] = time_difference
+            data["closed_indicator"] = self.__get_closed_indicator()
             return data
         else:
             return None
@@ -34,10 +35,6 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
         market_info = self.__get_market_info()
         return market_info.get("runners") if market_info else None
 
-    def __get_market_info(self):
-        market_info = self.__data.get("marketInfo")
-        return market_info[0] if type(market_info) is list else market_info
-
     def __process(self, items):
         data = {}
         data["items"] = self.__non_empty(
@@ -45,5 +42,12 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
         )
         return data
 
+    def __get_market_info(self):
+        market_info = self.__data.get("marketInfo")
+        return market_info[0] if type(market_info) is list else market_info
+
     def __non_empty(self, items):
         return list(filter(None, items))
+
+    def __get_closed_indicator(self):
+        return self.__get_market_info().get("inplay")

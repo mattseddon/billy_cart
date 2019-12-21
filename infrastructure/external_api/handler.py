@@ -6,6 +6,7 @@ from private.details import (
     get_account_url,
     get_login_url,
     get_user_details,
+    get_account_str,
 )
 
 
@@ -18,10 +19,7 @@ class ExternalAPIHandler:
 
     def get_account_status(self):
 
-        account_status = self._call_api(
-            url=get_account_url(),
-            request='{"jsonrpc": "2.0", "method": "AccountAPING/v1.0/getAccountFunds"}',
-        )
+        account_status = self._call_account()
 
         return account_status
 
@@ -37,18 +35,31 @@ class ExternalAPIHandler:
         else:
             return 0
 
+    def _call_account(self):
+        dict = self._call_api(
+            url=get_account_url(),
+            request='{"jsonrpc": "2.0", "method": "%s"}' % get_account_str(),
+        )
+        account_status = self._try_get_data(dict=dict)
+        return account_status
+
     def _call_exchange(self, request):
-        data = self._call_api(url=get_exchange_url(), request=request)
+        dict = self._call_api(url=get_exchange_url(), request=request)
+        data = self._try_get_data(dict=dict, name="result")
+        return data
+
+    def _post_instructions(self, request):
+        dict = self._call_api(url=get_exchange_url(), request=request)
+        data = self._try_get_data(dict=dict, name="instructionReports") or []
         return data
 
     def _call_api(self, url, request):
         dict = open_url(url=url, request=request, headers=self.get_headers())
-        data = self._try_get_data(dict=dict)
-        return data
+        return dict
 
-    def _try_get_data(self, dict):
+    def _try_get_data(self, dict, name="result"):
         try:
-            result = dict["result"]
+            result = dict.get(name)
         except:
             result = None
         return result

@@ -25,6 +25,9 @@ class DataHandler:
 
         return None
 
+    def confirm_market_closed(self):
+        return self._container.get_last_column_entry(name=("closed_indicator", ""))
+
     def get_model_data(self):
         ids = self.get_unique_ids()
         model_data = list(map(lambda id: self.__get_item_model_data(id), ids))

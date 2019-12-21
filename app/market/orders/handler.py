@@ -2,62 +2,118 @@ class OrdersHandler:
     def __init__(self, bank=5000):
         self.__bank = bank
         self.__existing_orders = []
-        # needs
-        # bank
-        # id
-        # offered_price,
-        # probability
 
-    def get_new_orders(self, wps):
-        # calculate risk_percentage
-        # split
-        wps = [
-            item
-            for item in wps
-            if item.get("risk_percentage") > 0
+    def add_processed_orders(self, orders):
+        valid_orders = list(filter(lambda order: self.__is_valid_order(order), orders))
+        self.__existing_orders.extend(valid_orders)
+        return None
+
+    def _get_existing_orders(self):
+        return self.__existing_orders
+
+    def get_new_orders(self, items):
+
+        if not (items):
+            return []
+
+        risk_percentage = list(
+            filter(
+                lambda item: self.__is_valid_risk(item=item),
+                map(lambda item: self.__add_data(item=item), items),
+            )
+        )
+
+        self.__reduced_risk_percentage = self._calc_reduced_risk_percentage(
+            initial_risk_percentage=risk_percentage
+        )
+
+        orders = list(
+            filter(
+                lambda order: self.__is_valid_order(order),
+                (map(lambda item: self.__prepare_order(item), risk_percentage,)),
+            )
+        )
+
+        return orders
+
+    def __is_valid_order(self, order):
+        return (
+            order.get("size")
+            and order.get("min_size")
+            and order.get("size") > order.get("min_size") > 0
+            and order.get("id")
+            and order.get("probability")
+            and 0 < order.get("probability") < 1
+            and order.get("type") in ["BUY", "SELL"]
+            and order.get("ex_price")
+            and order.get("ex_price") > 0
+            and self.__is_valid_risk(order)
+        )
+
+    def __add_data(self, item):
+        item_with_risk = self.__add_risk_percentage(item)
+        complete_item = self.__add_min_size(item_with_risk)
+        return complete_item
+
+    def __add_risk_percentage(self, item):
+        item["risk_percentage"] = self._calc_risk_percentage(
+            probability=item.get("probability"), price=item.get("returns_price")
+        )
+        return item
+
+    def __add_min_size(self, item):
+        item["min_size"] = 5
+        return item
+
+    def __is_valid_risk(self, item):
+        return (
+            item.get("risk_percentage")
+            and item.get("risk_percentage") > 0
             and item.get("min_size") / self.__bank < item.get("risk_percentage")
             and item.get("id") not in self.get_existing_order_ids()
-        ]
+        )
 
-        bp = {}
-        if wps:
-            for item in wps:
-                bp[item.get("id")] = item.get("risk_percentage")
-                for item1 in wps:
-                    if item.get("id") != item1.get("id"):
-                        bp[item.get("id")] = bp[item.get("risk_percentage")] * (
-                            1 - item1.get("risk_percentage")
+    def _calc_reduced_risk_percentage(self, initial_risk_percentage):
+
+        reduced_risk_percentage = {
+            item.get("id"): item.get("risk_percentage")
+            for item in initial_risk_percentage
+        }
+
+        risk_percentage = (
+            initial_risk_percentage + self._get_existing_order_risk_percentages()
+        )
+
+        if len(initial_risk_percentage) > 1:
+            for id in reduced_risk_percentage.keys():
+                for another_item in risk_percentage:
+                    if id != another_item.get("id"):
+                        reduced_risk_percentage[id] *= 1 - (
+                            another_item.get("risk_percentage") or 0
                         )
-                # apply existing percentages
+        return reduced_risk_percentage
 
-        for item in wps:
-            item["risk_percentage"] = bp[item.get("id")]
-            item["order_size"] = round(
-                max(min(item.get("risk_percentage"), 0.05) * self.__bank, 5), 2
-            )
+    def __prepare_order(self, item):
 
-        wps = [item for item in wps if item["bet_size"] > 0]
-
-        self.__existing_orders.extend(wps)
-
-        return wps
+        item["risk_percentage"] = self.__reduced_risk_percentage[item.get("id")]
+        item["size"] = self._calc_order_size(item=item)
+        return item
 
     def get_existing_order_probabilities(self):
         pass
 
     def get_existing_order_ids(self):
-        return [order.get("id") for order in self.__existing_orders]
+        return [order.get("id") for order in self._get_existing_orders()]
 
     def _get_existing_order_risk_percentages(self):
-        pass
+        return []
 
-    def __calc_risk_percentage(self, probability, price, kf=1, cap=0.05):
-        # risk_return = self.__calc_return(price) <- price given needs to be discounted already
-        if (probability * price) - 1 > 0:
+    def _calc_risk_percentage(self, probability, price, kf=1, cap=0.05):
+        if self.__can_calculate_risk(probability=probability, price=price):
             risk_percentage = min(
                 max(
                     ((price * probability) ** kf - (1 - probability) ** kf)
-                    / ((price * probability) ** kf + price * (1 - probability) ** kf),
+                    / ((price * probability) ** kf + (price * (1 - probability)) ** kf),
                     0,
                 ),
                 cap,
@@ -65,3 +121,12 @@ class OrdersHandler:
         else:
             risk_percentage = 0
         return risk_percentage
+
+    def __can_calculate_risk(self, probability, price):
+        return (probability * price) - 1 > 0 and price > 0 and probability > 0
+
+    def _calc_order_size(self, item):
+        non_negative_risk_percentage = max(item.get("risk_percentage"), 0)
+        monetary_size = round(non_negative_risk_percentage * self.__bank, 2)
+        return monetary_size
+

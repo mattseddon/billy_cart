@@ -1,5 +1,6 @@
 from infrastructure.external_api.handler import ExternalAPIHandler
 from app.market.interface import ExternalAPIMarketInterface
+from private.details import get_orders_str, get_market_str
 
 
 class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
@@ -11,11 +12,11 @@ class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
     def get_market(self):
 
         request = (
-            '{"jsonrpc": "2.0", "method": "SportsAPING/v1.0/listMarketBook",'
+            '{"jsonrpc": "2.0", "method": "%s",'
             '"params":{"marketIds":[%s],'
             '"priceProjection":{"priceData":["EX_BEST_OFFERS","SP_AVAILABLE","SP_TRADED","EX_TRADED"]},'
             '"marketProjection":["MARKET_START_TIME"]}, "id": 1}'
-        ) % self.__market_id
+        ) % (get_market_str(), self.__market_id)
 
         market = self._call_exchange(request=request)
         return market[0] if market else {}
@@ -26,13 +27,18 @@ class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
 
         if valid_orders:
             request = (
-                '{"jsonrpc": "2.0","method": "SportsAPING/v1.0/placeOrders",'
+                '{"jsonrpc": "2.0","method": "%s",'
                 '"params":{"marketId": "%s","instructions":[%s]}'
                 ',"id": 1}'
-            ) % (self.__market_id, self.__get_orders_str(orders=valid_orders))
+            ) % (
+                get_orders_str(),
+                self.__market_id,
+                self.__get_orders_str(orders=valid_orders),
+            )
 
-            result = self._call_exchange(request=request)
-        return result or {}
+            result = self._post_instructions(request=request)
+
+        return result
 
     def _validate_orders(self, orders):
         valid_orders = list(filter(lambda order: self.__is_valid(order=order), orders))
@@ -43,7 +49,7 @@ class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
             is_valid = (
                 order.get("id") > 0
                 and order.get("type") in ["BUY", "SELL"]
-                and order.get("price") > 0
+                and order.get("ex_price") > 0
                 and order.get("size") > 0
             )
         except:
@@ -62,5 +68,5 @@ class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
             order.get("id"),
             "LAY" if order.get("type") == "SELL" else "BACK",
             order.get("size"),
-            order.get("price"),
+            order.get("ex_price"),
         )

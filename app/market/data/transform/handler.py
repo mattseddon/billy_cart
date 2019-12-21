@@ -11,13 +11,16 @@ class TransformHandler:
     def process(self, extracted_data={}):
         items = extracted_data.get("items") or []
         extract_time = extracted_data.get("extract_time")
+        closed_indicator = extracted_data.get("closed_indicator")
 
         self.__transformed_data = {}
         self._set_items(items=items)
         self._set_extract_time(extract_time=extract_time)
+        self._set_closed_indicator(closed_indicator=closed_indicator)
 
         if self.__is_valid_record():
             self.__add_extract_time()
+            self.__add_closed_indicator()
             self.__add_default_data()
             self.__add_adj_back_prices()
             self.__add_combined_back_size()
@@ -35,12 +38,21 @@ class TransformHandler:
         self.__extract_time = extract_time
         return None
 
+    def _set_closed_indicator(self, closed_indicator):
+        self.__closed_indicator = closed_indicator
+        return None
+
     def __is_valid_record(self):
-        return self.__items and self.__extract_time
+        return self.__items and self.__extract_time is not None
 
     def __add_extract_time(self):
         self.__transformed_data[("extract_time", "")] = [self.__extract_time]
         return None
+
+    def __add_closed_indicator(self):
+        self.__transformed_data[("closed_indicator", "")] = [
+            self.__closed_indicator and self.__extract_time >= 0
+        ]
 
     def __add_default_data(self):
         for column in self.__metadata.get_required_variables():
