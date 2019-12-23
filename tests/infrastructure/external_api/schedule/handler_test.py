@@ -1,7 +1,105 @@
-from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
+from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHandler
 from unittest.mock import patch
 from infrastructure.built_in.adapter.date_time import DateTime
+from pytest import mark
+
+
+@mark.slow
+@mark.external
+def test_get_account_status():
+
+    GIVEN("a schedule handler connected to the dev environment")
+    schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
+
+    WHEN("we get the account status")
+    account_status = schedule_handler.get_account_status()
+
+    THEN("a dictionary is returned")
+    assert type(account_status) is dict
+
+    THEN("the returned dict contains a bank variable which is a number greater than 0")
+    bank = account_status.get("availableToBetBalance")
+    assert type(bank) is float
+    assert bank > 0
+
+    THEN(
+        "the returned dict contains a discount rate to be applied which is a float greater than or equal to 0"
+    )
+    discount_rate = account_status.get("discountRate") / 100
+    assert type(discount_rate) is float
+    assert discount_rate >= 0
+
+    THEN(
+        "the returned dict contains a points value which is an int greater than or equal to 0"
+    )
+    points = account_status.get("pointsBalance")
+    assert type(points) is int
+    assert points >= 0
+
+
+@mark.slow
+@mark.external
+def test_schedule_handler():
+
+    GIVEN("a schedule handler connected to the dev environment")
+    dev_schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
+
+    WHEN("we get the schedule for market which start in the next 5 minutes")
+    schedule = dev_schedule_handler.get_schedule("7", DateTime.utc_5_minutes_from_now())
+
+    THEN("a list is returned")
+    assert type(schedule) is list
+
+    THEN("each item in the list is a dict refering to a market")
+    for market in schedule:
+        assert type(market) is dict
+
+        THEN("each market has an id which is a string")
+        market_id = market.get("marketId")
+        assert type(market_id) is str
+
+        THEN("each market has a name")
+        assert type(market.get("marketName")) is str
+
+        THEN("each market is associated with an event which is stored as a dict")
+        event = market.get("event")
+        assert type(event) is dict
+
+        THEN("the event has an id which is a string")
+        assert type(event.get("id")) is str
+
+        THEN("the event has a name which is a string")
+        assert type(event.get("name")) is str
+
+        THEN("the event has a country code which is a string")
+        assert type(event.get("countryCode")) is str
+
+
+@mark.slow
+@mark.external
+def test_object_is_singleton():
+    GIVEN("a schedule handler connected to the dev environment")
+    dev_schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
+
+    WHEN("we create a duplicate handler")
+    duplicate_api_handler = ExternalAPIScheduleHandler(environment="Dev")
+
+    THEN("the duplicate handler is the same instance as the original")
+    assert dev_schedule_handler is duplicate_api_handler
+
+    THEN("both handlers have the same headers")
+    assert dev_schedule_handler.get_headers() == duplicate_api_handler.get_headers()
+
+    WHEN("we request a new set of headers")
+    original_headers = dev_schedule_handler.get_headers()
+    duplicate_api_handler.set_headers()
+
+    THEN("the handlers headers have changed")
+    assert original_headers != dev_schedule_handler.get_headers()
+
+    THEN("both handlers still have the same headers")
+    assert dev_schedule_handler.get_headers() == duplicate_api_handler.get_headers()
 
 
 @patch("infrastructure.external_api.handler.post_data")
@@ -47,98 +145,3 @@ def test_error_handling(mock_urlopen, mock_set_headers):
 
     THEN("no information is returned from the handler")
     assert schedule is None
-
-
-if should_test_real_api():
-
-    def test_get_account_status():
-
-        GIVEN("a schedule handler connected to the dev environment")
-        schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
-
-        WHEN("we get the account status")
-        account_status = schedule_handler.get_account_status()
-
-        THEN("a dictionary is returned")
-        assert type(account_status) is dict
-
-        THEN(
-            "the returned dict contains a bank variable which is a number greater than 0"
-        )
-        bank = account_status.get("availableToBetBalance")
-        assert type(bank) is float
-        assert bank > 0
-
-        THEN(
-            "the returned dict contains a discount rate to be applied which is a float greater than or equal to 0"
-        )
-        discount_rate = account_status.get("discountRate") / 100
-        assert type(discount_rate) is float
-        assert discount_rate >= 0
-
-        THEN(
-            "the returned dict contains a points value which is an int greater than or equal to 0"
-        )
-        points = account_status.get("pointsBalance")
-        assert type(points) is int
-        assert points >= 0
-
-    def test_schedule_handler():
-
-        GIVEN("a schedule handler connected to the dev environment")
-        dev_schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
-
-        WHEN("we get the schedule for market which start in the next 5 minutes")
-        schedule = dev_schedule_handler.get_schedule(
-            "7", DateTime.utc_5_minutes_from_now()
-        )
-
-        THEN("a list is returned")
-        assert type(schedule) is list
-
-        THEN("each item in the list is a dict refering to a market")
-        for market in schedule:
-            assert type(market) is dict
-
-            THEN("each market has an id which is a string")
-            market_id = market.get("marketId")
-            assert type(market_id) is str
-
-            THEN("each market has a name")
-            assert type(market.get("marketName")) is str
-
-            THEN("each market is associated with an event which is stored as a dict")
-            event = market.get("event")
-            assert type(event) is dict
-
-            THEN("the event has an id which is a string")
-            assert type(event.get("id")) is str
-
-            THEN("the event has a name which is a string")
-            assert type(event.get("name")) is str
-
-            THEN("the event has a country code which is a string")
-            assert type(event.get("countryCode")) is str
-
-    def test_object_is_singleton():
-        GIVEN("a schedule handler connected to the dev environment")
-        dev_schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
-
-        WHEN("we create a duplicate handler")
-        duplicate_api_handler = ExternalAPIScheduleHandler(environment="Dev")
-
-        THEN("the duplicate handler is the same instance as the original")
-        assert dev_schedule_handler is duplicate_api_handler
-
-        THEN("both handlers have the same headers")
-        assert dev_schedule_handler.get_headers() == duplicate_api_handler.get_headers()
-
-        WHEN("we request a new set of headers")
-        original_headers = dev_schedule_handler.get_headers()
-        duplicate_api_handler.set_headers()
-
-        THEN("the handlers headers have changed")
-        assert original_headers != dev_schedule_handler.get_headers()
-
-        THEN("both handlers still have the same headers")
-        assert dev_schedule_handler.get_headers() == duplicate_api_handler.get_headers()

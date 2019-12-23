@@ -1,44 +1,42 @@
-from tests.utils import GIVEN, WHEN, THEN, should_test_real_api, lists_are_equal
+from tests.utils import GIVEN, WHEN, THEN, lists_are_equal
 from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHandler
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
 from infrastructure.built_in.adapter.date_time import DateTime
 from infrastructure.built_in.adapter.json_utils import make_dict
 from unittest.mock import patch
+from pytest import mark
 
-if should_test_real_api():
 
-    def test_get_data():
+@mark.slow
+@mark.external
+def test_get_data():
 
-        GIVEN(
-            "a schedule handler and a market handler connected to the dev environment"
+    GIVEN("a schedule handler and a market handler connected to the dev environment")
+    schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
+    headers = schedule_handler.get_headers()
+    markets = schedule_handler.get_schedule("7", DateTime.utc_5_minutes_from_now())
+
+    WHEN("we create an instance of the market handler for each market and ask for data")
+    for market in markets:
+        market_id = market.get("marketId")
+
+        market_handler = ExternalAPIMarketHandler(
+            environment="Dev", headers=headers, market_id=market_id
         )
-        schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
-        headers = schedule_handler.get_headers()
-        markets = schedule_handler.get_schedule("7", DateTime.utc_5_minutes_from_now())
+        market_info = market_handler.get_market()
 
-        WHEN(
-            "we create an instance of the market handler for each market and ask for data"
-        )
-        for market in markets:
-            market_id = market.get("marketId")
-
-            market_handler = ExternalAPIMarketHandler(
-                environment="Dev", headers=headers, market_id=market_id
-            )
-            market_info = market_handler.get_market()
-
-            THEN("a dict is returned")
-            assert type(market_info) is dict
-            if market_info:
-                THEN("the dict contains a list of items")
-                items = market_info.get("runners")
-                assert type(items) is list
+        THEN("a dict is returned")
+        assert type(market_info) is dict
+        if market_info:
+            THEN("the dict contains a list of items")
+            items = market_info.get("runners")
+            assert type(items) is list
 
 
 @patch(
     "infrastructure.external_api.market.handler.ExternalAPIMarketHandler._post_instructions"
 )
-def test_post_data(_call_exchange):
+def test_post_data(mock_call_exchange):
 
     GIVEN("a market handler and some orders")
     market_handler = ExternalAPIMarketHandler(
@@ -52,7 +50,7 @@ def test_post_data(_call_exchange):
     WHEN("we post the orders")
     market_handler.post_order(orders=orders)
     THEN("the exchange was called with the correct request")
-    args, kwargs = _call_exchange.call_args
+    args, kwargs = mock_call_exchange.call_args
     request = make_dict(kwargs.get("request"))
     expected_request = get_expected_request()
     assert args == ()

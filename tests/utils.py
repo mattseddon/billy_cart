@@ -20,11 +20,6 @@ def THEN(str):
     print("        THEN {}".format(str))
 
 
-def should_test_real_api():
-    should = True if get_environment_variable("test_suite") == "online" else False
-    return should
-
-
 def get_test_directory():
     return "./test_data"
 

@@ -4,12 +4,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Black",
-      "type": "shell",
-      "command": "black ${file}",
-      "problemMatcher": []
-    },
-    {
       "label": "Run Pytest",
       "type": "shell",
       "command": "export test_suite=online && pipenv run pytest --cov-config=.coveragerc --cov=./ tests/ --cov-report=xml:cov.xml",
@@ -22,7 +16,19 @@
     {
       "label": "Run Pytest - OFFLINE",
       "type": "shell",
-      "command": "pipenv run pytest",
+      "command": "pipenv run pytest -v -m \"not external\"",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Pytest - FAST",
+      "type": "shell",
+      "command": "pipenv run pytest -v -m \"not slow\"",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Pytest - THIS",
+      "type": "shell",
+      "command": "pipenv run pytest -v -m this",
       "problemMatcher": []
     },
     {

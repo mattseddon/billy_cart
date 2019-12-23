@@ -1,4 +1,4 @@
-from tests.utils import GIVEN, WHEN, THEN, should_test_real_api
+from tests.utils import GIVEN, WHEN, THEN
 from unittest.mock import patch, MagicMock, Mock
 from infrastructure.built_in.adapter.request import (
     post_data,
@@ -7,26 +7,31 @@ from infrastructure.built_in.adapter.request import (
 )
 from infrastructure.built_in.adapter.json_utils import make_json
 from urllib.error import URLError
+from pytest import mark
 
-if should_test_real_api():
 
-    def test_post_data():
-        GIVEN("a url")
-        url = "https://httpbin.org/post"
-        WHEN("we send a post request")
-        data = post_data(url=url)
-        THEN("we get a response")
-        assert type(data) is dict
-        assert data.get("status_code") == get_ok_status()
+@mark.slow
+@mark.external
+def test_post_data():
+    GIVEN("a url")
+    url = "https://httpbin.org/post"
+    WHEN("we send a post request")
+    data = post_data(url=url)
+    THEN("we get a response")
+    assert type(data) is dict
+    assert data.get("status_code") == get_ok_status()
 
-    def test_open_url():
-        GIVEN("a url")
-        url = "https://httpbin.org/anything"
-        WHEN("we open the url")
-        data = open_url(url=url, request="some form data")
-        THEN("we get a response")
-        assert type(data) is dict
-        assert data.get("status_code") == get_ok_status()
+
+@mark.slow
+@mark.external
+def test_open_url():
+    GIVEN("a url")
+    url = "https://httpbin.org/anything"
+    WHEN("we open the url")
+    data = open_url(url=url, request="some form data")
+    THEN("we get a response")
+    assert type(data) is dict
+    assert data.get("status_code") == get_ok_status()
 
 
 @patch("infrastructure.built_in.adapter.request.urlopen")
