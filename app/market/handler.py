@@ -11,41 +11,42 @@ from infrastructure.third_party.adapter.stats_model import WeightedLinearRegress
 # controls all of the higher level modules
 class MarketHandler:
     def __init__(
-        self,
-        market_id,
-        external_api,
-        data=DataHandler(adapter=RecordAdapter(), container=DataContainer()),
-        models=ModelHandler(wls_model=WeightedLinearRegression()),
-        orders=OrdersHandler(),
+        self, market_id, external_api, data=None, models=None, orders=None,
     ):
         self.external_api = external_api
-        self.data = data
-        self.models = models
-        self.orders = orders
+        self.data = data or DataHandler(
+            adapter=RecordAdapter(), container=DataContainer()
+        )
+        self.models = models or ModelHandler(wls_model=WeightedLinearRegression())
+        self.orders = orders or OrdersHandler()
         self.__no_data = 0
 
     def run(self):
         data = self.get_data()
         if data:
             self.__reset_no_data_count()
-            new_orders = self.process(data=data)
-            self.__check_exit_criteria()
+            new_orders = self.process_data(data=data)
             if new_orders:
                 successful_orders = self.place_orders(orders=new_orders)
-                self.__fix_item_probability(orders=successful_orders)
+                self._fix_item_probability(orders=successful_orders)
                 self.__prevent_reorder(orders=successful_orders)
         else:
             self.__increase_no_data_count()
 
+        self.__check_exit_criteria()
+
     def get_data(self):
         return self.external_api.get_market()
 
-    def process(self, data):
+    def process_data(self, data):
 
-        self.data.add(data=data)
-        model_data = self.data.get_model_data()
-        positive_results = self.models.get_results(model_data)
-        new_orders = self.orders.get_new_orders(positive_results)
+        data_added = self.data.add(data=data)
+        if data_added:
+            model_data = self.data.get_model_data()
+            positive_results = self.models.get_results(items=model_data)
+            new_orders = self.orders.get_new_orders(items=positive_results)
+        else:
+            new_orders = []
 
         return new_orders
 
@@ -93,13 +94,11 @@ class MarketHandler:
     def __get_successful_orders(self, orders, successful_ids):
         return list(filter(lambda order: order.get("id") in successful_ids, orders))
 
-    def __fix_item_probability(self, orders):
-        map(
-            lambda order: self.data.set_probability(
-                order.get("id"), order.get("probability")
-            ),
-            orders,
-        )
+    def _fix_item_probability(self, orders):
+        for order in orders:
+            self.data.set_probability(
+                id=order.get("id"), probability=order.get("probability")
+            )
         return None
 
     def __prevent_reorder(self, orders):
