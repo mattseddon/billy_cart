@@ -140,6 +140,30 @@ def test_get_last_column_entry():
     assert is_not_a_number(last_c)
 
 
+def test_has_column():
+    GIVEN("a simple set of data and a container")
+    data = __get_test_dict()
+    data_container = DataContainer(data)
+
+    WHEN("we check if the container has the column A")
+    true = data_container.has_column("A")
+    THEN("it does")
+    assert true
+
+    WHEN("we check if the container has the column wwwwweeeeeeeeeeeee")
+    true = data_container.has_column("wwwwweeeeeeeeeeeee")
+    THEN("it does not")
+    assert not true
+
+    GIVEN("an empty container")
+    data_container = DataContainer()
+
+    WHEN("we check if the container has the column ('closed_indicator','')")
+    true = data_container.has_column(("closed_indicator", ""))
+    THEN("it does not")
+    assert not true
+
+
 def __get_test_dict():
     return {
         "A": [1, 2, 3, 4, 5],

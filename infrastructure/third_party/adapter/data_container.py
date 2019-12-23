@@ -32,6 +32,9 @@ class DataContainer:
     def get_column(self, name):
         return self.__frame[name].tolist()
 
+    def has_column(self, name):
+        return name in self.__frame.columns.to_list()
+
     def get_row_count(self):
         return len(self.__frame.index)
 
