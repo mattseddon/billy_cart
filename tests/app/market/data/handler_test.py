@@ -5,8 +5,10 @@ from app.market.data.transform.price.handler import PriceHandler
 from infrastructure.third_party.adapter.data_container import DataContainer
 from infrastructure.storage.handler import FileHandler
 from infrastructure.external_api.market.record.adapter import RecordAdapter
+from pytest import mark
 
 
+@mark.slow
 def test_handler():
     GIVEN("a data handler and the directory and file name of a test file")
     directory = "./data/29184567"
@@ -20,7 +22,9 @@ def test_handler():
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(adapter=adapter, container=DataContainer())
     for i, raw_record in enumerate(raw_data):
-        handler.add(raw_record)
+        processed = handler.add(raw_record)
+        THEN("the incoming record was processed")
+        assert processed == 1
         number_records_processed = i + 1
         THEN("the handler's data has the correct number of records")
         assert handler._container.get_row_count() == number_records_processed
@@ -140,6 +144,7 @@ def test_handler():
     assert len(handler.get_unique_ids()) == number_runners
 
 
+@mark.slow
 def test_more_data():
     GIVEN("a data handler and the directory and file name of a test file")
 
@@ -154,7 +159,9 @@ def test_more_data():
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(adapter=RecordAdapter(), container=DataContainer())
     for i, raw_record in enumerate(raw_data):
-        handler.add(raw_record)
+        processed = handler.add(raw_record)
+        THEN("the incoming record was processed")
+        assert processed == 1
         number_records_processed = i + 1
         THEN("the handler's data has the correct number of records")
         assert handler._container.get_row_count() == number_records_processed
@@ -270,7 +277,8 @@ def test_more_data():
     assert len(handler.get_unique_ids()) == number_runners
 
 
-def test_removed_runner_df():
+@mark.slow
+def test_removed_runner():
     GIVEN("the directory and file name of a test file which contains a removed runner")
     directory = "./data/29201704"
     file = "1.156695742.txt"
@@ -280,7 +288,9 @@ def test_removed_runner_df():
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(adapter=RecordAdapter(), container=DataContainer())
     for i, raw_record in enumerate(raw_data):
-        handler.add(raw_record)
+        processed = handler.add(raw_record)
+        THEN("the incoming record was processed")
+        assert processed == 1
         number_records_processed = i + 1
         THEN("the data container the correct number of records")
         assert handler._container.get_row_count() == number_records_processed
@@ -292,6 +302,39 @@ def test_removed_runner_df():
     assert handler._container.get_row_count() == len(raw_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
+
+
+def test_confirm_market_closed():
+    GIVEN("a data handler and the directory and file name of a test file")
+    adapter = RecordAdapter()
+    handler = DataHandler(adapter=adapter, container=DataContainer())
+
+    WHEN("we check if the market is closed")
+    closed = handler.confirm_market_closed()
+    THEN("it is not")
+    assert not closed
+
+    GIVEN(
+        "the handler's container has the required column but it does not indicate that the market is closed"
+    )
+    closed_record = handler._container.new(data={("closed_indicator", ""): [0]})
+    handler._container.add_rows(container=closed_record)
+
+    WHEN("we check if the market is closed")
+    closed = handler.confirm_market_closed()
+    THEN("it is not")
+    assert not closed
+
+    GIVEN(
+        "the handler's container has the required column indicating that the market is closed"
+    )
+    closed_record = handler._container.new(data={("closed_indicator", ""): [1]})
+    handler._container.add_rows(container=closed_record)
+
+    WHEN("we check if the market is closed")
+    closed = handler.confirm_market_closed()
+    THEN("it is")
+    assert closed
 
 
 def __get_number_runners(data):

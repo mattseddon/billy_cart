@@ -12,6 +12,7 @@ class DataHandler:
 
     def add(self, data):
 
+        container_size = self.__get_container_size()
         extracted_data = self._extract(data=data)
         transformed_data = self._transform(extracted_data=extracted_data)
         if transformed_data:
@@ -23,10 +24,15 @@ class DataHandler:
             # if item has 60% then rest should sum to 40%
             self._container.add_rows(container=record_container)
 
-        return None
+        return 1 if self.__container_expanded(container_size) else 0
 
     def confirm_market_closed(self):
-        return self._container.get_last_column_entry(name=("closed_indicator", ""))
+        closed_indicator = ("closed_indicator", "")
+        return (
+            self._container.get_last_column_entry(name=closed_indicator)
+            if self._container.has_column(closed_indicator)
+            else 0
+        )
 
     def get_model_data(self):
         ids = self.get_unique_ids()
@@ -51,6 +57,17 @@ class DataHandler:
     def _transform(self, extracted_data):
         transformed_data = self.__transformer.process(extracted_data)
         return transformed_data
+
+    def __get_container_size(self):
+        return self._container.get_row_count() * self.__get_container_column_count()
+
+    def __get_container_column_count(self):
+        return self._container.get_column_count()
+
+    def __container_expanded(self, original_size):
+        return self.__get_container_size() == (
+            original_size + self.__get_container_column_count()
+        )
 
     def __get_item_model_data(self, id):
         data = {
