@@ -25,6 +25,9 @@ def test_market_interface():
         def post_order(self):
             pass
 
+        def set_mediator(self):
+            pass
+
     try:
         THEN("the class can be instantiated without error")
         Implements()

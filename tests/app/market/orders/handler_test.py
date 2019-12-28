@@ -1,22 +1,37 @@
 from tests.utils import GIVEN, WHEN, THEN, almost_equal
+from tests.mock.mediator import MockMediator
+
 from app.market.orders.handler import OrdersHandler
 
+from unittest.mock import patch
 
-def test_empty_items():
+
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_empty_items(mock_notify):
     GIVEN("an orders handler and some items")
-    handler = OrdersHandler(bank=5000)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=5000)
     items = []
 
     WHEN("we call get_new_orders")
-    new_orders = handler.get_new_orders(items=items)
+    handler.get_new_orders(items=items)
 
-    THEN("an empty list is returned")
-    assert new_orders == []
+    THEN("the mediator's notify method is called with the correct paramaters")
+    args, kwargs = mock_notify.call_args
+    assert args == ()
+    assert kwargs.get("event") == "finished processing"
+    new_orders = kwargs.get("data")
+
+    THEN("there are no new orders")
+    assert not new_orders
+    assert new_orders is None
 
 
-def test_single_item():
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_single_item(mock_notify):
     GIVEN("an orders handler and some items")
-    handler = OrdersHandler(bank=5000)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=5000)
     items = [
         {
             "id": 16397186,
@@ -28,7 +43,13 @@ def test_single_item():
     ]
 
     WHEN("we call get_new_orders")
-    new_orders = handler.get_new_orders(items=items)
+    handler.get_new_orders(items=items)
+
+    THEN("the mediator's notify method is called with the correct paramaters")
+    args, kwargs = mock_notify.call_args
+    assert args == ()
+    assert kwargs.get("event") == "new orders"
+    new_orders = kwargs.get("data")
 
     THEN("the correct order information is returned")
     assert new_orders == [
@@ -45,19 +66,27 @@ def test_single_item():
     ]
 
     WHEN("we add the order to the handler (after processing)")
-    handler.add_processed_orders(orders=new_orders)
+    handler.prevent_reorder(orders=new_orders)
     THEN("the correct information has been added to the handler")
     assert handler._get_existing_orders() == new_orders
 
     WHEN("we try to add the order to the handler a second time")
-    handler.add_processed_orders(orders=new_orders)
+    handler.prevent_reorder(orders=new_orders)
     THEN("the order has not been added again to the handler")
     assert handler._get_existing_orders() == new_orders
 
     WHEN("we try to get new orders again using the same item")
-    new_orders = handler.get_new_orders(items=items)
-    THEN("no new orders are returned")
-    assert new_orders == []
+    handler.get_new_orders(items=items)
+
+    THEN("the mediator's notify method is called with the correct paramaters")
+    args, kwargs = mock_notify.call_args
+    assert args == ()
+    assert kwargs.get("event") == "finished processing"
+    new_orders = kwargs.get("data")
+
+    THEN("there are no new orders")
+    assert not new_orders
+    assert new_orders is None
 
 
 def test_calc_reduced_risk_percentage():
@@ -68,7 +97,8 @@ def test_calc_reduced_risk_percentage():
         {"id": 789, "risk_percentage": 0.02},
         {"id": 101, "risk_percentage": 0},
     ]
-    handler = OrdersHandler(bank=5000)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=5000)
 
     WHEN("we calculate the reduced risk percentages")
     reduced_risk_percentages = handler._calc_reduced_risk_percentage(
@@ -85,7 +115,8 @@ def test_calc_reduced_risk_percentage():
 def test_calc_order_size():
     GIVEN("a handler and a list of items with risk_percentages")
     bank = 1000
-    handler = OrdersHandler(bank=bank)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=bank)
     items = [
         {"id": 123, "risk_percentage": -5},
         {"id": 101, "risk_percentage": 0.001},
@@ -102,7 +133,8 @@ def test_calc_order_size():
 
 def test_calc_risk_percentage():
     GIVEN("a handler, a probability and price")
-    handler = OrdersHandler(bank=1)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=1)
     probability = 0.6
     price = 2
 
@@ -142,7 +174,8 @@ def test_calc_risk_percentage():
 
 def test_calc_no_risk_percentage():
     GIVEN("a handler, a probability and an equal price")
-    handler = OrdersHandler(bank=1)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=1)
     probability = 0.5
     price = 2
 
@@ -152,7 +185,8 @@ def test_calc_no_risk_percentage():
     assert no_risk == 0
 
     GIVEN("a handler, a probability and a smaller price")
-    handler = OrdersHandler(bank=1)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=1)
     probability = 0.5
     price = 1.5
 
@@ -162,7 +196,8 @@ def test_calc_no_risk_percentage():
     assert no_risk == 0
 
     GIVEN("a handler, a negative probability and negative price")
-    handler = OrdersHandler(bank=1)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=1)
     probability = -0.5
     price = -2.1
 
@@ -174,7 +209,8 @@ def test_calc_no_risk_percentage():
 
 def test_add_valid_processed_orders():
     GIVEN("a handler and a set of valid processed orders")
-    handler = OrdersHandler(bank=100000000000)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=100000000000)
     processed_orders = [
         {
             "id": 1234,
@@ -198,7 +234,7 @@ def test_add_valid_processed_orders():
         },
     ]
     WHEN("we add the orders to the handler")
-    handler.add_processed_orders(orders=processed_orders)
+    handler.prevent_reorder(orders=processed_orders)
     existing_orders = handler._get_existing_orders()
     THEN("the correct order data has been added to the handler")
     assert existing_orders == processed_orders
@@ -206,7 +242,8 @@ def test_add_valid_processed_orders():
 
 def test_add_invalid_processed_orders():
     GIVEN("a handler and a set of valid processed orders")
-    handler = OrdersHandler(bank=100000000000)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=100000000000)
     processed_orders = [
         {
             "probability": 0.5,
@@ -343,7 +380,7 @@ def test_add_invalid_processed_orders():
         },
     ]
     WHEN("we try to add the orders to the handler")
-    handler.add_processed_orders(orders=processed_orders)
+    handler.prevent_reorder(orders=processed_orders)
     existing_orders = handler._get_existing_orders()
     THEN("no order data has been added to the handler")
     assert existing_orders == []
@@ -351,7 +388,8 @@ def test_add_invalid_processed_orders():
 
 def test_add_mixed_processed_orders():
     GIVEN("a handler and a set of processed orders (2 valid, 1 invalid)")
-    handler = OrdersHandler(bank=100000000000)
+    mediator = MockMediator()
+    handler = OrdersHandler(mediator=mediator, bank=100000000000)
     processed_orders = [
         {
             "id": 1234,
@@ -376,7 +414,7 @@ def test_add_mixed_processed_orders():
         {},
     ]
     WHEN("we add the orders to the handler")
-    handler.add_processed_orders(orders=processed_orders)
+    handler.prevent_reorder(orders=processed_orders)
     existing_orders = handler._get_existing_orders()
     THEN("the correct number of orders have been added to the handler")
     assert len(existing_orders) == 2

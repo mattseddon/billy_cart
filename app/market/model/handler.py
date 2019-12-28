@@ -3,11 +3,12 @@ from infrastructure.built_in.adapter.copy_utils import make_copy
 
 
 class ModelHandler:
-    def __init__(self, wls_model, event_country="AU"):
+    def __init__(self, mediator, wls_model, event_country="AU"):
         self.__event_country = event_country
         self.wls_model = wls_model
+        self._mediator = mediator
 
-    def get_results(self, items):
+    def run_models(self, items):
 
         self.__market_back_size = self.__get_market_back_size(items=items)
 
@@ -67,7 +68,11 @@ class ModelHandler:
                 results.append(has_value)
                 continue
 
-        return results
+        return (
+            self._mediator.notify(event="models have results", data=results)
+            if results
+            else self._mediator.notify(event="finished processing", data=None)
+        )
 
     def __standardise_result(
         self, item, probability, type, model_id, ex_price, returns_price

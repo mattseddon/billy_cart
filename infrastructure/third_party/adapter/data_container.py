@@ -1,7 +1,9 @@
 from pandas import DataFrame
+from infrastructure.third_party.adapter.numpy_utils import make_native_type
+from app.market.data.interface import DataContainerInterface
 
 
-class DataContainer:
+class DataContainer(DataContainerInterface):
     def __init__(self, data=None):
         if data:
             self.__frame = DataFrame(data)
@@ -46,7 +48,7 @@ class DataContainer:
         return None
 
     def get_last_column_entry(self, name):
-        return self.__frame[name].iloc[-1]
+        return make_native_type(self.__frame[name].iloc[-1])
 
     def get_index(self):
         return self.__frame.index.values.tolist()

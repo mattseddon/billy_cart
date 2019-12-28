@@ -37,7 +37,7 @@ def test_open_url():
 @patch("infrastructure.built_in.adapter.request.urlopen")
 def test_error_handling(mock_urlopen):
     GIVEN("a url")
-    url = "https://fakeurlrequests.io"
+    url = "https://mockurlrequests.io"
     WHEN("we make a url request but an empty dictionary is returned")
     context_manager = MagicMock()
     context_manager.getcode.return_value = get_ok_status()

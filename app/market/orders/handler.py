@@ -1,9 +1,10 @@
 class OrdersHandler:
-    def __init__(self, bank=5000):
+    def __init__(self, mediator, bank=5000):
         self.__bank = bank
         self.__existing_orders = []
+        self._mediator = mediator
 
-    def add_processed_orders(self, orders):
+    def prevent_reorder(self, orders):
         valid_orders = list(filter(lambda order: self.__is_valid_order(order), orders))
         self.__existing_orders.extend(valid_orders)
         return None
@@ -14,7 +15,7 @@ class OrdersHandler:
     def get_new_orders(self, items):
 
         if not (items):
-            return []
+            return self.__notify_mediator_finished()
 
         risk_percentage = list(
             filter(
@@ -34,7 +35,36 @@ class OrdersHandler:
             )
         )
 
-        return orders
+        return (
+            self._mediator.notify(event="new orders", data=orders)
+            if orders
+            else self.__notify_mediator_finished()
+        )
+
+    def get_successful_orders(self, response, orders):
+
+        successful_order_ids = self.__get_successful_order_ids(response=response)
+        successful_orders = self.__filter_orders(
+            orders=orders, successful_ids=successful_order_ids
+        )
+
+        return successful_orders
+
+    def __get_successful_order_ids(self, response):
+        return list(
+            map(
+                lambda order: order.get("instruction").get("selectionId"),
+                filter(lambda order: self.__get_successful_order(order), response),
+            )
+        )
+
+    def __get_successful_order(self, order):
+        return order.get("status") == "SUCCESS"
+
+    def __filter_orders(self, orders, successful_ids):
+        return list(
+            filter(lambda order: int(order.get("id")) in successful_ids, orders)
+        )
 
     def __is_valid_order(self, order):
         return (
@@ -129,4 +159,7 @@ class OrdersHandler:
         non_negative_risk_percentage = max(item.get("risk_percentage"), 0)
         monetary_size = round(non_negative_risk_percentage * self.__bank, 2)
         return monetary_size
+
+    def __notify_mediator_finished(self):
+        return self._mediator.notify(event="finished processing", data=None)
 

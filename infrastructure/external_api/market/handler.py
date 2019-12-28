@@ -4,10 +4,14 @@ from private.details import get_orders_str, get_market_str
 
 
 class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
-    def __init__(self, market_id, headers, environment="Prod"):
+    def __init__(self, market_id, headers, environment="Prod", mediator=None):
         ExternalAPIHandler.__init__(self, environment=environment)
         self.__market_id = market_id
         self._headers = headers
+        self._mediator = mediator
+
+    def set_mediator(self, mediator):
+        self._mediator = mediator
 
     def get_market(self):
 
@@ -19,7 +23,10 @@ class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
         ) % (get_market_str(), self.__market_id)
 
         market = self._call_exchange(request=request)
-        return market[0] if market else {}
+
+        data = market[0] if market else {}
+
+        return self._mediator.notify(event="external data fetched", data=data)
 
     def post_order(self, orders):
 
@@ -36,9 +43,14 @@ class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
                 self.__get_orders_str(orders=valid_orders),
             )
 
-            result = self._post_instructions(request=request)
+            response = self._post_instructions(request=request)
 
-        return result
+            return self._mediator.notify(
+                data={"response": response, "orders": orders}, event="orders posted"
+            )
+
+        else:
+            return self._mediator.notify(event="finished processing", data=None)
 
     def _validate_orders(self, orders):
         valid_orders = list(filter(lambda order: self.__is_valid(order=order), orders))

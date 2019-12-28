@@ -1,15 +1,26 @@
-from tests.utils import GIVEN, WHEN, THEN, lists_are_equal
+from tests.utils import (
+    GIVEN,
+    WHEN,
+    THEN,
+    lists_are_equal,
+    get_test_orders,
+    get_test_orders_post_response,
+)
+from tests.mock.mediator import MockMediator
+
 from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHandler
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
 from infrastructure.built_in.adapter.date_time import DateTime
 from infrastructure.built_in.adapter.json_utils import make_dict
-from unittest.mock import patch
+
 from pytest import mark
+from unittest.mock import patch
 
 
 @mark.slow
 @mark.external
-def test_get_data():
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_get_data(mock_notify):
 
     GIVEN("a schedule handler and a market handler connected to the dev environment")
     schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
@@ -21,11 +32,18 @@ def test_get_data():
         market_id = market.get("marketId")
 
         market_handler = ExternalAPIMarketHandler(
-            environment="Dev", headers=headers, market_id=market_id
+            mediator=MockMediator(),
+            environment="Dev",
+            headers=headers,
+            market_id=market_id,
         )
         market_info = market_handler.get_market()
 
-        THEN("a dict is returned")
+        THEN("the notify method was called with the correct parameters")
+        args, kwargs = mock_notify.call_args
+        assert args == ()
+        assert kwargs.get("event") == "external data fetched"
+        market_info = kwargs.get("data")
         assert type(market_info) is dict
         if market_info:
             THEN("the dict contains a list of items")
@@ -40,13 +58,10 @@ def test_post_data(mock_call_exchange):
 
     GIVEN("a market handler and some orders")
     market_handler = ExternalAPIMarketHandler(
-        environment="Dev", headers={}, market_id=123456
+        mediator=MockMediator(), environment="Dev", headers={}, market_id=123456
     )
-    orders = [
-        {"id": 9999999, "type": "BUY", "size": 100, "ex_price": 2.0},
-        {"id": 8888888, "type": "SELL", "size": 6.18, "ex_price": 75.0},
-        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": 12.6},
-    ]
+    orders = get_test_orders()
+
     WHEN("we post the orders")
     market_handler.post_order(orders=orders)
     THEN("the exchange was called with the correct request")
@@ -60,36 +75,36 @@ def test_post_data(mock_call_exchange):
 
 
 @patch("infrastructure.external_api.handler.open_url")
-def test_order_response(open_url):
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_order_response(mock_notify, mock_open_url):
     GIVEN("a market handler and some orders")
     market_handler = ExternalAPIMarketHandler(
-        environment="Dev", headers={}, market_id=123456
+        mediator=MockMediator(), environment="Dev", headers={}, market_id=123456
     )
-    orders = [
-        {"id": 9999999, "type": "BUY", "size": 100, "ex_price": 2.0},
-        {"id": 8888888, "type": "SELL", "size": 6.18, "ex_price": 75.0},
-        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": 12.6},
-    ]
-    open_url.return_value = __get_expected_response()
+    orders = get_test_orders()
+    mock_open_url.return_value = get_test_orders_post_response()
     WHEN("we post the orders")
-    data = market_handler.post_order(orders=orders)
-    THEN("the returned response is a list")
-    assert type(data) is list
-    assert len(data) == 3
-    for order in data:
+    response = market_handler.post_order(orders=orders)
+    THEN("the notify method was called with the correct parameters")
+    args, kwargs = mock_notify.call_args
+    assert args == ()
+    data = kwargs.get("data")
+    assert data.get("orders") == orders
+    assert kwargs.get("event") == "orders posted"
+
+    response = data.get("response")
+    assert type(response) is list
+    assert len(response) == 3
+    for order in response:
         assert order.get("status") == "SUCCESS"
 
 
 def test_valid_orders():
     GIVEN("a market handler and a set of valid orders")
     market_handler = ExternalAPIMarketHandler(
-        environment="Dev", headers={}, market_id=123456
+        mediator=MockMediator(), environment="Dev", headers={}, market_id=123456
     )
-    orders = [
-        {"id": 9999999, "type": "BUY", "size": 100, "ex_price": 2.0},
-        {"id": 8888888, "type": "SELL", "size": 6.18, "ex_price": 75.0},
-        {"id": 7777777, "type": "BUY", "size": 5, "ex_price": 12.6},
-    ]
+    orders = get_test_orders()
     WHEN("we validate the orders")
     valid_orders = market_handler._validate_orders(orders=orders)
     THEN("all of the orders are shown to be valid")
@@ -99,7 +114,7 @@ def test_valid_orders():
 def test_invalid_order():
     GIVEN("a market handler and an invalid order")
     market_handler = ExternalAPIMarketHandler(
-        environment="Dev", headers={}, market_id=123456
+        mediator=MockMediator(), environment="Dev", headers={}, market_id=123456
     )
     orders = [
         {"type": "BUY", "size": 100, "ex_price": 2.0},
@@ -112,7 +127,7 @@ def test_invalid_order():
 def test_valid_and_invalid_orders():
     GIVEN("a market handler two valid orders and two invalid orders")
     market_handler = ExternalAPIMarketHandler(
-        environment="Dev", headers={}, market_id=123456
+        mediator=MockMediator(), environment="Dev", headers={}, market_id=123456
     )
     orders = [
         {"id": 9999999, "size": 100, "ex_price": 2.0},
@@ -168,70 +183,4 @@ def get_expected_request():
             ],
         },
         "id": 1,
-    }
-
-
-def __get_expected_response():
-    return {
-        "status": "SUCCESS",
-        "instructionReports": [
-            {
-                "status": "SUCCESS",
-                "sizeMatched": 100,
-                "betId": "177444942426",
-                "instruction": {
-                    "handicap": 0.0,
-                    "orderType": "LIMIT",
-                    "selectionId": 9999999,
-                    "limitOrder": {
-                        "price": 2.0,
-                        "persistenceType": "LAPSE",
-                        "size": 100,
-                    },
-                    "side": "BACK",
-                },
-                "orderStatus": "EXECUTION_COMPLETE",
-                "placedDate": "2019-09-05T06:26:30.000Z",
-                "averagePriceMatched": 2,
-            },
-            {
-                "status": "SUCCESS",
-                "sizeMatched": 6.18,
-                "betId": "177444942426",
-                "instruction": {
-                    "handicap": 0.0,
-                    "orderType": "LIMIT",
-                    "selectionId": 8888888,
-                    "limitOrder": {
-                        "price": 75.0,
-                        "persistenceType": "LAPSE",
-                        "size": 6.18,
-                    },
-                    "side": "LAY",
-                },
-                "orderStatus": "EXECUTION_COMPLETE",
-                "placedDate": "2019-09-05T06:26:30.000Z",
-                "averagePriceMatched": 75.0,
-            },
-            {
-                "status": "SUCCESS",
-                "sizeMatched": 5,
-                "betId": "177444942426",
-                "instruction": {
-                    "handicap": 0.0,
-                    "orderType": "LIMIT",
-                    "selectionId": 7777777,
-                    "limitOrder": {
-                        "price": 12.6,
-                        "persistenceType": "LAPSE",
-                        "size": 5,
-                    },
-                    "side": "BACK",
-                },
-                "orderStatus": "EXECUTION_COMPLETE",
-                "placedDate": "2019-09-05T06:26:30.000Z",
-                "averagePriceMatched": 12.8,
-            },
-        ],
-        "marketId": "123456",
     }

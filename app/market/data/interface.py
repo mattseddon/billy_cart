@@ -10,5 +10,46 @@ class ExternalAPIMarketDataInterface(metaclass=Interface):
 
 class DataContainerInterface(metaclass=Interface):
     @abstract_method
-    def all_the_methods(self):
+    def new(self):
         pass
+
+    @abstract_method
+    def add_rows(self):
+        pass
+
+    @abstract_method
+    def get_row_count(self):
+        pass
+
+    @abstract_method
+    def get_column_count(self):
+        pass
+
+    @abstract_method
+    def get_column(self):
+        pass
+
+    @abstract_method
+    def get_last_column_entry(self):
+        pass
+
+    @abstract_method
+    def has_column(self):
+        pass
+
+    @abstract_method
+    def get_column_group_values(self):
+        pass
+
+    @abstract_method
+    def get_index(self):
+        pass
+
+    @abstract_method
+    def set_index(self):
+        pass
+
+    @abstract_method
+    def set_column_group_name(self):
+        pass
+

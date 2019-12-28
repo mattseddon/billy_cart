@@ -42,9 +42,9 @@ def test_set_index():
     data = __get_test_dict()
     data_container = DataContainer(data)
     WHEN("we set the index to be A")
-    data_container.set_index(columns=["B"])
+    data_container.set_index(columns=["A"])
     assert data_container.get_column_count() == len(data.keys()) - 1
-    assert lists_are_equal(data_container.get_index(), data.get("B"))
+    assert lists_are_equal(data_container.get_index(), data.get("A"))
 
     GIVEN("a simple set of data and a container")
     data = __get_test_dict()
@@ -128,11 +128,13 @@ def test_get_last_column_entry():
     last_a = data_container.get_last_column_entry("A")
     THEN("the correct value is returned")
     assert last_a == data.get("A")[-1]
+    assert type(last_a) is float
 
     WHEN("we get the last entry for B")
     last_b = data_container.get_last_column_entry("B")
     THEN("the correct value is returned")
     assert last_b == data.get("B")[-1]
+    assert type(last_b) is str
 
     WHEN("we get the last entry for C")
     last_c = data_container.get_last_column_entry("C")
@@ -166,7 +168,7 @@ def test_has_column():
 
 def __get_test_dict():
     return {
-        "A": [1, 2, 3, 4, 5],
-        "B": [7, 8, 9, 10, 11],
+        "A": [1, 2, 3, 4, 5.000000],
+        "B": [7, 8, 9, 10, "11.1234"],
         "C": [13, 15, 16, 17, not_a_number()],
     }

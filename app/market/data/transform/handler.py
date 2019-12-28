@@ -4,9 +4,19 @@ from app.market.metadata.handler import MetadataHandler
 
 
 class TransformHandler:
-    def __init__(self):
+    def __init__(self, total_probability=1):
         self.__pricer = PriceHandler()
         self.__metadata = MetadataHandler()
+        self.__total_probability = total_probability
+        self.__remaining_probability = total_probability
+        self.__probabilities = {}
+
+    def set_probability(self, id, probability):
+        self.__probabilities[id] = probability
+        return None
+
+    def get_fixed_probability_ids(self):
+        return list(self.__probabilities.keys())
 
     def process(self, extracted_data={}):
         items = extracted_data.get("items") or []
@@ -17,6 +27,7 @@ class TransformHandler:
         self._set_items(items=items)
         self._set_extract_time(extract_time=extract_time)
         self._set_closed_indicator(closed_indicator=closed_indicator)
+        self._calc_remaining_probability()
 
         if self.__is_valid_record():
             self.__add_extract_time()
@@ -31,8 +42,16 @@ class TransformHandler:
         return self.__transformed_data
 
     def _set_items(self, items):
-        self.__items = items
+        self.__items = self._exclude_fixed_items(items=items)
         return None
+
+    def _exclude_fixed_items(self, items):
+        return list(
+            filter(
+                lambda item: item.get("id") not in self.get_fixed_probability_ids(),
+                items,
+            )
+        )
 
     def _set_extract_time(self, extract_time):
         self.__extract_time = extract_time
@@ -40,6 +59,12 @@ class TransformHandler:
 
     def _set_closed_indicator(self, closed_indicator):
         self.__closed_indicator = closed_indicator
+        return None
+
+    def _calc_remaining_probability(self):
+        self.__remaining_probability = self.__total_probability - sum(
+            self.__probabilities.values()
+        )
         return None
 
     def __is_valid_record(self):
@@ -128,7 +153,7 @@ class TransformHandler:
     def __get_composite_column_name(self, variable, item):
         return (variable, item.get("id"))
 
-    def _get_compositional_data(self, price_name, correct_probability=1):
+    def _get_compositional_data(self, price_name):
 
         probabilities = list(
             map(
@@ -142,7 +167,7 @@ class TransformHandler:
         probability_handler = ProbabilityHandler(
             items=probabilities,
             name="probability",
-            correct_probability=correct_probability,
+            correct_probability=self.__remaining_probability,
         )
         compositional_probabilities = (
             probability_handler.calc_compositional_probabilities()

@@ -3,30 +3,46 @@ from app.market.metadata.handler import MetadataHandler
 
 
 class DataHandler:
-    def __init__(self, adapter, container, transformer=TransformHandler()):
+    def __init__(self, mediator, adapter, container, transformer=None):
         self._container = container.new()
         self.__extractor = adapter
-        self.__transformer = transformer
-        self.__probabilities = {}
+        self.__transformer = transformer or TransformHandler()
         self.__metadata = MetadataHandler()
+        self.__consecutive_empty_data = 0
+        self._mediator = mediator
 
-    def add(self, data):
+    def process_data(self, data):
 
         container_size = self.__get_container_size()
         extracted_data = self._extract(data=data)
+        if not (extracted_data):
+            self.__consecutive_empty_data += 1
+            return (
+                self._mediator.notify(event="processing finished")
+                if self.__consecutive_empty_data < 10
+                else self._mediator.notify(event="no data provided multiple times")
+            )
+
         transformed_data = self._transform(extracted_data=extracted_data)
         if transformed_data:
-            record_container = self._container.new(data=transformed_data)
-            record_container.set_index((self.__metadata.get_index_name(), ""))
-            record_container.set_column_group_name(names=["variable", "id"])
-            # if self.__probabilities then (override probabilities) or (miss the item completely)
-            # when creating the compositional probabilities will need to take into account any static ones
-            # if item has 60% then rest should sum to 40%
-            self._container.add_rows(container=record_container)
+            self.__add_to_container(data=transformed_data)
 
-        return 1 if self.__container_expanded(container_size) else 0
+        if self._confirm_market_closed():
+            return self._mediator.notify(event="market closed")
 
-    def confirm_market_closed(self):
+        if self.__container_expanded(container_size):
+            self.__consecutive_empty_data = 0
+            return self._mediator.notify(
+                event="data added to container", data=self._get_model_data()
+            )
+
+    def fix_probabilities(self, items):
+        for item in items:
+            self._set_probability(
+                id=item.get("id"), probability=item.get("probability")
+            )
+
+    def _confirm_market_closed(self):
         closed_indicator = ("closed_indicator", "")
         return (
             self._container.get_last_column_entry(name=closed_indicator)
@@ -34,17 +50,29 @@ class DataHandler:
             else 0
         )
 
-    def get_model_data(self):
-        ids = self.get_unique_ids()
-        model_data = list(map(lambda id: self.__get_item_model_data(id), ids))
+    def _get_model_data(self):
+        model_data = list(
+            map(
+                lambda id: self.__get_item_model_data(id),
+                self._get_ids_for_model_data(),
+            )
+        )
         return model_data
 
-    def set_probability(self, id, probability):
-        self.__probabilities[id] = probability
-        return None
+    def _get_ids_for_model_data(self):
+        return list(
+            filter(
+                lambda id: not id in self._get_fixed_probability_ids(),
+                self.get_unique_ids(),
+            )
+        )
 
-    def get_probability(self, id):
-        return self.__probabilities.get(id)
+    def _get_fixed_probability_ids(self):
+        return self.__transformer.get_fixed_probability_ids()
+
+    def _set_probability(self, id, probability):
+        self.__transformer.set_probability(id=id, probability=probability)
+        return None
 
     def get_unique_ids(self):
         index = self._container.get_column_group_values(name="id")
@@ -57,6 +85,12 @@ class DataHandler:
     def _transform(self, extracted_data):
         transformed_data = self.__transformer.process(extracted_data)
         return transformed_data
+
+    def __add_to_container(self, data):
+        record_container = self._container.new(data=data)
+        record_container.set_index((self.__metadata.get_index_name(), ""))
+        record_container.set_column_group_name(names=["variable", "id"])
+        self._container.add_rows(container=record_container)
 
     def __get_container_size(self):
         return self._container.get_row_count() * self.__get_container_column_count()

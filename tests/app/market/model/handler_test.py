@@ -1,16 +1,21 @@
 from tests.utils import GIVEN, WHEN, THEN, lists_are_equal
+from tests.mock.mediator import MockMediator
+
 from app.market.model.handler import ModelHandler
+
 from infrastructure.third_party.adapter.stats_model import WeightedLinearRegression
 from infrastructure.third_party.adapter.numpy_utils import (
     is_not_a_number,
     calculate_log,
 )
 
+from unittest.mock import patch
 
 def test_get_log_returns():
     GIVEN("an item with some compositional data and the model handler")
-    item = get_model_data_item(id=16397186)
-    handler = ModelHandler(wls_model=WeightedLinearRegression())
+    item = __get_model_data_item(id=16397186)
+    mediator = MockMediator()
+    handler = ModelHandler(mediator=mediator, wls_model=WeightedLinearRegression())
     y = item.get("compositional_sp_back_price_ts")
     WHEN("we get the log returns of the data")
     log_returns = handler._get_log_returns(y)
@@ -27,8 +32,9 @@ def test_get_log_returns():
 
 def test_meets_wlr_criteria():
     GIVEN("model data and an instance of the model handler")
-    handler = ModelHandler(wls_model=WeightedLinearRegression())
-    model_data = get_model_data()
+    mediator = MockMediator()
+    handler = ModelHandler(mediator=mediator, wls_model=WeightedLinearRegression())
+    model_data = __get_model_data()
     WHEN(
         "we run the weighted linear regression component for each of the items in the model_data"
     )
@@ -43,20 +49,28 @@ def test_meets_wlr_criteria():
         else:
             assert not (result)
 
-
-def test_get_results():
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_run_models_with_results(mock_notify):
     GIVEN("model data and an instance of the model handler")
-    handler = ModelHandler(wls_model=WeightedLinearRegression())
-    model_data = get_model_data()
-    WHEN("we get results")
-    results = handler.get_results(items=model_data)
+    mediator = MockMediator()
+    handler = ModelHandler(mediator = mediator,wls_model=WeightedLinearRegression())
+    model_data = __get_model_data()
+    WHEN("we run the models")
+    handler.run_models(items=model_data)
+
+    THEN("the mediator's notify method was called with the correct parameters")
+    args, kwargs = mock_notify.call_args
+    assert args == ()
+    assert kwargs.get("event") == "models have results"
+    results = kwargs.get("data")
+
     THEN("the results are not empty")
     assert results
     THEN("there is only one result")
     assert len(results) == 1
     THEN("the result is as expected (from historical records)")
     result = results[0]
-    original_item = get_model_data_item(id=16397186)
+    original_item = __get_model_data_item(id=16397186)
     assert result == {
         "id": original_item.get("id"),
         "ex_price": original_item.get("ex_offered_back_price_pit"),
@@ -66,8 +80,27 @@ def test_get_results():
         "model_id": "SPMB",
     }
 
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_run_models_no_results(mock_notify):
+    GIVEN("model data and an instance of the model handler")
+    mediator = MockMediator()
+    handler = ModelHandler(mediator = mediator,wls_model=WeightedLinearRegression())
+    model_data = []
+    WHEN("we run the models")
+    handler.run_models(items=model_data)
 
-def get_model_data():
+    THEN("the mediator's notify method was called with the correct parameters")
+    args, kwargs = mock_notify.call_args
+    assert args == ()
+    assert kwargs.get("event") == "finished processing"
+    results = kwargs.get("data")
+
+    THEN("the results are empty")
+    assert not results
+    assert results is None
+
+
+def __get_model_data():
     return [
         {
             "id": 14554375,
@@ -1128,5 +1161,5 @@ def get_model_data():
     ]
 
 
-def get_model_data_item(id):
-    return next((item for item in get_model_data() if item.get("id") == id), None)
+def __get_model_data_item(id):
+    return next((item for item in __get_model_data() if item.get("id") == id), None)

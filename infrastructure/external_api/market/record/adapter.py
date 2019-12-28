@@ -50,4 +50,5 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
         return list(filter(None, items))
 
     def __get_closed_indicator(self):
-        return self.__get_market_info().get("inplay")
+        market_info = self.__get_market_info()
+        return market_info.get("inplay") if market_info else None
