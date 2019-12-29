@@ -1,8 +1,11 @@
-class OrdersHandler:
+from app.colleague import Colleague
+
+
+class OrdersHandler(Colleague):
     def __init__(self, mediator, bank=5000):
         self.__bank = bank
         self.__existing_orders = []
-        self._mediator = mediator
+        Colleague.__init__(self, mediator=mediator)
 
     def prevent_reorder(self, orders):
         valid_orders = list(filter(lambda order: self.__is_valid_order(order), orders))

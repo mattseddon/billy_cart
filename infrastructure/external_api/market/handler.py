@@ -1,17 +1,21 @@
-from infrastructure.external_api.handler import ExternalAPIHandler
+from app.colleague import Colleague
+
 from app.market.interface import ExternalAPIMarketInterface
+
+from infrastructure.external_api.handler import ExternalAPIHandler
+
 from private.details import get_orders_str, get_market_str
 
 
-class ExternalAPIMarketHandler(ExternalAPIHandler, ExternalAPIMarketInterface):
+class ExternalAPIMarketHandler(
+    ExternalAPIHandler, ExternalAPIMarketInterface, Colleague
+):
     def __init__(self, market_id, headers, environment="Prod", mediator=None):
         ExternalAPIHandler.__init__(self, environment=environment)
         self.__market_id = market_id
         self._headers = headers
-        self._mediator = mediator
-
-    def set_mediator(self, mediator):
-        self._mediator = mediator
+        if mediator:
+            Colleague.__init__(self, mediator=mediator)
 
     def get_market(self):
 

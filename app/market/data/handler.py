@@ -1,15 +1,17 @@
+from app.colleague import Colleague
+
 from app.market.data.transform.handler import TransformHandler
 from app.market.metadata.handler import MetadataHandler
 
 
-class DataHandler:
+class DataHandler(Colleague):
     def __init__(self, mediator, adapter, container, transformer=None):
         self._container = container.new()
         self.__extractor = adapter
         self.__transformer = transformer or TransformHandler()
         self.__metadata = MetadataHandler()
         self.__consecutive_empty_data = 0
-        self._mediator = mediator
+        Colleague.__init__(self, mediator=mediator)
 
     def process_data(self, data):
 
@@ -18,7 +20,7 @@ class DataHandler:
         if not (extracted_data):
             self.__consecutive_empty_data += 1
             return (
-                self._mediator.notify(event="processing finished")
+                self._mediator.notify(event="finished processing")
                 if self.__consecutive_empty_data < 10
                 else self._mediator.notify(event="no data provided multiple times")
             )

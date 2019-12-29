@@ -10,7 +10,3 @@ class ExternalAPIMarketInterface(metaclass=Interface):
     @abstract_method
     def post_order(self):
         pass
-
-    @abstract_method
-    def set_mediator(self):
-        pass

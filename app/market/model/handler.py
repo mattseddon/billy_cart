@@ -1,12 +1,14 @@
+from app.colleague import Colleague
+
 from infrastructure.third_party.adapter.numpy_utils import calculate_log, not_a_number
 from infrastructure.built_in.adapter.copy_utils import make_copy
 
 
-class ModelHandler:
+class ModelHandler(Colleague):
     def __init__(self, mediator, wls_model, event_country="AU"):
         self.__event_country = event_country
         self.wls_model = wls_model
-        self._mediator = mediator
+        Colleague.__init__(self, mediator=mediator)
 
     def run_models(self, items):
 
