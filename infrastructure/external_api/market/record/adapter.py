@@ -4,6 +4,9 @@ from infrastructure.external_api.market.record.item.adapter import ItemAdapter
 
 
 class RecordAdapter(ExternalAPIMarketDataInterface):
+    def __init__(self, market_start_time):
+        self.__market_start_time = DateTime(market_start_time).get_epoch()
+
     def convert(self, raw_record):
         self.__data = raw_record
 
@@ -12,7 +15,7 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
             return None
 
         try:
-            time_difference = self.__get_time_difference()
+            time_difference = self._get_time_difference()
         except:
             return None
 
@@ -24,16 +27,14 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
         else:
             return None
 
-    def __get_time_difference(self):
+    def _get_time_difference(self):
         extract_time = DateTime(self.__data.get("et")).get_epoch()
-        time_difference = (
-            extract_time - DateTime(self.__data.get("marketStartTime")).get_epoch()
-        )
+
+        time_difference = extract_time - self.__market_start_time
         return time_difference
 
     def __get_items(self):
-        market_info = self.__get_market_info()
-        return market_info.get("runners") if market_info else None
+        return self.__data.get("runners")
 
     def __process(self, items):
         data = {}
@@ -42,13 +43,8 @@ class RecordAdapter(ExternalAPIMarketDataInterface):
         )
         return data
 
-    def __get_market_info(self):
-        market_info = self.__data.get("marketInfo")
-        return market_info[0] if type(market_info) is list else market_info
-
     def __non_empty(self, items):
         return list(filter(None, items))
 
     def __get_closed_indicator(self):
-        market_info = self.__get_market_info()
-        return market_info.get("inplay") if market_info else None
+        return self.__data.get("inplay")

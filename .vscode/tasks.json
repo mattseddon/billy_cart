@@ -36,6 +36,12 @@
       "type": "shell",
       "command": "pipenv lock --pre && pipenv install",
       "problemMatcher": []
+    },
+    {
+      "label": "Run Python",
+      "type": "shell",
+      "command": "pipenv run python3 ${file}",
+      "problemMatcher": []
     }
   ]
 }

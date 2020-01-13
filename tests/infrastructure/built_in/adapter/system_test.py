@@ -11,7 +11,7 @@ def test_die():
 
     WHEN("we call die")
     with raises(SystemExit) as system_exit:
-        die(0)
+        die()
     THEN("the program exits")
     assert system_exit.type == SystemExit
     assert system_exit.value.code == 0

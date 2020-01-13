@@ -6,19 +6,28 @@ from app.market.model.handler import ModelHandler
 from app.market.orders.handler import OrdersHandler
 
 from infrastructure.external_api.market.record.adapter import RecordAdapter
-from infrastructure.built_in.adapter.system import die
 
+from infrastructure.built_in.adapter.system import die
 from infrastructure.third_party.adapter.data_container import DataContainer
 from infrastructure.third_party.adapter.stats_model import WeightedLinearRegression
 
 
 class MarketHandler(Mediator):
     def __init__(
-        self, market_id, external_api, data=None, models=None, orders=None,
+        self,
+        market_id,
+        external_api,
+        market_start_time,
+        data=None,
+        models=None,
+        orders=None,
     ):
+
         self.external_api: Colleague = external_api
         self.data: Colleague = data or DataHandler(
-            mediator=self, adapter=RecordAdapter(), container=DataContainer()
+            mediator=self,
+            adapter=RecordAdapter(market_start_time=market_start_time),
+            container=DataContainer(),
         )
         self.models: Colleague = models or ModelHandler(
             mediator=self, wls_model=WeightedLinearRegression()

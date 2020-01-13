@@ -49,6 +49,9 @@ def test_get_data(mock_notify):
             THEN("the dict contains a list of items")
             items = market_info.get("runners")
             assert type(items) is list
+            THEN("the dict has an extract time")
+            extract_time = market_info.get("et")
+            assert type(extract_time) is str
 
 
 @patch(

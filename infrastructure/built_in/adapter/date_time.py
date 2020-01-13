@@ -10,8 +10,8 @@ class DateTime:
     __from_zone = tz.gettz("UTC")
     __to_zone = tz.gettz("Australia/Sydney")
 
-    def __init__(self, str):
-        self.__str = str
+    def __init__(self, input):
+        self.__input = input
         self.__utc_api_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z"
         self.__date_time = self.__make_datetime()
 
@@ -44,8 +44,12 @@ class DateTime:
         return date_time_now_str
 
     def __make_datetime(self):
-        if regex_match(pattern=self.__utc_api_pattern, str=self.__str):
+        if type(self.__input) is int:
+            date_time = datetime.utcfromtimestamp(self.__input / 1000)
+
+        elif regex_match(pattern=self.__utc_api_pattern, str=self.__input):
             date_time = self.__convert_from_utc_api_string()
+
         else:
             date_time = self.__convert_from_utc_string()
         return date_time
@@ -85,7 +89,7 @@ class DateTime:
         return self.__convert_from_string(format=DateTime.__utc_api_format)
 
     def __convert_from_string(self, format):
-        return datetime.strptime(self.__str, format)
+        return datetime.strptime(self.__input, format)
 
     @staticmethod
     def __convert_to_utc_string(date_time):

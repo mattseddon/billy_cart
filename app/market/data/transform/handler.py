@@ -9,14 +9,14 @@ class TransformHandler:
         self.__metadata = MetadataHandler()
         self.__total_probability = total_probability
         self.__remaining_probability = total_probability
-        self.__probabilities = {}
+        self.__fixed_probabilities = {}
 
     def set_probability(self, id, probability):
-        self.__probabilities[id] = probability
+        self.__fixed_probabilities[id] = probability
         return None
 
     def get_fixed_probability_ids(self):
-        return list(self.__probabilities.keys())
+        return list(self.__fixed_probabilities.keys())
 
     def process(self, extracted_data={}):
         items = extracted_data.get("items") or []
@@ -63,7 +63,7 @@ class TransformHandler:
 
     def _calc_remaining_probability(self):
         self.__remaining_probability = self.__total_probability - sum(
-            self.__probabilities.values()
+            self.__fixed_probabilities.values()
         )
         return None
 

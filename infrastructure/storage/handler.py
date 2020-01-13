@@ -13,12 +13,23 @@ class FileHandler:
         self.__file = self.__add_path_to(file)
         self.__make_directory()
 
+    def get_market_start_time(self):
+        return self.get_file_as_list()[0].get("marketStartTime")
+
     def get_file_as_list(self):
         with open(self.__file, "r") as file:
             contents = [
                 make_dict(line) for line in file.readlines() if self.__is_valid(line)
             ]
         return contents
+
+    def get_file_as_formatted_list(self):
+        return list(map(lambda item: self.__format_item(item), self.get_file_as_list()))
+
+    def __format_item(self, item):
+        formatted_item = item.get("marketInfo")[0]
+        formatted_item["et"] = item.get("et")
+        return formatted_item
 
     def __is_valid(self, line):
         return True if make_dict(line) else False

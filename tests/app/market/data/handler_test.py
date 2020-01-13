@@ -20,18 +20,22 @@ from unittest.mock import patch
 def test_handler(mock_notify):
     GIVEN("a data handler and the directory and file name of a test file")
     directory = "./data/29184567"
-    file = "1.156230797.txt"
-    raw_data = FileHandler(directory=directory, file=file).get_file_as_list()
-    number_runners = __get_number_runners(data=raw_data)
-    adapter = RecordAdapter()
+    file_name = "1.156230797.txt"
+    file = FileHandler(directory=directory, file=file_name)
+    file_data = file.get_file_as_formatted_list()
+    market_start_time = file.get_market_start_time()
+    number_runners = __get_number_runners(data=file_data)
+    adapter = RecordAdapter(market_start_time=market_start_time)
     pricer = PriceHandler()
     metadata = MetadataHandler()
     mediator = MockMediator()
 
     WHEN("we feed the data into a handler one record at a time")
-    handler = DataHandler(mediator=mediator, adapter=adapter, container=DataContainer())
-    for i, raw_record in enumerate(raw_data):
-        handler.process_data(raw_record)
+    handler = DataHandler(
+        mediator=mediator, adapter=adapter, container=DataContainer(),
+    )
+    for i, record in enumerate(file_data):
+        handler.process_data(record)
         THEN("the incoming record was processed")
         number_records_processed = i + 1
         THEN("the handler's data has the correct number of records")
@@ -51,7 +55,7 @@ def test_handler(mock_notify):
         assert len(model_data) == number_runners
 
         test_record = {
-            each.get("id"): each for each in adapter.convert(raw_record).get("items")
+            each.get("id"): each for each in adapter.convert(record).get("items")
         }
         total_sp_probability = 0
         total_ex_probability = 0
@@ -151,7 +155,7 @@ def test_handler(mock_notify):
     THEN("the data container has the correct number of columns")
     assert handler._container.get_column_count() == __get_number_columns(number_runners)
     THEN("the data container has the same number of records as the raw data")
-    assert handler._container.get_row_count() == len(raw_data)
+    assert handler._container.get_row_count() == len(file_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
 
@@ -162,20 +166,22 @@ def test_more_data(mock_notify):
     GIVEN("a data handler and the directory and file name of a test file")
 
     directory = "./data/29451865"
-    file = "1.162069495.txt"
-    raw_data = FileHandler(directory=directory, file=file).get_file_as_list()
-    number_runners = __get_number_runners(data=raw_data)
-    adapter = RecordAdapter()
+    file_name = "1.162069495.txt"
+    file = FileHandler(directory=directory, file=file_name)
+    file_data = file.get_file_as_formatted_list()
+    market_start_time = file.get_market_start_time()
+    number_runners = __get_number_runners(data=file_data)
+    adapter = RecordAdapter(market_start_time=market_start_time)
     pricer = PriceHandler()
     metadata = MetadataHandler()
     mediator = MockMediator()
-
+    print(len(file_data))
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(
-        mediator=mediator, adapter=RecordAdapter(), container=DataContainer()
+        mediator=mediator, adapter=adapter, container=DataContainer(),
     )
-    for i, raw_record in enumerate(raw_data):
-        handler.process_data(raw_record)
+    for i, record in enumerate(file_data):
+        handler.process_data(record)
         THEN("the incoming record was processed")
 
         number_records_processed = i + 1
@@ -193,7 +199,7 @@ def test_more_data(mock_notify):
         assert len(model_data) == number_runners
 
         test_record = {
-            each.get("id"): each for each in adapter.convert(raw_record).get("items")
+            each.get("id"): each for each in adapter.convert(record).get("items")
         }
         total_sp_probability = 0
         total_ex_probability = 0
@@ -293,7 +299,7 @@ def test_more_data(mock_notify):
     THEN("the data container has the correct number of columns")
     assert handler._container.get_column_count() == __get_number_columns(number_runners)
     THEN("the data container has the same number of records as the raw data")
-    assert handler._container.get_row_count() == len(raw_data)
+    assert handler._container.get_row_count() == len(file_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
 
@@ -304,12 +310,15 @@ def test_fixed_probability(mock_notify):
     GIVEN("a data handler and the directory and file name of a test file")
 
     directory = "./data/29451865"
-    file = "1.162069495.txt"
-    raw_data = FileHandler(directory=directory, file=file).get_file_as_list()
-    number_runners = __get_number_runners(data=raw_data)
+    file_name = "1.162069495.txt"
+    file = FileHandler(directory=directory, file=file_name)
+    file_data = file.get_file_as_formatted_list()
+    market_start_time = file.get_market_start_time()
+
+    number_runners = __get_number_runners(data=file_data)
     unfixed_items = number_runners
     fixed_items = 0
-    adapter = RecordAdapter()
+    adapter = RecordAdapter(market_start_time=market_start_time)
     pricer = PriceHandler()
     metadata = MetadataHandler()
     mediator = MockMediator()
@@ -317,9 +326,9 @@ def test_fixed_probability(mock_notify):
 
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(
-        mediator=mediator, adapter=RecordAdapter(), container=DataContainer()
+        mediator=mediator, adapter=adapter, container=DataContainer(),
     )
-    for i, raw_record in enumerate(raw_data):
+    for i, record in enumerate(file_data):
         number_records_processed = i + 1
         if number_records_processed % 10 == 0:
             WHEN("we randomly fix the probability of an item")
@@ -339,7 +348,7 @@ def test_fixed_probability(mock_notify):
         THEN("the list of fixed probability ids is the correct length")
         assert len(fixed_probability_ids) == fixed_items
 
-        handler.process_data(raw_record)
+        handler.process_data(record)
 
         THEN("the handler's data has the correct number of records")
         assert handler._container.get_row_count() == number_records_processed
@@ -355,7 +364,7 @@ def test_fixed_probability(mock_notify):
         assert len(model_data) == unfixed_items
 
         test_record = {
-            each.get("id"): each for each in adapter.convert(raw_record).get("items")
+            each.get("id"): each for each in adapter.convert(record).get("items")
         }
         total_sp_probability = 0
         total_ex_probability = 0
@@ -458,7 +467,7 @@ def test_fixed_probability(mock_notify):
     THEN("the data container has the correct number of columns")
     assert handler._container.get_column_count() == __get_number_columns(number_runners)
     THEN("the data container has the same number of records as the raw data")
-    assert handler._container.get_row_count() == len(raw_data)
+    assert handler._container.get_row_count() == len(file_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
     THEN("the correct number of fixed probabilities are contained in the object")
@@ -471,18 +480,21 @@ def test_fixed_probability(mock_notify):
 def test_removed_runner():
     GIVEN("the directory and file name of a test file which contains a removed runner")
     directory = "./data/29201704"
-    file = "1.156695742.txt"
-    raw_data = FileHandler(directory=directory, file=file).get_file_as_list()
-    number_runners = __get_number_runners(data=raw_data)
+    file_name = "1.156695742.txt"
+    file = FileHandler(directory=directory, file=file_name)
+    file_data = file.get_file_as_formatted_list()
+    market_start_time = file.get_market_start_time()
+    adapter = RecordAdapter(market_start_time=market_start_time)
+    number_runners = __get_number_runners(data=file_data)
     mediator = MockMediator()
 
     WHEN("we feed the data into a handler one record at a time")
 
     handler = DataHandler(
-        mediator=mediator, adapter=RecordAdapter(), container=DataContainer()
+        mediator=mediator, adapter=adapter, container=DataContainer(),
     )
-    for i, raw_record in enumerate(raw_data):
-        handler.process_data(raw_record)
+    for i, record in enumerate(file_data):
+        handler.process_data(record)
         THEN("the incoming record was processed")
         number_records_processed = i + 1
         THEN("the data container the correct number of records")
@@ -492,14 +504,14 @@ def test_removed_runner():
     THEN("the data container has the correct number of columns")
     assert handler._container.get_column_count() == __get_number_columns(number_runners)
     THEN("the data container has the same number of records as the raw data")
-    assert handler._container.get_row_count() == len(raw_data)
+    assert handler._container.get_row_count() == len(file_data)
     THEN("the correct number of runners are contained in the object")
     assert len(handler.get_unique_ids()) == number_runners
 
 
 def test_confirm_market_closed():
     GIVEN("a data handler and the directory and file name of a test file")
-    adapter = RecordAdapter()
+    adapter = RecordAdapter(market_start_time="2019-01-01T00:00:00.000Z")
     mediator = MockMediator()
 
     handler = DataHandler(mediator=mediator, adapter=adapter, container=DataContainer())
@@ -536,13 +548,18 @@ def test_get_ids_for_model_data():
     GIVEN("a data handler with some data and two fixed probabilities")
     GIVEN("a data handler and the directory and file name of a test file")
     directory = "./data/29184567"
-    file = "1.156230797.txt"
-    raw_record = FileHandler(directory=directory, file=file).get_file_as_list()[0]
-    adapter = RecordAdapter()
+    file_name = "1.156230797.txt"
+    file = FileHandler(directory=directory, file=file_name)
+    record = file.get_file_as_formatted_list()[0]
+    market_start_time = file.get_market_start_time()
+
+    adapter = RecordAdapter(market_start_time=market_start_time)
     mediator = MockMediator()
 
-    handler = DataHandler(mediator=mediator, adapter=adapter, container=DataContainer())
-    handler.process_data(raw_record)
+    handler = DataHandler(
+        mediator=mediator, adapter=adapter, container=DataContainer(),
+    )
+    handler.process_data(record)
 
     WHEN(
         "we set the probabilities of two items and get the ids required for the next model run"
@@ -563,7 +580,7 @@ def __get_number_runners(data):
 
 
 def __get_runners(data):
-    return data[0].get("marketInfo")[0].get("runners")
+    return data[0].get("runners")
 
 
 def __get_number_columns(number_runners):

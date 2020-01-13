@@ -135,3 +135,14 @@ def test_date_time_epoch():
     )
     THEN("the difference is as expected")
     assert seconds_difference == 60
+
+    GIVEN("two milliseconds since epoch 1 second apart")
+    first_epoch = 1569876588922
+    second_epoch = 1569876587922
+    WHEN("we create instances of DateTime and subtract the epochs from one another")
+    seconds_difference = (
+        DateTime(first_epoch).get_epoch() - DateTime(second_epoch).get_epoch()
+    )
+    THEN("the difference is as expected")
+    assert seconds_difference == 1
+

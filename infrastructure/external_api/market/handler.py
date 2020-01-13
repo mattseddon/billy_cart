@@ -4,6 +4,8 @@ from app.market.interface import ExternalAPIMarketInterface
 
 from infrastructure.external_api.handler import ExternalAPIHandler
 
+from infrastructure.built_in.adapter.date_time import DateTime
+
 from private.details import get_orders_str, get_market_str
 
 
@@ -26,9 +28,12 @@ class ExternalAPIMarketHandler(
             '"marketProjection":["MARKET_START_TIME"]}, "id": 1}'
         ) % (get_market_str(), self.__market_id)
 
+        extract_time = DateTime.get_utc_now()
+
         market = self._call_exchange(request=request)
 
         data = market[0] if market else {}
+        data["et"] = extract_time
 
         return self._mediator.notify(event="external data fetched", data=data)
 
