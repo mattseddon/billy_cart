@@ -8,7 +8,9 @@ from app.market.data.transform.price.handler import PriceHandler
 from infrastructure.third_party.adapter.data_container import DataContainer
 from infrastructure.third_party.adapter.numpy_utils import round_down
 from infrastructure.storage.handler import FileHandler
-from infrastructure.external_api.market.record.adapter import RecordAdapter
+from infrastructure.external_api.market.record.adapter import (
+    ExternalAPIMarketRecordAdapter,
+)
 
 
 from pytest import mark
@@ -25,7 +27,7 @@ def test_handler(mock_notify):
     file_data = file.get_file_as_formatted_list()
     market_start_time = file.get_market_start_time()
     number_runners = __get_number_runners(data=file_data)
-    adapter = RecordAdapter(market_start_time=market_start_time)
+    adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
     pricer = PriceHandler()
     metadata = MetadataHandler()
     mediator = MockMediator()
@@ -171,7 +173,7 @@ def test_more_data(mock_notify):
     file_data = file.get_file_as_formatted_list()
     market_start_time = file.get_market_start_time()
     number_runners = __get_number_runners(data=file_data)
-    adapter = RecordAdapter(market_start_time=market_start_time)
+    adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
     pricer = PriceHandler()
     metadata = MetadataHandler()
     mediator = MockMediator()
@@ -318,7 +320,7 @@ def test_fixed_probability(mock_notify):
     number_runners = __get_number_runners(data=file_data)
     unfixed_items = number_runners
     fixed_items = 0
-    adapter = RecordAdapter(market_start_time=market_start_time)
+    adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
     pricer = PriceHandler()
     metadata = MetadataHandler()
     mediator = MockMediator()
@@ -484,7 +486,7 @@ def test_removed_runner():
     file = FileHandler(directory=directory, file=file_name)
     file_data = file.get_file_as_formatted_list()
     market_start_time = file.get_market_start_time()
-    adapter = RecordAdapter(market_start_time=market_start_time)
+    adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
     number_runners = __get_number_runners(data=file_data)
     mediator = MockMediator()
 
@@ -511,7 +513,9 @@ def test_removed_runner():
 
 def test_confirm_market_closed():
     GIVEN("a data handler and the directory and file name of a test file")
-    adapter = RecordAdapter(market_start_time="2019-01-01T00:00:00.000Z")
+    adapter = ExternalAPIMarketRecordAdapter(
+        market_start_time="2019-01-01T00:00:00.000Z"
+    )
     mediator = MockMediator()
 
     handler = DataHandler(mediator=mediator, adapter=adapter, container=DataContainer())
@@ -553,7 +557,7 @@ def test_get_ids_for_model_data():
     record = file.get_file_as_formatted_list()[0]
     market_start_time = file.get_market_start_time()
 
-    adapter = RecordAdapter(market_start_time=market_start_time)
+    adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
     mediator = MockMediator()
 
     handler = DataHandler(

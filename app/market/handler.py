@@ -5,7 +5,9 @@ from app.market.data.handler import DataHandler
 from app.market.model.handler import ModelHandler
 from app.market.orders.handler import OrdersHandler
 
-from infrastructure.external_api.market.record.adapter import RecordAdapter
+from infrastructure.external_api.market.record.adapter import (
+    ExternalAPIMarketRecordAdapter,
+)
 
 from infrastructure.built_in.adapter.system import die
 from infrastructure.third_party.adapter.data_container import DataContainer
@@ -18,20 +20,25 @@ class MarketHandler(Mediator):
         market_id,
         external_api,
         market_start_time,
+        data_adapter=None,
         data=None,
         models=None,
         orders=None,
     ):
 
         self.external_api: Colleague = external_api
-        self.data: Colleague = data or DataHandler(
-            mediator=self,
-            adapter=RecordAdapter(market_start_time=market_start_time),
-            container=DataContainer(),
+
+        adapter = data_adapter or ExternalAPIMarketRecordAdapter(
+            market_start_time=market_start_time
         )
+        self.data: Colleague = data or DataHandler(
+            mediator=self, adapter=adapter, container=DataContainer(),
+        )
+
         self.models: Colleague = models or ModelHandler(
             mediator=self, wls_model=WeightedLinearRegression()
         )
+
         self.orders: Colleague = orders or OrdersHandler(mediator=self)
 
         self.__recipients = {

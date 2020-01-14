@@ -1,6 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN
 from app.market.data.interface import (
-    ExternalAPIMarketDataInterface,
+    MarketDataRecordInterface,
     DataContainerInterface,
 )
 from pytest import fail, raises
@@ -13,7 +13,7 @@ def test_market_data_external_api_interface():
             "a class inherits the interface but does not implement the appropriate method"
         )
 
-        class DoesNotImplement(ExternalAPIMarketDataInterface):
+        class DoesNotImplement(MarketDataRecordInterface):
             pass
 
         THEN("an error is thrown on instantiation")
@@ -21,7 +21,7 @@ def test_market_data_external_api_interface():
 
     WHEN("a class inherits the interface and implements the appropriate method")
 
-    class Implements(ExternalAPIMarketDataInterface):
+    class Implements(MarketDataRecordInterface):
         def convert(self):
             pass
 

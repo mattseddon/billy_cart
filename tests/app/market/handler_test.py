@@ -10,7 +10,9 @@ from tests.mock.mediator import MockMediator
 from app.market.handler import MarketHandler
 from app.market.data.handler import DataHandler
 
-from infrastructure.external_api.market.record.adapter import RecordAdapter
+from infrastructure.external_api.market.record.adapter import (
+    ExternalAPIMarketRecordAdapter,
+)
 from infrastructure.storage.handler import FileHandler
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
 

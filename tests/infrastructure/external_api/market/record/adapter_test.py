@@ -1,5 +1,7 @@
 from tests.utils import GIVEN, WHEN, THEN
-from infrastructure.external_api.market.record.adapter import RecordAdapter
+from infrastructure.external_api.market.record.adapter import (
+    ExternalAPIMarketRecordAdapter,
+)
 from infrastructure.built_in.adapter.json_utils import make_dict
 from pytest import mark
 
@@ -7,7 +9,9 @@ from pytest import mark
 def test_empty_input():
     GIVEN("a empty input dictionary and a record adapter")
     input = {}
-    adapter = RecordAdapter(market_start_time="2019-01-01T00:00:00.000Z")
+    adapter = ExternalAPIMarketRecordAdapter(
+        market_start_time="2019-01-01T00:00:00.000Z"
+    )
 
     WHEN("we convert the input")
     none = adapter.convert(input)
@@ -22,7 +26,9 @@ def test_missing_market_info():
         "et": "2019-01-13T05:20:04Z",
         "marketId": "1.153509934",
     }
-    adapter = RecordAdapter(market_start_time="2019-01-13T05:25:00.000Z")
+    adapter = ExternalAPIMarketRecordAdapter(
+        market_start_time="2019-01-13T05:25:00.000Z"
+    )
 
     WHEN("we convert the input")
     none = adapter.convert(input)
@@ -34,7 +40,9 @@ def test_missing_market_info():
 def test_valid_record():
     GIVEN("a valid input dictionary and a record adapter")
     input = __get_data()
-    adapter = RecordAdapter(market_start_time="2019-01-13T07:05:00.000Z")
+    adapter = ExternalAPIMarketRecordAdapter(
+        market_start_time="2019-01-13T07:05:00.000Z"
+    )
 
     WHEN("we convert the input")
     adapted_data = adapter.convert(input)
@@ -52,7 +60,9 @@ def test_mostly_valid_record():
     input = __get_data()
     for i in range(2):
         del input["runners"][i]["selectionId"]
-    adapter = RecordAdapter(market_start_time="2019-01-13T07:05:00.000Z")
+    adapter = ExternalAPIMarketRecordAdapter(
+        market_start_time="2019-01-13T07:05:00.000Z"
+    )
 
     WHEN("we convert the input")
     adapted_data = adapter.convert(input)
