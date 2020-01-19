@@ -17,7 +17,8 @@ def WHEN(str):
 
 
 def THEN(str):
-    print("        THEN {}".format(str))
+    # print("        THEN {}".format(str))
+    pass
 
 
 def get_test_directory():

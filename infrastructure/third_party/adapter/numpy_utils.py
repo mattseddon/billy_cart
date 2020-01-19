@@ -22,4 +22,4 @@ def make_native_type(value):
 
 
 def round_down(value):
-    return floor(value)
+    return int(floor(value))

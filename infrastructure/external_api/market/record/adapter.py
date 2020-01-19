@@ -28,10 +28,8 @@ class ExternalAPIMarketRecordAdapter(MarketDataRecordInterface):
             return None
 
     def _get_time_difference(self):
-        extract_time = DateTime(self.__data.get("et")).get_epoch()
-
-        time_difference = extract_time - self.__market_start_time
-        return time_difference
+        extract_time = DateTime(self.__data.get("process_time")).get_epoch()
+        return extract_time - self.__market_start_time
 
     def __get_items(self):
         return self.__data.get("runners")

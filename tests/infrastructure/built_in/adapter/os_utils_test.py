@@ -2,6 +2,7 @@ from tests.utils import GIVEN, WHEN, THEN, get_test_file_path, cleanup_test_dire
 from infrastructure.built_in.adapter.os_utils import (
     get_file_path,
     get_newline,
+    get_file_extension,
     get_environment_variable,
     set_environment_variable,
     path_exists,
@@ -124,3 +125,27 @@ def test_get_file_path():
 
     THEN("the returned path is correct")
     assert returned_path == joined_path
+
+
+def test_get_extension():
+    GIVEN("a file path")
+    path = "./data/dev/1.160904847.txt"
+    WHEN("we get the extension")
+    extension = get_file_extension(path)
+    THEN("the correct extension is returned")
+    assert extension == ".txt"
+
+    GIVEN("another file path")
+    path = "./data/dev/1.160904847.bz2"
+    WHEN("we get the extension")
+    extension = get_file_extension(path)
+    THEN("the correct extension is returned")
+    assert extension == ".bz2"
+
+    GIVEN("another file path")
+    path = "./data/dev/1.160904847"
+    WHEN("we get the extension")
+    extension = get_file_extension(path)
+    THEN("we get some wacky results")
+    assert extension == ".160904847"
+

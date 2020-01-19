@@ -1,5 +1,5 @@
 from os import environ, linesep, makedirs, remove, rmdir
-from os.path import exists, join
+from os.path import exists, join, splitext
 
 
 def path_exists(path):
@@ -8,6 +8,11 @@ def path_exists(path):
 
 def get_file_path(directory, file):
     return join(directory, file)
+
+
+def get_file_extension(path):
+    extension = splitext(path)[1]
+    return extension
 
 
 def get_newline():

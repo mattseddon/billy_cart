@@ -7,7 +7,9 @@ from app.market.data.transform.price.handler import PriceHandler
 
 from infrastructure.third_party.adapter.data_container import DataContainer
 from infrastructure.third_party.adapter.numpy_utils import round_down
-from infrastructure.storage.handler import FileHandler
+from infrastructure.storage.historical.external_api.file.handler import (
+    HistoricalExternalAPIFileHander,
+)
 from infrastructure.external_api.market.record.adapter import (
     ExternalAPIMarketRecordAdapter,
 )
@@ -23,8 +25,8 @@ def test_handler(mock_notify):
     GIVEN("a data handler and the directory and file name of a test file")
     directory = "./data/29184567"
     file_name = "1.156230797.txt"
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
     number_runners = __get_number_runners(data=file_data)
     adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
@@ -169,8 +171,8 @@ def test_more_data(mock_notify):
 
     directory = "./data/29451865"
     file_name = "1.162069495.txt"
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
     number_runners = __get_number_runners(data=file_data)
     adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
@@ -313,8 +315,8 @@ def test_fixed_probability(mock_notify):
 
     directory = "./data/29451865"
     file_name = "1.162069495.txt"
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
 
     number_runners = __get_number_runners(data=file_data)
@@ -483,8 +485,8 @@ def test_removed_runner():
     GIVEN("the directory and file name of a test file which contains a removed runner")
     directory = "./data/29201704"
     file_name = "1.156695742.txt"
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
     adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)
     number_runners = __get_number_runners(data=file_data)
@@ -553,8 +555,8 @@ def test_get_ids_for_model_data():
     GIVEN("a data handler and the directory and file name of a test file")
     directory = "./data/29184567"
     file_name = "1.156230797.txt"
-    file = FileHandler(directory=directory, file=file_name)
-    record = file.get_file_as_formatted_list()[0]
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    record = file.get_file_as_list()[0]
     market_start_time = file.get_market_start_time()
 
     adapter = ExternalAPIMarketRecordAdapter(market_start_time=market_start_time)

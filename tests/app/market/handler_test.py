@@ -13,7 +13,9 @@ from app.market.data.handler import DataHandler
 from infrastructure.external_api.market.record.adapter import (
     ExternalAPIMarketRecordAdapter,
 )
-from infrastructure.storage.handler import FileHandler
+from infrastructure.storage.historical.external_api.file.handler import (
+    HistoricalExternalAPIFileHander,
+)
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
 
 from infrastructure.built_in.adapter.json_utils import make_dict
@@ -32,8 +34,8 @@ def test_system_set_prob(mock_post_instructions, mock_set_prob, mock_call_exchan
     directory = "./data/29184567"
     market_id = 1.156230797
     file_name = "%s.txt" % market_id
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
 
     WHEN("we run the market handler for each record of the file")
@@ -51,7 +53,7 @@ def test_system_set_prob(mock_post_instructions, mock_set_prob, mock_call_exchan
     mock_post_instructions.side_effect = __mark_orders_successful
     for record in file_data:
         mock_call_exchange.return_value = [record]
-        with freeze_time(record.get("et")):
+        with freeze_time(record.get("process_time")):
             handler.run()
 
     THEN("an order has been made")
@@ -74,8 +76,8 @@ def test_system_single(mock_post_instructions, mock_call_exchange):
     directory = "./data/29184567"
     market_id = 1.156230797
     file_name = "%s.txt" % market_id
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
 
     WHEN("we run the market handler for each record of the file")
@@ -92,7 +94,7 @@ def test_system_single(mock_post_instructions, mock_call_exchange):
     mock_post_instructions.side_effect = __mark_orders_successful
     for record in file_data:
         mock_call_exchange.return_value = [record]
-        with freeze_time(record.get("et")):
+        with freeze_time(record.get("process_time")):
             handler.run()
         fix_probability_ids = handler.data._get_fixed_probability_ids()
         orders = handler.orders._get_existing_orders()
@@ -128,8 +130,8 @@ def test_system_multiple_set_prob(
     directory = "./data/29116016"
     market_id = 1.154592424
     file_name = "%s.txt" % market_id
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
 
     WHEN("we run the market handler for each record of the file")
@@ -149,7 +151,7 @@ def test_system_multiple_set_prob(
     for record in file_data:
         mock_call_exchange.return_value = [record]
         call_count = mock_set_prob.call_count
-        with freeze_time(record.get("et")):
+        with freeze_time(record.get("process_time")):
             handler.run()
         if mock_set_prob.call_count != call_count:
             THEN("the correct orders were passed to the method")
@@ -175,8 +177,8 @@ def test_system_multiple(mock_post_instructions, mock_call_exchange):
     directory = "./data/29116016"
     market_id = 1.154592424
     file_name = "%s.txt" % market_id
-    file = FileHandler(directory=directory, file=file_name)
-    file_data = file.get_file_as_formatted_list()
+    file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
+    file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
 
     WHEN("we run the market handler for each record of the file")
@@ -193,7 +195,7 @@ def test_system_multiple(mock_post_instructions, mock_call_exchange):
     mock_post_instructions.side_effect = __mark_orders_successful
     for record in file_data:
         mock_call_exchange.return_value = [record]
-        with freeze_time(record.get("et")):
+        with freeze_time(record.get("process_time")):
             handler.run()
         fix_probability_ids = handler.data._get_fixed_probability_ids()
         orders = handler.orders._get_existing_orders()
@@ -235,14 +237,13 @@ def test_exit_run_on_closed(mock_open_url):
     mock_open_url.return_value = closed_market_dict
     WHEN("we call run but the market has closed")
     with raises(SystemExit) as system_exit:
-        with freeze_time(closed_market_dict.get("et")):
+        with freeze_time(closed_market_dict.get("process_time")):
             handler.run()
     THEN("the system will exit")
     assert system_exit.type == SystemExit
     assert system_exit.value.code == 0
 
 
-@mark.this
 @patch("infrastructure.external_api.handler.ExternalAPIHandler._call_exchange")
 def test_exit_run_on_no_data(mock_call_exchange):
     GIVEN("a handler")
@@ -275,7 +276,6 @@ def test_exit_run_on_no_data(mock_call_exchange):
     assert system_exit.value.code == 0
 
 
-@mark.this
 @patch("infrastructure.external_api.handler.open_url")
 @patch("tests.mock.mediator.MockMediator.notify")
 def test_place_order(mock_notify, mock_open_url):

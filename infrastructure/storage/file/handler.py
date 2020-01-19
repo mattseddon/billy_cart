@@ -1,10 +1,12 @@
 from infrastructure.built_in.adapter.json_utils import write_json_to, make_dict
 from infrastructure.built_in.adapter.os_utils import (
     get_newline,
+    get_file_extension,
     get_file_path,
     path_exists,
     make_directory_if_required,
 )
+import bz2
 
 
 class FileHandler:
@@ -13,23 +15,24 @@ class FileHandler:
         self.__file = self.__add_path_to(file)
         self.__make_directory()
 
-    def get_market_start_time(self):
-        return self.get_file_as_list()[0].get("marketStartTime")
-
     def get_file_as_list(self):
-        with open(self.__file, "r") as file:
-            contents = [
-                make_dict(line) for line in file.readlines() if self.__is_valid(line)
-            ]
+        if get_file_extension(self.__file) == ".bz2":
+            return self.__get_bz2_contents()
+        else:
+            return self.__get_file_contents()
+
+    def __get_bz2_contents(self):
+        with bz2.open(self.__file, "r") as file:
+            contents = self.__get_contents(file)
         return contents
 
-    def get_file_as_formatted_list(self):
-        return list(map(lambda item: self.__format_item(item), self.get_file_as_list()))
+    def __get_file_contents(self):
+        with open(self.__file, "r") as file:
+            contents = self.__get_contents(file)
+        return contents
 
-    def __format_item(self, item):
-        formatted_item = item.get("marketInfo")[0]
-        formatted_item["et"] = item.get("et")
-        return formatted_item
+    def __get_contents(self, file):
+        return [make_dict(line) for line in file.readlines() if self.__is_valid(line)]
 
     def __is_valid(self, line):
         return True if make_dict(line) else False

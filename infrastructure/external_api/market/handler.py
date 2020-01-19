@@ -28,12 +28,12 @@ class ExternalAPIMarketHandler(
             '"marketProjection":["MARKET_START_TIME"]}, "id": 1}'
         ) % (get_market_str(), self.__market_id)
 
-        extract_time = DateTime.get_utc_now()
+        process_time = DateTime.get_utc_now()
 
         market = self._call_exchange(request=request)
 
         data = market[0] if market else {}
-        data["et"] = extract_time
+        data["process_time"] = process_time
 
         return self._mediator.notify(event="external data fetched", data=data)
 

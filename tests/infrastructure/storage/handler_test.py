@@ -1,5 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file
-from infrastructure.storage.handler import FileHandler
+from infrastructure.storage.file.handler import FileHandler
 from infrastructure.built_in.adapter.os_utils import path_exists, get_newline
 
 
@@ -48,6 +48,5 @@ def test_file_handler():
     assert data[1] == second_dict
     THEN("the empty string has not been returned as part of the list")
     assert len(data) == 2
-
 
     cleanup_test_file(name=test_file)
