@@ -6,7 +6,7 @@
     {
       "label": "Run Pytest",
       "type": "shell",
-      "command": "export test_suite=online && pipenv run pytest --cov-config=.coveragerc --cov=./ tests/ --cov-report=xml:cov.xml",
+      "command": "pipenv run pytest --cov-config=.coveragerc --cov=./ tests/ --cov-report=xml:cov.xml",
       "problemMatcher": [],
       "group": {
         "kind": "test",

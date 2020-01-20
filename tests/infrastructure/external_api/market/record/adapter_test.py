@@ -66,7 +66,6 @@ def test_mostly_valid_record():
 
     WHEN("we convert the input")
     adapted_data = adapter.convert(input)
-    print(adapted_data)
     number_items = len(input.get("runners")) - 2
 
     THEN("the correct number of items are returned")

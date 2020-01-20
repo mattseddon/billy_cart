@@ -179,7 +179,7 @@ def test_more_data(mock_notify):
     pricer = PriceHandler()
     metadata = MetadataHandler()
     mediator = MockMediator()
-    print(len(file_data))
+
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(
         mediator=mediator, adapter=adapter, container=DataContainer(),
