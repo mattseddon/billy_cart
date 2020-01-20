@@ -116,8 +116,11 @@ def test_handler(mock_notify):
             )
 
             THEN("the sp back price time series data returned is of the correct length")
-            compositional_sp_back_price_ts = data.get(
-                "compositional_sp_back_price" + metadata.get_time_series_suffix()
+            compositional_sp_back_price_ts = (
+                data.get(
+                    "compositional_sp_back_price" + metadata.get_time_series_suffix()
+                )
+                or []
             )
             assert len(compositional_sp_back_price_ts) == number_records_processed
             THEN("the last record of the time series data matches the probability")
@@ -126,8 +129,8 @@ def test_handler(mock_notify):
             )
 
             THEN("the extract time time series data returned is of the correct length")
-            extract_time_ts = data.get(
-                "extract_time" + metadata.get_time_series_suffix()
+            extract_time_ts = (
+                data.get("extract_time" + metadata.get_time_series_suffix()) or []
             )
             assert len(extract_time_ts) == number_records_processed
             for i, extract_time in enumerate(extract_time_ts):
@@ -138,8 +141,8 @@ def test_handler(mock_notify):
             THEN(
                 "the combined back size time series data returned is of the correct length"
             )
-            combined_back_size_ts = data.get(
-                "combined_back_size" + metadata.get_time_series_suffix()
+            combined_back_size_ts = (
+                data.get("combined_back_size" + metadata.get_time_series_suffix()) or []
             )
             assert len(combined_back_size_ts) == number_records_processed
             THEN(
@@ -260,8 +263,11 @@ def test_more_data(mock_notify):
             )
 
             THEN("the sp back price time series data returned is of the correct length")
-            compositional_sp_back_price_ts = data.get(
-                "compositional_sp_back_price" + metadata.get_time_series_suffix()
+            compositional_sp_back_price_ts = (
+                data.get(
+                    "compositional_sp_back_price" + metadata.get_time_series_suffix()
+                )
+                or []
             )
             assert len(compositional_sp_back_price_ts) == number_records_processed
             THEN("the last record of the time series data matches the probability")
@@ -270,8 +276,8 @@ def test_more_data(mock_notify):
             )
 
             THEN("the extract time time series data returned is of the correct length")
-            extract_time_ts = data.get(
-                "extract_time" + metadata.get_time_series_suffix()
+            extract_time_ts = (
+                data.get("extract_time" + metadata.get_time_series_suffix()) or []
             )
             assert len(extract_time_ts) == number_records_processed
             for i, extract_time in enumerate(extract_time_ts):
@@ -282,8 +288,8 @@ def test_more_data(mock_notify):
             THEN(
                 "the combined back size time series data returned is of the correct length"
             )
-            combined_back_size_ts = data.get(
-                "combined_back_size" + metadata.get_time_series_suffix()
+            combined_back_size_ts = (
+                data.get("combined_back_size" + metadata.get_time_series_suffix()) or []
             )
             assert len(combined_back_size_ts) == number_records_processed
             THEN(
@@ -327,6 +333,8 @@ def test_fixed_probability(mock_notify):
     metadata = MetadataHandler()
     mediator = MockMediator()
     correct_probability = 1
+
+    number_records_processed = 0
 
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(
@@ -428,8 +436,11 @@ def test_fixed_probability(mock_notify):
             )
 
             THEN("the sp back price time series data returned is of the correct length")
-            compositional_sp_back_price_ts = data.get(
-                "compositional_sp_back_price" + metadata.get_time_series_suffix()
+            compositional_sp_back_price_ts = (
+                data.get(
+                    "compositional_sp_back_price" + metadata.get_time_series_suffix()
+                )
+                or []
             )
             assert len(compositional_sp_back_price_ts) == number_records_processed
             THEN("the last record of the time series data matches the probability")
@@ -438,8 +449,8 @@ def test_fixed_probability(mock_notify):
             )
 
             THEN("the extract time time series data returned is of the correct length")
-            extract_time_ts = data.get(
-                "extract_time" + metadata.get_time_series_suffix()
+            extract_time_ts = (
+                data.get("extract_time" + metadata.get_time_series_suffix()) or []
             )
             assert len(extract_time_ts) == number_records_processed
             for i, extract_time in enumerate(extract_time_ts):
@@ -450,8 +461,8 @@ def test_fixed_probability(mock_notify):
             THEN(
                 "the combined back size time series data returned is of the correct length"
             )
-            combined_back_size_ts = data.get(
-                "combined_back_size" + metadata.get_time_series_suffix()
+            combined_back_size_ts = (
+                data.get("combined_back_size" + metadata.get_time_series_suffix()) or []
             )
             assert len(combined_back_size_ts) == number_records_processed
             THEN(

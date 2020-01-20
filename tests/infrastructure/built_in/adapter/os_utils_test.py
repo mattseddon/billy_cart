@@ -94,7 +94,7 @@ def test_remove_directory():
 def test_remove_file():
     GIVEN("a file")
     name = "test_remove_file.txt"
-    test_file_path = get_test_file_path(name=name)
+    test_file_path = get_test_file_path(name=name) or ""
     f = open(test_file_path, "w+")
     f.close()
 

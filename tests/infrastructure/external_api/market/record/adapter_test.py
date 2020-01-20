@@ -49,7 +49,7 @@ def test_valid_record():
     number_items = len(input.get("runners"))
 
     THEN("the correct number of items are returned")
-    assert len(adapted_data.get("items")) == number_items
+    assert len(adapted_data.get("items") or []) == number_items
 
 
 def test_mostly_valid_record():
@@ -69,7 +69,7 @@ def test_mostly_valid_record():
     number_items = len(input.get("runners")) - 2
 
     THEN("the correct number of items are returned")
-    assert len(adapted_data.get("items")) == number_items
+    assert len(adapted_data.get("items") or []) == number_items
 
 
 def __get_data():
