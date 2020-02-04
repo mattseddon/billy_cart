@@ -1,7 +1,13 @@
+from app.market.metadata.handler import MetadataHandler
+from app.market.data.utils import (
+    calc_inverse_price,
+    calc_sell_liability,
+    is_valid_price,
+)
+
 from infrastructure.built_in.adapter.date_time import DateTime
 from infrastructure.third_party.adapter.numpy_utils import not_a_number
 from infrastructure.external_api.market.record.interface import ItemAdapterInterface
-from app.market.metadata.handler import MetadataHandler
 
 
 class ItemAdapter(ItemAdapterInterface):
@@ -39,7 +45,7 @@ class ItemAdapter(ItemAdapterInterface):
             data["sp_back_price"] = self.__sp_back_price
 
         if "sp_lay_price" in self.__required_variables:
-            data["sp_lay_price"] = self.__get_sp_lay()
+            data["sp_lay_price"] = calc_inverse_price(self.__sp_back_price)
 
         if "sp_back_size" in self.__required_variables:
             data["sp_back_size"] = self.__calc_sp_back_size()
@@ -83,20 +89,11 @@ class ItemAdapter(ItemAdapterInterface):
             for variable in self.__required_variables
         ):
             price = self.__sp.get("nearPrice")
-            sp_back_price = (
-                price if self.__is_valid_price(price=price) else not_a_number()
-            )
+            sp_back_price = price if is_valid_price(price=price) else not_a_number()
         else:
             sp_back_price = None
         self.__sp_back_price = sp_back_price
         return None
-
-    def __get_sp_back_price(self):
-        return self.__sp_back_price
-
-    def __get_sp_lay(self):
-        sp_lay_price = self.__calc_lay_price(self.__sp_back_price)
-        return sp_lay_price
 
     def __set_traded_volume(self):
         traded_volume = self.__ex.get("tradedVolume") if self.__ex else None
@@ -119,9 +116,8 @@ class ItemAdapter(ItemAdapterInterface):
 
     def __calc_ex_average_lay_price(self):
         total_lay_price = sum(
-            trade.get("size")
-            * (trade.get("price") - 1)
-            * self.__calc_lay_price(trade.get("price"))
+            calc_sell_liability(price=trade.get("price"), size=trade.get("size"))
+            * calc_inverse_price(trade.get("price"))
             for trade in self.__traded_volume
         )
 
@@ -150,7 +146,7 @@ class ItemAdapter(ItemAdapterInterface):
     def __set_ex_lay_size(self):
         self.__ex_lay_size = (
             sum(
-                trade.get("size") * (trade.get("price") - 1)
+                calc_sell_liability(price=trade.get("price"), size=trade.get("size"))
                 for trade in self.__traded_volume
             )
             if "ex_lay_size" in self.__required_variables
@@ -181,9 +177,3 @@ class ItemAdapter(ItemAdapterInterface):
 
     def __get_value_or_default(self, value, default={}):
         return value or default
-
-    def __calc_lay_price(self, price):
-        return 1 / (1 - (1 / price)) if self.__is_valid_price(price) else not_a_number()
-
-    def __is_valid_price(self, price):
-        return True if type(price) is float and price > 0 else False

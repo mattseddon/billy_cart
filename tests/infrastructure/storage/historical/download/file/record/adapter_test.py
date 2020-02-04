@@ -200,11 +200,20 @@ def test_get_min_no_valid_price():
 def test_sum_valid_values():
     GIVEN("an adapter and a dict")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = {1: 20, 3: 11, 4: 9, "a": 400, "200": 200, 0: None, 40: 0, None: 900}
+    dict = {1.01: 20, 3: 11, 4: 9, "a": 400, "200": 200, 0: None, 40: 0, None: 900}
     WHEN("we sum the valid values")
     total = adapter._sum_valid_sizes(dict)
     THEN("the correct value is returned")
     assert total == 40
+
+def test_sum_valid_values_gt_1():
+    GIVEN("an adapter and a dict (the price of 1 will not be counted)")
+    adapter = HistoricalDownloadFileRecordAdapter()
+    dict = {3: 11, 4: 9, 1: 20, "a": 400, "200": 200, 0: None, 40: 0, None: 900}
+    WHEN("we sum the valid values")
+    total = adapter._sum_valid_sizes(dict)
+    THEN("the correct value is returned")
+    assert total == 20
 
 
 def test_sum_no_valid_values():
