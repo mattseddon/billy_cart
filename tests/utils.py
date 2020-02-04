@@ -1,8 +1,6 @@
 from infrastructure.built_in.adapter.os_utils import (
-    get_environment_variable,
     get_file_path,
     make_directory_if_required,
-    path_exists,
     remove_directory,
     remove_file,
 )
@@ -17,7 +15,7 @@ def WHEN(str):
 
 
 def THEN(str):
-    # print("        THEN {}".format(str))
+    print("        THEN {}".format(str))
     pass
 
 
