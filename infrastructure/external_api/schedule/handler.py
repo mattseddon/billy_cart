@@ -1,9 +1,10 @@
 from infrastructure.external_api.handler import ExternalAPIHandler
-from app.schedule.interface import ExternalAPIScheduleInterface
+from app.schedule.interface import ScheduleDataInterface
 from infrastructure.built_in.adapter.request import post_data, open_url
 from private.details import get_catalogue_str
 
-class ExternalAPIScheduleHandler(ExternalAPIHandler, ExternalAPIScheduleInterface):
+
+class ExternalAPIScheduleHandler(ExternalAPIHandler, ScheduleDataInterface):
     def __init__(self, environment="Prod"):
         ExternalAPIHandler.__init__(self, environment=environment)
         self.set_headers()

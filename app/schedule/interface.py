@@ -7,7 +7,7 @@ class SingletonInterfaceMixin(Singleton, Interface):
     pass
 
 
-class ExternalAPIScheduleInterface(metaclass=SingletonInterfaceMixin):
+class ScheduleDataInterface(metaclass=SingletonInterfaceMixin):
     @abstract_method
     def get_schedule(self):
         pass
