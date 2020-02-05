@@ -6,6 +6,7 @@ from infrastructure.storage.historical.download.file.handler import (
     HistoricalDownloadFileHandler,
 )
 from infrastructure.third_party.adapter.numpy_utils import is_not_a_number
+
 from pytest import mark
 
 

@@ -6,7 +6,9 @@ from infrastructure.built_in.adapter.request import (
     get_ok_status,
 )
 from infrastructure.built_in.adapter.json_utils import make_json
+
 from urllib.error import URLError
+
 from pytest import mark
 
 

@@ -1,8 +1,9 @@
 from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHandler
-from unittest.mock import patch
 from infrastructure.built_in.adapter.date_time import DateTime
+
 from pytest import mark
+from unittest.mock import patch
 
 
 @mark.slow

@@ -14,7 +14,6 @@ from infrastructure.external_api.market.record.adapter import (
     ExternalAPIMarketRecordAdapter,
 )
 
-
 from pytest import mark
 from unittest.mock import patch
 

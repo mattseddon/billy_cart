@@ -3,8 +3,9 @@ from infrastructure.storage.historical.download.file.handler import (
     HistoricalDownloadFileHandler,
 )
 from infrastructure.built_in.adapter.date_time import DateTime
-from unittest.mock import patch
+
 from pytest import mark
+from unittest.mock import patch
 
 
 @mark.slow

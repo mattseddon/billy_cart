@@ -3,7 +3,6 @@ from infrastructure.external_api.market.record.adapter import (
     ExternalAPIMarketRecordAdapter,
 )
 from infrastructure.built_in.adapter.json_utils import make_dict
-from pytest import mark
 
 
 def test_empty_input():

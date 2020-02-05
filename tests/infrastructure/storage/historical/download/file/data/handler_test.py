@@ -5,8 +5,6 @@ from infrastructure.storage.historical.download.file.handler import (
 from infrastructure.built_in.adapter.date_time import DateTime
 from infrastructure.built_in.adapter.copy_utils import make_copy
 
-from pytest import mark
-
 
 def test_handler():
     GIVEN("that we have a list of items and the market time")

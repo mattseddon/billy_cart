@@ -4,7 +4,6 @@ from infrastructure.storage.historical.external_api.file.handler import (
 )
 from infrastructure.built_in.adapter.date_time import DateTime
 from infrastructure.third_party.adapter.numpy_utils import round_down
-from pytest import mark
 
 
 def test_handler():
