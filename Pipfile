@@ -7,15 +7,15 @@ verify_ssl = true
 pylint = "*"
 rope = "*"
 black = "*"
-
-[packages]
 freezegun = "*"
 mock = "*"
+pytest = "*"
+pytest-cov = "*"
+
+[packages]
 numpy = "*"
 pandas = "*"
 py-dateutil = "*"
-pytest = "*"
-pytest-cov = "*"
 requests = "*"
 statsmodels = "*" 
 
