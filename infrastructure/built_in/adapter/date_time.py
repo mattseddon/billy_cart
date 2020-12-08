@@ -22,6 +22,10 @@ class DateTime:
     def utc_5_minutes_from_now():
         return DateTime.__utc_minutes_from_now(minutes=5)
 
+    @staticmethod
+    def utc_15_minutes_from_now():
+        return DateTime.__utc_minutes_from_now(minutes=15)
+
     def is_more_than_33_seconds_from_now(self):
         is_more_than = (
             True

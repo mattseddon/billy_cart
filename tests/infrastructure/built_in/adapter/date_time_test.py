@@ -17,6 +17,11 @@ def test_datetime_helpers():
     THEN("the correct string is returned")
     assert five_minutes_from_now == "1984-11-07T12:50:00Z"
 
+    WHEN("we call utc_15_minutes_from_now and add 5 minutes")
+    five_minutes_from_now = DateTime.utc_15_minutes_from_now()
+    THEN("the correct string is returned")
+    assert five_minutes_from_now == "1984-11-07T13:00:00Z"
+
     WHEN(
         "we call is_datetime_more_than_33_seconds_from_now with a time in the distant future"
     )
