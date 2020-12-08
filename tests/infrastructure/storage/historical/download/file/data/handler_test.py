@@ -29,7 +29,7 @@ def test_handler():
 
 
 def test_process():
-    GIVEN("a set of records and an handler")
+    GIVEN("a set of records and a handler")
 
     first_record = {"pt": -301 * 1000, "mc": [{"rc": []}]}
 
