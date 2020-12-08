@@ -1,4 +1,6 @@
 from tests.utils import GIVEN, WHEN, THEN
+from tests.mock.mediator import MockMediator
+
 from infrastructure.storage.historical.download.file.handler import (
     HistoricalDownloadFileHandler,
 )
@@ -9,13 +11,16 @@ from unittest.mock import patch
 
 
 @mark.slow
-def test_handler():
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_handler(mock_notify):
     GIVEN("a file and a directory")
     directory = "./dev"
     file = "1.163093692.bz2"
 
     WHEN("we instantiate the handler")
     handler = HistoricalDownloadFileHandler(file=file, directory=directory)
+    mediator = MockMediator()
+    handler.set_mediator(mediator)
 
     THEN("it has loaded the file as a list")
     assert type(handler._file_data) is list
@@ -111,6 +116,16 @@ def test_handler():
         if index > 0 and handler._market[index - 1].get("closed_indicator") == True:
             assert record.get("closed_indicator") == True
 
+    WHEN("we call get market for every record in the file")
+    for record in handler._market:
+        handler.get_market()
+
+        THEN("the correct data is sent to the mediator")
+        args, kwargs = mock_notify.call_args
+        assert args == ()
+        data = kwargs.get("data")
+        assert data == record
+
 
 @patch(
     "infrastructure.storage.historical.download.file.handler.HistoricalDownloadFileHandler.__init__"
@@ -150,6 +165,31 @@ def test_gap_fill(mock_handler_init):
     assert market[-1] == initial_market[2]
 
 
+@mark.slow
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_post_order(mock_notify):
+    GIVEN("a file, a directory and a mock mediator")
+    directory = "./dev"
+    file = "1.163093692.bz2"
+    mediator = MockMediator()
+
+    WHEN("we instantiate the handler and post a valid order")
+    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
+    handler.set_mediator(mediator)
+    id = 2121212
+    orders = [{"id": id, "type": "BUY", "ex_price": 2.5, "size": 1000000}]
+    handler.post_order(orders)
+
+    THEN("the correct data is passed to the mediator")
+    args, kwargs = mock_notify.call_args
+    assert args == ()
+    data = kwargs.get("data")
+    assert data.get("response") == [
+        {"instruction": {"selectionId": id}, "status": "SUCCESS"}
+    ]
+    assert data.get("orders") == orders
+
+
 def __get_process_time(record):
     return DateTime(record.get("pt")).get_epoch()
 
@@ -165,4 +205,3 @@ def __get_test_ids():
         21145599,
         26291826,
     ]
-
