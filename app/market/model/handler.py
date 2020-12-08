@@ -145,4 +145,3 @@ class ModelHandler(Colleague):
         for item in items:
             market_back_size += item.get("combined_back_size_pit")
         return market_back_size
-
