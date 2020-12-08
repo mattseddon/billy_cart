@@ -92,6 +92,8 @@ def test_system_single(mock_post_instructions, mock_call_exchange):
     )
     external_api.set_mediator(mediator=handler)
     mock_post_instructions.side_effect = __mark_orders_successful
+    orders = []
+    fix_probability_ids = []
     for record in file_data:
         mock_call_exchange.return_value = [record]
         with freeze_time(record.get("process_time")):
@@ -148,6 +150,7 @@ def test_system_multiple_set_prob(
     mock_post_instructions.side_effect = __mark_orders_successful
 
     fixed_probabilities = []
+    call_count = 0
     for record in file_data:
         mock_call_exchange.return_value = [record]
         call_count = mock_set_prob.call_count
@@ -193,6 +196,8 @@ def test_system_multiple(mock_post_instructions, mock_call_exchange):
     )
     external_api.set_mediator(mediator=handler)
     mock_post_instructions.side_effect = __mark_orders_successful
+    orders = []
+    fix_probability_ids = []
     for record in file_data:
         mock_call_exchange.return_value = [record]
         with freeze_time(record.get("process_time")):
