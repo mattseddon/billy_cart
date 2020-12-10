@@ -27,10 +27,11 @@ class HistoricalDownloadFileDataHandler:
         extract_time = self.__calc_extract_time()
 
         if extract_time >= -(60 * 5) and extract_time not in self._existing_times:
-            # time has just ticked past the second
-            # therefore this change happened after the required time
-            # we want to append the correct state whilst the second ticked over
-            # therefore add the existing information then append (_add) the new data
+            # as this time has not been seen we have just ticked past the second
+            # i.e this change happened after the required time
+            # we want to return the correct state whilst the second ticked over
+            # therefore return the existing information
+            # and append (_add) the new data to the object
             self._existing_times.append(extract_time)
             dict["extract_time"] = extract_time
             dict["items"] = make_copy(self._items)
@@ -128,4 +129,3 @@ class HistoricalDownloadFileDataHandler:
 
     def __get_item_definition_changes(self):
         return self.__market_definition_change.get("runners") or []
-

@@ -190,6 +190,19 @@ def test_post_order(mock_notify):
     assert data.get("orders") == orders
 
 
+def test_get_result():
+    GIVEN("a file and a directory")
+    directory = "./dev"
+    file = "1.163093692.bz2"
+
+    WHEN("we instantiate the handler and and call get_result")
+    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
+    result = handler.get_outcome()
+
+    THEN("the result is as expected")
+    assert result == 19795432
+
+
 def __get_process_time(record):
     return DateTime(record.get("pt")).get_epoch()
 

@@ -76,6 +76,20 @@ class HistoricalDownloadFileHandler(
 
         return self._mediator.notify(event="external data fetched", data=data)
 
+    def get_outcome(self):
+        return next(
+            map(
+                lambda item: item.get("id"),
+                filter(
+                    lambda item: item.get("status") == "WINNER",
+                    self._file_data[-1]
+                    .get("mc")[0]
+                    .get("marketDefinition")
+                    .get("runners"),
+                ),
+            )
+        )
+
     def post_order(self, orders):
 
         print(orders)
