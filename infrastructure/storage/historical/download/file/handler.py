@@ -81,10 +81,6 @@ class HistoricalDownloadFileHandler(
     def get_market(self):
         try:
             data = next(self._market)
-            if data.get("closed_indicator") == False:
-                print("I live on")
-            if data.get("closed_indicator") == True:
-                print("I should be dead")
             return self._mediator.notify(event="external data fetched", data=data)
         except:
             return None
