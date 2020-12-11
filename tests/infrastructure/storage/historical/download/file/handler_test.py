@@ -118,16 +118,6 @@ def test_handler(mock_notify):
         if index > 0 and market_data[index - 1].get("closed_indicator") == True:
             assert record.get("closed_indicator") == True
 
-    WHEN("we call get market for every record in the file")
-    for record in market_data:
-        handler.get_market()
-
-        THEN("the correct data is sent to the mediator")
-        args, kwargs = mock_notify.call_args
-        assert args == ()
-        data = kwargs.get("data")
-        assert data == record
-
 
 @patch("tests.mock.mediator.MockMediator.notify")
 def test_incorrect_type(mock_notify):
@@ -154,6 +144,29 @@ def test_incorrect_type(mock_notify):
 
     THEN("the mediator was not called")
     assert mock_notify.call_args is None
+
+
+@mark.slow
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_get_market(mock_notify):
+    GIVEN("a file and a directory with the correct market type")
+    directory = "./dev"
+    file = "1.163093692.bz2"
+
+    WHEN("we instantiate the handler")
+    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
+    mediator = MockMediator()
+    handler.set_mediator(mediator)
+
+    WHEN("we call get market for every record in the file")
+    for record in handler.get_file_as_list():
+        handler.get_market()
+
+        THEN("the correct data is sent to the mediator")
+        args, kwargs = mock_notify.call_args
+        assert args == ()
+        data = kwargs.get("data")
+        assert data == record
 
 
 @patch(
