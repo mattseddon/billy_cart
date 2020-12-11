@@ -15,7 +15,7 @@ def test_json_utils():
 
     THEN("the record is in the file and can be converted back into the dict")
     with open(test_file_path, "r") as file:
-        json_string = list(file)[0]
+        json_string = next(file)
     assert make_dict(json_string) == test_dict
 
     cleanup_test_file(name=test_file)

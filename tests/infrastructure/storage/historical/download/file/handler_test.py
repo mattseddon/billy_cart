@@ -13,7 +13,7 @@ from unittest.mock import patch
 @mark.slow
 @patch("tests.mock.mediator.MockMediator.notify")
 def test_handler(mock_notify):
-    GIVEN("a file and a directory")
+    GIVEN("a file and a directory with the correct market type")
     directory = "./dev"
     file = "1.163093692.bz2"
 
@@ -53,19 +53,19 @@ def test_handler(mock_notify):
     process_time = __get_process_time(last_record)
     assert (20 * 60) > -(market_time - process_time) > 0
 
-    THEN("the handler has a list of eligible records")
-    assert type(handler._market) is list
+    record_count = handler.get_record_count()
+    THEN("the iterator of eligible records is non empty")
+    assert record_count > 0
 
-    THEN("the list of eligible records is non empty")
-    assert len(handler._market) > 0
-
-    THEN("the list of eligible records has less records than the original file")
-    assert len(handler._market) < len(handler._file_data)
+    THEN("the number of eligible records is less records than the original file")
+    assert record_count < len(handler._file_data)
 
     THEN(
         "the first of the eligible records has a process time within 5 minutes of the market start time"
     )
-    first_eligible = handler._market[0]
+
+    market_data = handler.get_file_as_list()
+    first_eligible = market_data[0]
     assert first_eligible.get("extract_time") >= -60 * 5
 
     THEN("the first eligible record does not have a closed indicator set to true")
@@ -74,31 +74,33 @@ def test_handler(mock_notify):
     THEN(
         "the last of the eligible records has a process time after the market start time"
     )
-    last_eligible = handler._market[-1]
+    last_eligible = market_data[-2]
     assert last_eligible.get("extract_time") > 0
 
-    THEN("the last eligible record has a closed indicator set to true")
-    assert last_eligible.get("closed_indicator") == True
+    THEN("the last eligible record has a closed indicator set to false")
+    assert last_eligible.get("closed_indicator") == False
 
-    THEN(
-        "the adapter has less entries than the handler's market (missing seconds filled)"
-    )
-    assert len(handler._market) >= len(handler._data._existing_times)
+    THEN("the last of the records has a process time after the market start time")
+    last_record = market_data[-1]
+    assert last_record.get("extract_time") > last_eligible.get("extract_time")
+
+    THEN("the last eligible record has a closed indicator set to true")
+    assert last_record.get("closed_indicator") == True
 
     THEN("the times in the list are unique")
     assert len(handler._data._existing_times) == len(set(handler._data._existing_times))
 
     THEN("the extract times in the eligible records are unique")
-    extract_times = [record.get("extract_time") for record in handler._market]
+    extract_times = [record.get("extract_time") for record in market_data]
     assert len(extract_times) == len(set(extract_times))
 
-    for index, record in enumerate(handler._market):
+    for index, record in enumerate(market_data):
         THEN("each of the extract times is within the expected range")
         extract_time = record.get("extract_time")
         assert -5 * 60 <= extract_time < 60 * 60
         THEN("the extract time is a single second after the previous extract time")
         if index > 0:
-            assert extract_time == (handler._market[index - 1].get("extract_time") + 1)
+            assert extract_time == (market_data[index - 1].get("extract_time") + 1)
         THEN("each of the eligible records has a dict of items")
         items = record.get("items")
         assert type(items) is dict
@@ -113,11 +115,11 @@ def test_handler(mock_notify):
             assert 0 not in items[id]["sp"]["spb"].values()
             assert 0 not in items[id]["sp"]["spl"].values()
         THEN("once the closed indicator becomes true is does not change back to false")
-        if index > 0 and handler._market[index - 1].get("closed_indicator") == True:
+        if index > 0 and market_data[index - 1].get("closed_indicator") == True:
             assert record.get("closed_indicator") == True
 
     WHEN("we call get market for every record in the file")
-    for record in handler._market:
+    for record in market_data:
         handler.get_market()
 
         THEN("the correct data is sent to the mediator")
@@ -125,6 +127,33 @@ def test_handler(mock_notify):
         assert args == ()
         data = kwargs.get("data")
         assert data == record
+
+
+@patch("tests.mock.mediator.MockMediator.notify")
+def test_incorrect_type(mock_notify):
+    GIVEN("a file and in a directory which contains the incorrect market type")
+    directory = "./dev"
+    file = "1.156749791.bz2"
+
+    WHEN("we instantiate the handler")
+    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
+    mediator = MockMediator()
+    handler.set_mediator(mediator)
+
+    THEN("it has loaded not loaded the file as an iterator")
+    assert handler.get_file_as_list() == []
+
+    THEN("it has 0 records to iterate through")
+    assert handler.get_record_count() == 0
+
+    WHEN("we call get_market")
+    market = handler.get_market()
+
+    THEN("no data is returned")
+    assert market is None
+
+    THEN("the mediator was not called")
+    assert mock_notify.call_args is None
 
 
 @patch(
@@ -144,7 +173,7 @@ def test_gap_fill(mock_handler_init):
     ]
 
     WHEN("we gap fill the data")
-    market = handler._gap_fill(initial_market)
+    market = list(handler._gap_fill(initial_market))
 
     THEN("the returned market has the expected length")
     assert len(market) == (298 + 300 + 1)
@@ -190,17 +219,41 @@ def test_post_order(mock_notify):
     assert data.get("orders") == orders
 
 
-def test_get_result():
+def test_get_outcome():
     GIVEN("a file and a directory")
     directory = "./dev"
     file = "1.163093692.bz2"
 
-    WHEN("we instantiate the handler and and call get_result")
+    WHEN("we instantiate the handler and and call get_outcome")
     handler = HistoricalDownloadFileHandler(file=file, directory=directory)
     result = handler.get_outcome()
 
     THEN("the result is as expected")
     assert result == 19795432
+
+
+def test_is_correct_type():
+    GIVEN("a file and in a directory which contains the correct market type")
+    directory = "./dev"
+    file = "1.163093692.bz2"
+
+    WHEN("we instantiate the handler and and call is_correct_type")
+    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
+    result = handler.is_correct_type()
+
+    THEN("true is returned")
+    assert result is True
+
+    GIVEN("a file and in a directory which contains the incorrect market type")
+    directory = "./dev"
+    file = "1.156749791.bz2"
+
+    WHEN("we instantiate the handler and and call is_correct_type")
+    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
+    result = handler.is_correct_type()
+
+    THEN("false is returned")
+    assert result is False
 
 
 def __get_process_time(record):

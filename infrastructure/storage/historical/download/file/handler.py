@@ -14,35 +14,44 @@ class HistoricalDownloadFileHandler(
     def __init__(self, directory, file, mediator=None):
         super().__init__(directory=directory, file=file)
 
-        self.__calls = 0
         if mediator:
             Colleague.__init__(self, mediator=mediator)
 
         self._file_data = super().get_file_as_list()
         self._market_definition = self._get_market_definition()
-        self._data = HistoricalDownloadFileDataHandler(
-            items=self._get_items_definition(),
-            market_start_time=self.get_market_start_time(),
-        )
-        market = list(
-            filter(
-                lambda record: record,
-                map(lambda record: self._data.process(record), self._file_data),
+        if self.is_correct_type():
+            self._data = HistoricalDownloadFileDataHandler(
+                items=self._get_items_definition(),
+                market_start_time=self.get_market_start_time(),
             )
-        )
-        self._market = self._gap_fill(market=market)
+            market = list(
+                filter(
+                    lambda record: record,
+                    map(lambda record: self._data.process(record), self._file_data),
+                )
+            )
+            self._market = self._gap_fill(market=market)
+        else:
+            print("Incorrect market type provided")
+            self._market = iter([])
 
     def get_market_start_time(self):
         return self._market_definition.get("marketTime")
 
     def get_file_as_list(self):
-        return self._market
+        market = make_copy(self._market)
+        return list(market)
+
+    def get_record_count(self):
+        return len(self.get_file_as_list())
 
     def _gap_fill(self, market):
         m = []
         for index, record in enumerate(market):
             if index > 0:
                 previous_record = market[index - 1]
+                if previous_record.get("closed_indicator") == True:
+                    break
                 m.extend(
                     self.__make_extra_records(
                         frm=previous_record,
@@ -53,7 +62,7 @@ class HistoricalDownloadFileHandler(
                     )
                 )
             m.append(record)
-        return m
+        return iter(m)
 
     def __make_extra_records(self, frm, time_diff):
         extra_records = []
@@ -70,11 +79,15 @@ class HistoricalDownloadFileHandler(
         return self._market_definition.get("runners")
 
     def get_market(self):
-        data = self._market[self.__calls]
-        self.__calls = self.__calls + 1
-        print(self.__calls)
-
-        return self._mediator.notify(event="external data fetched", data=data)
+        try:
+            data = next(self._market)
+            if data.get("closed_indicator") == False:
+                print("I live on")
+            if data.get("closed_indicator") == True:
+                print("I should be dead")
+            return self._mediator.notify(event="external data fetched", data=data)
+        except:
+            return None
 
     def get_outcome(self):
         return next(
@@ -90,9 +103,10 @@ class HistoricalDownloadFileHandler(
             )
         )
 
-    def post_order(self, orders):
+    def is_correct_type(self):
+        return self._market_definition.get("marketType") == "WIN"
 
-        print(orders)
+    def post_order(self, orders):
 
         valid_orders = self._validate_orders(orders=orders)
 
