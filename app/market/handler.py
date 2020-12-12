@@ -26,6 +26,8 @@ class MarketHandler(Mediator):
         orders=None,
     ):
 
+        self.__market_id = market_id
+
         self.external_api: Colleague = external_api
 
         adapter = data_adapter or ExternalAPIMarketRecordAdapter(
@@ -57,6 +59,9 @@ class MarketHandler(Mediator):
 
     def notify(self, event, data=None):
         return self.__recipients.get(event)(data)
+
+    def get_market_id(self):
+        return self.__market_id
 
     def __delegate_posted_orders(self, data):
         successful_orders = self.orders.get_successful_orders(
