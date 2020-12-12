@@ -37,6 +37,20 @@ class FileHandler:
     def __is_valid(self, line):
         return True if make_dict(line) else False
 
+    def get_first_record(self):
+        if get_file_extension(self.__file) == ".bz2":
+            return self.__get_first_bz2_record()
+        else:
+            return self.__get_first_record()
+
+    def __get_first_bz2_record(self):
+        with bz2.open(self.__file, "r") as file:
+            return make_dict(next(file))
+
+    def __get_first_record(self):
+        with open(self.__file, "r") as file:
+            return make_dict(next(file))
+
     def add_dict(self, dict):
         with open(self.__file, self.__write_type) as file:
             write_json_to(file=file, dict=dict)

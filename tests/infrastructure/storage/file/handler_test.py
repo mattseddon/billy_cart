@@ -4,11 +4,12 @@ from tests.utils import (
     THEN,
     get_test_directory,
     cleanup_test_file,
-    get_record_process_time,
 )
 from infrastructure.storage.file.handler import FileHandler
 from infrastructure.built_in.adapter.os_utils import path_exists
 from infrastructure.built_in.adapter.date_time import DateTime
+
+from pytest import mark
 
 
 def test_handler_test_file():
@@ -60,6 +61,7 @@ def test_handler_test_file():
     cleanup_test_file(name=test_file)
 
 
+@mark.slow
 def test_handler_download_file():
     GIVEN("a file and a directory with the correct market type")
     directory = "./dev"
@@ -86,7 +88,7 @@ def test_handler_download_file():
     assert market_time == 1569840120.0
 
     THEN("the first record has a process time which can be converted to an epoch")
-    process_time = get_record_process_time(first_record)
+    process_time = __get_record_process_time(first_record)
     assert type(process_time) is float
 
     THEN("the process time is within 24 hours of the market_time")
@@ -96,5 +98,9 @@ def test_handler_download_file():
     last_record = file_data[-1]
 
     THEN("the process time is after the market time but within 20 minutes")
-    process_time = get_record_process_time(last_record)
+    process_time = __get_record_process_time(last_record)
     assert (20 * 60) > -(market_time - process_time) > 0
+
+
+def __get_record_process_time(record):
+    return DateTime(record.get("pt")).get_epoch()

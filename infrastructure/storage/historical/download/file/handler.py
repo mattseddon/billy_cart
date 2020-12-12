@@ -17,9 +17,9 @@ class HistoricalDownloadFileHandler(
         if mediator:
             Colleague.__init__(self, mediator=mediator)
 
-        self._file_data = super().get_file_as_list()
         self._market_definition = self._get_market_definition()
         if self.is_correct_type():
+            self._file_data = super().get_file_as_list()
             self._data = HistoricalDownloadFileDataHandler(
                 items=self._get_items_definition(),
                 market_start_time=self.get_market_start_time(),
@@ -34,6 +34,9 @@ class HistoricalDownloadFileHandler(
         else:
             print("Incorrect market type provided")
             self._market = iter([])
+
+    def is_correct_type(self):
+        return self._market_definition.get("marketType") == "WIN"
 
     def get_market_start_time(self):
         return self._market_definition.get("marketTime")
@@ -73,7 +76,7 @@ class HistoricalDownloadFileHandler(
         return extra_records
 
     def _get_market_definition(self):
-        return self._file_data[0].get("mc")[0].get("marketDefinition")
+        return super().get_first_record().get("mc")[0].get("marketDefinition")
 
     def _get_items_definition(self):
         return self._market_definition.get("runners")
@@ -98,9 +101,6 @@ class HistoricalDownloadFileHandler(
                 ),
             )
         )
-
-    def is_correct_type(self):
-        return self._market_definition.get("marketType") == "WIN"
 
     def post_order(self, orders):
 

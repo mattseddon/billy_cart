@@ -4,7 +4,6 @@ from tests.mock.mediator import MockMediator
 from infrastructure.storage.historical.download.file.handler import (
     HistoricalDownloadFileHandler,
 )
-from infrastructure.built_in.adapter.date_time import DateTime
 
 from pytest import mark
 from unittest.mock import patch
@@ -22,43 +21,9 @@ def test_handler(mock_notify):
     mediator = MockMediator()
     handler.set_mediator(mediator)
 
-    THEN("it has loaded the file as a list")
-    assert type(handler._file_data) is list
-
-    THEN("the list has hundreds of records")
-    assert len(handler._file_data) > 200
-
-    THEN("the list's first record has all of the items")
-    first_record = handler._file_data[0]
-    items = first_record.get("mc")[0].get("marketDefinition").get("runners")
-    assert type(items) is list
-
-    THEN("the list's first record has the market time")
-    market_time = DateTime(
-        first_record.get("mc")[0].get("marketDefinition").get("marketTime")
-    ).get_epoch()
-    assert market_time == 1569840120.0
-
-    THEN("the first record has a process time which can be converted to an epoch")
-    process_time = __get_process_time(first_record)
-    assert type(process_time) is float
-
-    THEN("the process time is within 24 hours of the market_time")
-    assert (market_time - process_time) < (60 * 60 * 24)
-
-    THEN("the handler's file data has a last record")
-    last_record = handler._file_data[-1]
-
-    THEN("the process time is after the market time but within 20 minutes")
-    process_time = __get_process_time(last_record)
-    assert (20 * 60) > -(market_time - process_time) > 0
-
     record_count = handler.get_record_count()
     THEN("the iterator of eligible records is non empty")
     assert record_count > 0
-
-    THEN("the number of eligible records is less records than the original file")
-    assert record_count < len(handler._file_data)
 
     THEN(
         "the first of the eligible records has a process time within 5 minutes of the market start time"
@@ -117,6 +82,12 @@ def test_handler(mock_notify):
         THEN("once the closed indicator becomes true is does not change back to false")
         if index > 0 and market_data[index - 1].get("closed_indicator") == True:
             assert record.get("closed_indicator") == True
+
+    WHEN("we call get_outcome")
+    result = handler.get_outcome()
+
+    THEN("the result is as expected")
+    assert result == 19795432
 
 
 @patch("tests.mock.mediator.MockMediator.notify")
@@ -230,47 +201,6 @@ def test_post_order(mock_notify):
         {"instruction": {"selectionId": id}, "status": "SUCCESS"}
     ]
     assert data.get("orders") == orders
-
-
-def test_get_outcome():
-    GIVEN("a file and a directory")
-    directory = "./dev"
-    file = "1.163093692.bz2"
-
-    WHEN("we instantiate the handler and and call get_outcome")
-    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
-    result = handler.get_outcome()
-
-    THEN("the result is as expected")
-    assert result == 19795432
-
-
-def test_is_correct_type():
-    GIVEN("a file and in a directory which contains the correct market type")
-    directory = "./dev"
-    file = "1.163093692.bz2"
-
-    WHEN("we instantiate the handler and and call is_correct_type")
-    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
-    result = handler.is_correct_type()
-
-    THEN("true is returned")
-    assert result is True
-
-    GIVEN("a file and in a directory which contains the incorrect market type")
-    directory = "./dev"
-    file = "1.156749791.bz2"
-
-    WHEN("we instantiate the handler and and call is_correct_type")
-    handler = HistoricalDownloadFileHandler(file=file, directory=directory)
-    result = handler.is_correct_type()
-
-    THEN("false is returned")
-    assert result is False
-
-
-def __get_process_time(record):
-    return DateTime(record.get("pt")).get_epoch()
 
 
 def __get_test_ids():
