@@ -1,9 +1,17 @@
-from tests.utils import GIVEN, WHEN, THEN, get_test_directory, cleanup_test_file
+from tests.utils import (
+    GIVEN,
+    WHEN,
+    THEN,
+    get_test_directory,
+    cleanup_test_file,
+    get_record_process_time,
+)
 from infrastructure.storage.file.handler import FileHandler
-from infrastructure.built_in.adapter.os_utils import path_exists, get_newline
+from infrastructure.built_in.adapter.os_utils import path_exists
+from infrastructure.built_in.adapter.date_time import DateTime
 
 
-def test_file_handler():
+def test_handler_test_file():
     GIVEN("an instance of the FileWriter class and a basic dict")
     data_dir = get_test_directory()
     test_file = "test_file_handler.txt"
@@ -50,3 +58,43 @@ def test_file_handler():
     assert len(data) == 2
 
     cleanup_test_file(name=test_file)
+
+
+def test_handler_download_file():
+    GIVEN("a file and a directory with the correct market type")
+    directory = "./dev"
+    file = "1.163093692.bz2"
+
+    WHEN("we instantiate the handler")
+    file_data = FileHandler(directory=directory, file=file).get_file_as_list()
+
+    THEN("it has loaded the file as a list")
+    assert type(file_data) is list
+
+    THEN("the list has hundreds of records")
+    assert len(file_data) > 200
+
+    THEN("the list's first record has all of the items")
+    first_record = file_data[0]
+    items = first_record.get("mc")[0].get("marketDefinition").get("runners")
+    assert type(items) is list
+
+    THEN("the list's first record has the market time")
+    market_time = DateTime(
+        first_record.get("mc")[0].get("marketDefinition").get("marketTime")
+    ).get_epoch()
+    assert market_time == 1569840120.0
+
+    THEN("the first record has a process time which can be converted to an epoch")
+    process_time = get_record_process_time(first_record)
+    assert type(process_time) is float
+
+    THEN("the process time is within 24 hours of the market_time")
+    assert (market_time - process_time) < (60 * 60 * 24)
+
+    THEN("the handler's file data has a last record")
+    last_record = file_data[-1]
+
+    THEN("the process time is after the market time but within 20 minutes")
+    process_time = get_record_process_time(last_record)
+    assert (20 * 60) > -(market_time - process_time) > 0
