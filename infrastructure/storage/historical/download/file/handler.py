@@ -42,38 +42,34 @@ class HistoricalDownloadFileHandler(
         return self._market_definition.get("marketTime")
 
     def get_file_as_list(self):
-        market = make_copy(self._market)
-        return list(market)
+        market = list(self._market)
+        self._market = iter(market)
+        return market
 
     def get_record_count(self):
         return len(self.get_file_as_list())
 
     def _gap_fill(self, market):
-        m = []
         for index, record in enumerate(market):
             if index > 0:
                 previous_record = market[index - 1]
                 if previous_record.get("closed_indicator") == True:
                     break
-                m.extend(
-                    self.__make_extra_records(
-                        frm=previous_record,
-                        time_diff=(
-                            record.get("extract_time")
-                            - (previous_record.get("extract_time"))
-                        ),
-                    )
-                )
-            m.append(record)
-        return iter(m)
+                for extra_record in self.__make_extra_records(
+                    frm=previous_record,
+                    time_diff=(
+                        record.get("extract_time")
+                        - (previous_record.get("extract_time"))
+                    ),
+                ):
+                    yield extra_record
+            yield record
 
     def __make_extra_records(self, frm, time_diff):
-        extra_records = []
         for seconds in range(1, time_diff):
             record = make_copy(frm)
             record["extract_time"] += seconds
-            extra_records.append(record)
-        return extra_records
+            yield record
 
     def _get_market_definition(self):
         return super().get_first_record().get("mc")[0].get("marketDefinition")
