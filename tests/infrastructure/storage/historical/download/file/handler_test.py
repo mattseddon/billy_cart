@@ -21,10 +21,6 @@ def test_handler(mock_notify):
     mediator = MockMediator()
     handler.set_mediator(mediator)
 
-    record_count = handler.get_record_count()
-    THEN("the iterator of eligible records is non empty")
-    assert record_count > 0
-
     THEN(
         "the first of the eligible records has a process time within 5 minutes of the market start time"
     )
@@ -104,9 +100,6 @@ def test_incorrect_type(mock_notify):
     THEN("it has loaded not loaded the file as an iterator")
     assert handler.get_file_as_list() == []
 
-    THEN("it has 0 records to iterate through")
-    assert handler.get_record_count() == 0
-
     WHEN("we call get_market")
     market = handler.get_market()
 
@@ -147,7 +140,7 @@ def test_gap_fill(mock_handler_init):
     GIVEN("a handler and some data")
     mock_handler_init.return_value = None
     handler = HistoricalDownloadFileHandler(file="weeeee", directory="waaaaaah")
-    initial_market = [
+    initial_market_list = [
         {
             "extract_time": -298,
             "stuff": {"A": "remains unchanged", "B": "also remains unchanged"},
@@ -155,27 +148,27 @@ def test_gap_fill(mock_handler_init):
         {"extract_time": -10, "stuff": {"A": "now changed", "B": "also changed"}},
         {"extract_time": 300, "done": True},
     ]
+    initial_market = iter(initial_market_list)
 
     WHEN("we gap fill the data")
     market = list(handler._gap_fill(initial_market))
-
     THEN("the returned market has the expected length")
     assert len(market) == (298 + 300 + 1)
 
     THEN("the records between -298 and -10 have the correct properties")
-    expected_record = initial_market[0]
+    expected_record = initial_market_list[0]
     for index, record in enumerate(market[0:288]):
         expected_record["extract_time"] = -298 + index
         assert record == expected_record
 
     THEN("the records between -10 and 300 have the correct properties")
-    expected_record = initial_market[1]
+    expected_record = initial_market_list[1]
     for index, record in enumerate(market[288:598]):
         expected_record["extract_time"] = -10 + index
         assert record == expected_record
 
     THEN("the final record has the correct properties")
-    assert market[-1] == initial_market[2]
+    assert market[-1] == initial_market_list[2]
 
 
 @mark.slow

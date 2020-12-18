@@ -21,6 +21,7 @@ class MarketHandler(Mediator):
         external_api,
         market_start_time,
         data_adapter=None,
+        bank=5000,
         data=None,
         models=None,
         orders=None,
@@ -41,7 +42,7 @@ class MarketHandler(Mediator):
             mediator=self, wls_model=WeightedLinearRegression()
         )
 
-        self.orders: Colleague = orders or OrdersHandler(mediator=self)
+        self.orders: Colleague = orders or OrdersHandler(mediator=self, bank=bank)
 
         self.__recipients = {
             "external data fetched": self.data.process_data,
@@ -51,17 +52,20 @@ class MarketHandler(Mediator):
             "orders posted": self.__delegate_posted_orders,
             "market closed": self.__exit,
             "no data provided multiple times": self.__exit,
-            "finished processing": self.__finish,
+            "finished processing": self.__finished,
         }
 
     def run(self):
-        self.external_api.get_market()
+        return self.external_api.get_market()
 
     def notify(self, event, data=None):
         return self.__recipients.get(event)(data)
 
     def get_market_id(self):
         return self.__market_id
+
+    def get_orders(self):
+        return self.orders.get_orders()
 
     def __delegate_posted_orders(self, data):
         successful_orders = self.orders.get_successful_orders(
@@ -71,8 +75,8 @@ class MarketHandler(Mediator):
         self.data.fix_probabilities(items=successful_orders)
         self.orders.prevent_reorder(orders=successful_orders)
 
-    def __finish(self, data):
-        pass
+    def __finished(self, data):
+        return False
 
     def __exit(self, data):
         die(0)

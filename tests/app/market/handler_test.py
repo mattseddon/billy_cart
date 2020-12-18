@@ -57,7 +57,7 @@ def test_system_set_prob(mock_post_instructions, mock_set_prob, mock_call_exchan
             handler.run()
 
     THEN("an order has been made")
-    orders = handler.orders._get_existing_orders()
+    orders = handler.get_orders()
     assert orders != []
     THEN("a single call to fix the probability of the items being ordered was made")
     assert mock_set_prob.call_count == 1
@@ -99,7 +99,7 @@ def test_system_single(mock_post_instructions, mock_call_exchange):
         with freeze_time(record.get("process_time")):
             handler.run()
         fix_probability_ids = handler.data._get_fixed_probability_ids()
-        orders = handler.orders._get_existing_orders()
+        orders = handler.get_orders()
         if fix_probability_ids or orders:
             THEN(
                 "the data handler will not provide data to the models for fixed prob items"
@@ -160,12 +160,12 @@ def test_system_multiple_set_prob(
             THEN("the correct orders were passed to the method")
             args, kwargs = mock_set_prob.call_args
             fixed_probabilities.extend(kwargs.get("items"))
-            orders = handler.orders._get_existing_orders()
+            orders = handler.get_orders()
             assert args == ()
             assert fixed_probabilities == orders
 
     THEN("multiple orders have been made")
-    orders = handler.orders._get_existing_orders()
+    orders = handler.get_orders()
     assert orders != []
     assert len(orders) > 1
     THEN("multiple calls to fix the probability of items being ordered were made")
@@ -203,7 +203,7 @@ def test_system_multiple(mock_post_instructions, mock_call_exchange):
         with freeze_time(record.get("process_time")):
             handler.run()
         fix_probability_ids = handler.data._get_fixed_probability_ids()
-        orders = handler.orders._get_existing_orders()
+        orders = handler.get_orders()
         if fix_probability_ids or orders:
             THEN(
                 "the data handler will not provide data to the models for fixed prob items"

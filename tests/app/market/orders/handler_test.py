@@ -68,12 +68,12 @@ def test_single_item(mock_notify):
     WHEN("we add the order to the handler (after processing)")
     handler.prevent_reorder(orders=new_orders)
     THEN("the correct information has been added to the handler")
-    assert handler._get_existing_orders() == new_orders
+    assert handler.get_orders() == new_orders
 
     WHEN("we try to add the order to the handler a second time")
     handler.prevent_reorder(orders=new_orders)
     THEN("the order has not been added again to the handler")
-    assert handler._get_existing_orders() == new_orders
+    assert handler.get_orders() == new_orders
 
     WHEN("we try to get new orders again using the same item")
     handler.get_new_orders(items=items)
@@ -235,7 +235,7 @@ def test_add_valid_processed_orders():
     ]
     WHEN("we add the orders to the handler")
     handler.prevent_reorder(orders=processed_orders)
-    existing_orders = handler._get_existing_orders()
+    existing_orders = handler.get_orders()
     THEN("the correct order data has been added to the handler")
     assert existing_orders == processed_orders
 
@@ -381,7 +381,7 @@ def test_add_invalid_processed_orders():
     ]
     WHEN("we try to add the orders to the handler")
     handler.prevent_reorder(orders=processed_orders)
-    existing_orders = handler._get_existing_orders()
+    existing_orders = handler.get_orders()
     THEN("no order data has been added to the handler")
     assert existing_orders == []
 
@@ -415,7 +415,7 @@ def test_add_mixed_processed_orders():
     ]
     WHEN("we add the orders to the handler")
     handler.prevent_reorder(orders=processed_orders)
-    existing_orders = handler._get_existing_orders()
+    existing_orders = handler.get_orders()
     THEN("the correct number of orders have been added to the handler")
     assert len(existing_orders) == 2
     THEN("the correct order data has been added to the handler")

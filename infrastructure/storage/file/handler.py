@@ -1,3 +1,4 @@
+from os import linesep
 from infrastructure.built_in.adapter.json_utils import write_json_to, make_dict
 from infrastructure.built_in.adapter.os_utils import (
     get_newline,
@@ -14,6 +15,12 @@ class FileHandler:
         self.__directory = directory
         self.__file = self.__add_path_to(file)
         self.__make_directory()
+
+    def get_file_as_generator(self):
+        if get_file_extension(self.__file) == ".bz2":
+            yield from self.__get_bz2_contents()
+        else:
+            yield from self.__get_file_contents()
 
     def get_file_as_list(self):
         if get_file_extension(self.__file) == ".bz2":
