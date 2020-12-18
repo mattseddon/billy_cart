@@ -3,6 +3,7 @@ from app.colleague import Colleague
 
 class OrdersHandler(Colleague):
     def __init__(self, mediator, bank=5000):
+        ## probably going to have to call the exchange to get this number need to think about it
         self.__bank = bank
         self.__existing_orders = []
         Colleague.__init__(self, mediator=mediator)
@@ -12,7 +13,7 @@ class OrdersHandler(Colleague):
         self.__existing_orders.extend(valid_orders)
         return None
 
-    def _get_existing_orders(self):
+    def get_orders(self):
         return self.__existing_orders
 
     def get_new_orders(self, items):
@@ -34,10 +35,9 @@ class OrdersHandler(Colleague):
         orders = list(
             filter(
                 lambda order: self.__is_valid_order(order),
-                (map(lambda item: self.__prepare_order(item), risk_percentage,)),
+                (map(lambda item: self.__prepare_order(item), risk_percentage)),
             )
         )
-
         return (
             self._mediator.notify(event="new orders", data=orders)
             if orders
@@ -132,14 +132,19 @@ class OrdersHandler(Colleague):
         item["size"] = self._calc_order_size(item=item)
         return item
 
-    def get_existing_order_probabilities(self):
-        pass
-
     def get_existing_order_ids(self):
-        return [order.get("id") for order in self._get_existing_orders()]
+        return [order.get("id") for order in self.get_orders()]
 
     def _get_existing_order_risk_percentages(self):
-        return []
+        return list(
+            map(
+                lambda order: {
+                    "id": order.get("id"),
+                    "risk_percentage": order.get("risk_percentage"),
+                },
+                self.get_orders(),
+            )
+        )
 
     def _calc_risk_percentage(self, probability, price, kf=1, cap=0.05):
         if self.__can_calculate_risk(probability=probability, price=price):
@@ -165,4 +170,3 @@ class OrdersHandler(Colleague):
 
     def __notify_mediator_finished(self):
         return self._mediator.notify(event="finished processing", data=None)
-

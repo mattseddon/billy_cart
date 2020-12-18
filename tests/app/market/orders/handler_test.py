@@ -90,7 +90,7 @@ def test_single_item(mock_notify):
 
 
 def test_calc_reduced_risk_percentage():
-    GIVEN("a set of risk percentages and an orders handler")
+    GIVEN("a set of risk percentages and an orders handler with an existing order")
     items = [
         {"id": 123, "risk_percentage": 0.01},
         {"id": 456, "risk_percentage": 0.01},
@@ -99,6 +99,19 @@ def test_calc_reduced_risk_percentage():
     ]
     mediator = MockMediator()
     handler = OrdersHandler(mediator=mediator, bank=5000)
+    existing_orders = [
+        {
+            "id": 999,
+            "probability": 0.26,
+            "type": "SELL",
+            "ex_price": 5,
+            "returns_price": 4.75,
+            "min_size": 5,
+            "size": 10000,
+            "risk_percentage": 0.03,
+        }
+    ]
+    handler.prevent_reorder(existing_orders)
 
     WHEN("we calculate the reduced risk percentages")
     reduced_risk_percentages = handler._calc_reduced_risk_percentage(
@@ -106,10 +119,17 @@ def test_calc_reduced_risk_percentage():
     )
 
     THEN("the percentages have been reduced")
-    assert reduced_risk_percentages.get(123) == 0.01 * (1 - 0.01) * (1 - 0.02)
-    assert reduced_risk_percentages.get(456) == 0.01 * (1 - 0.01) * (1 - 0.02)
-    assert reduced_risk_percentages.get(789) == 0.02 * (1 - 0.01) * (1 - 0.01)
+    assert reduced_risk_percentages.get(123) == 0.01 * (1 - 0.01) * (1 - 0.02) * (
+        1 - 0.03
+    )
+    assert reduced_risk_percentages.get(456) == 0.01 * (1 - 0.01) * (1 - 0.02) * (
+        1 - 0.03
+    )
+    assert reduced_risk_percentages.get(789) == 0.02 * (1 - 0.01) * (1 - 0.01) * (
+        1 - 0.03
+    )
     assert reduced_risk_percentages.get(101) == 0
+    assert reduced_risk_percentages.get(999) == None
 
 
 def test_calc_order_size():
