@@ -134,9 +134,7 @@ def test_get_file_as_generator():
     assert (market_time - process_time) < (60 * 60 * 24)
 
     THEN("the list has hundreds of records")
-    for i in range(200):
-        record = next(generator)
-        assert type(record) is dict
+    map(lambda: ___test_call(generator), range(200))
 
     THEN("the handler's file data has a last record")
     last_record = list(generator)[-1]
@@ -144,6 +142,11 @@ def test_get_file_as_generator():
     THEN("the process time is after the market time but within 20 minutes")
     process_time = __get_record_process_time(last_record)
     assert (20 * 60) > -(market_time - process_time) > 0
+
+
+def ___test_call(generator):
+    record = next(generator)
+    assert type(record) is dict
 
 
 def __get_record_process_time(record):
