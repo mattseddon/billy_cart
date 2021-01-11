@@ -30,7 +30,6 @@ class HistoricalDownloadFileHandler(
             )
             self._market = self._gap_fill(market=market)
         else:
-            print("Incorrect market type provided")
             self._market = iter([])
 
     def is_correct_type(self):
