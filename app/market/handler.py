@@ -75,6 +75,8 @@ class MarketHandler(Mediator):
         self.data.fix_probabilities(items=successful_orders)
         self.orders.prevent_reorder(orders=successful_orders)
 
+        return self.notify(event="finished processing", data={})
+
     def __finished(self, data):
         return False
 
