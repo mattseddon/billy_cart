@@ -27,8 +27,6 @@ class ProbabilityHandler:
     def __calc_compositional_probability(self, item):
         compositional_item = {"id": item.get("id")}
         compositional_item["compositional_probability"] = (
-            self.__correct_probability
-            / self.__total_probability
-            * item.get(self.__name)
-        )
+            self.__correct_probability / self.__total_probability
+        ) * item.get(self.__name)
         return compositional_item

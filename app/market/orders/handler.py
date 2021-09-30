@@ -146,7 +146,7 @@ class OrdersHandler(Colleague):
             )
         )
 
-    def _calc_risk_percentage(self, probability, price, kf=1, cap=0.05):
+    def _calc_risk_percentage(self, probability, price, kf=1, cap=1):
         if self.__can_calculate_risk(probability=probability, price=price):
             risk_percentage = min(
                 max(

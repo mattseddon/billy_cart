@@ -34,41 +34,41 @@ class ModelHandler(Colleague):
                 results.append(has_value)
                 continue
 
-            elif (
-                self._meets_high_back_size_threshold(item=item)
-                and self.__event_country == "AU"
-                and self._has_overlay(
-                    item=item, probability="compositional_ex_average_probability_pit"
-                )
-            ):
-                has_value = self.__standardise_result(
-                    item=item,
-                    probability="compositional_ex_average_probability_pit",
-                    type="BUY",
-                    model_id="MBG2",
-                    ex_price="ex_offered_back_price_pit",
-                    returns_price="ex_offered_back_price_mc_pit",
-                )
-                results.append(has_value)
-                continue
+            # elif (
+            #     self._meets_high_back_size_threshold(item=item)
+            #     and self.__event_country == "AU"
+            #     and self._has_overlay(
+            #         item=item, probability="compositional_ex_average_probability_pit"
+            #     )
+            # ):
+            #     has_value = self.__standardise_result(
+            #         item=item,
+            #         probability="compositional_ex_average_probability_pit",
+            #         type="BUY",
+            #         model_id="MBG2",
+            #         ex_price="ex_offered_back_price_pit",
+            #         returns_price="ex_offered_back_price_mc_pit",
+            #     )
+            #     results.append(has_value)
+            #     continue
 
-            elif (
-                self._meets_low_back_size_threshold(item=item)
-                and self.__event_country == "AU"
-                and self._has_overlay(
-                    item=item, probability="compositional_ex_average_probability_pit"
-                )
-            ):
-                has_value = self.__standardise_result(
-                    item=item,
-                    probability="compositional_ex_average_probability_pit",
-                    type="BUY",
-                    model_id="MBL2",
-                    ex_price="ex_offered_back_price_pit",
-                    returns_price="ex_offered_back_price_mc_pit",
-                )
-                results.append(has_value)
-                continue
+            # elif (
+            #     self._meets_low_back_size_threshold(item=item)
+            #     and self.__event_country == "AU"
+            #     and self._has_overlay(
+            #         item=item, probability="compositional_ex_average_probability_pit"
+            #     )
+            # ):
+            #     has_value = self.__standardise_result(
+            #         item=item,
+            #         probability="compositional_ex_average_probability_pit",
+            #         type="BUY",
+            #         model_id="MBL2",
+            #         ex_price="ex_offered_back_price_pit",
+            #         returns_price="ex_offered_back_price_mc_pit",
+            #     )
+            #     results.append(has_value)
+            #     continue
 
         return (
             self._mediator.notify(event="models have results", data=results)
