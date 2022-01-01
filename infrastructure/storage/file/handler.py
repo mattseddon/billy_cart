@@ -1,4 +1,5 @@
-from os import linesep
+import bz2
+
 from infrastructure.built_in.adapter.json_utils import write_json_to, make_dict
 from infrastructure.built_in.adapter.os_utils import (
     get_newline,
@@ -7,7 +8,6 @@ from infrastructure.built_in.adapter.os_utils import (
     path_exists,
     make_directory_if_required,
 )
-import bz2
 
 
 class FileHandler:
@@ -25,8 +25,8 @@ class FileHandler:
     def get_file_as_list(self):
         if get_file_extension(self.__file) == ".bz2":
             return self.__get_bz2_contents()
-        else:
-            return self.__get_file_contents()
+
+        return self.__get_file_contents()
 
     def __get_bz2_contents(self):
         with bz2.open(self.__file, "r") as file:
@@ -60,7 +60,7 @@ class FileHandler:
 
     def add_dict(self, dict):
         with open(self.__file, self.__write_type) as file:
-            write_json_to(file=file, dict=dict)
+            write_json_to(file=file, data=dict)
             self.__add_new_line(file)
         return self.__file
 
@@ -70,11 +70,9 @@ class FileHandler:
 
     def __add_new_line(self, file):
         file.write(get_newline())
-        return None
 
     def __make_directory(self):
         make_directory_if_required(self.__directory)
-        return None
 
     def __add_path_to(self, file):
         return get_file_path(directory=self.__directory, file=file)

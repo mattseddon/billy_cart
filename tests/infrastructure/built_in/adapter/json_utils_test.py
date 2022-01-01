@@ -11,7 +11,7 @@ def test_json_utils():
 
     with open(test_file_path, "w+", encoding="utf-8") as file:
         WHEN("we write the dict as json to the file")
-        write_json_to(file=file, dict=test_dict)
+        write_json_to(file=file, data=test_dict)
 
     THEN("the record is in the file and can be converted back into the dict")
     with open(test_file_path, "r", encoding="utf-8") as file:

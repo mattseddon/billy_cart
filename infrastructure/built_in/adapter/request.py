@@ -45,7 +45,6 @@ class URLRequest:
             self.__url, self.__request.encode("utf-8"), self.__headers
         )
         self.__response = urlopen(urllib_request)
-        return None
 
     def __is_ok(self):
         return self.__response.getcode() == get_ok_status()

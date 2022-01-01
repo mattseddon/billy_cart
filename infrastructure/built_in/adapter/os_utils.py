@@ -43,7 +43,6 @@ def get_environment_variable(variable):
 
 def set_environment_variable(variable, value):
     environ[variable] = value
-    return None
 
 
 def __confirm_path_removed(path):

@@ -37,8 +37,6 @@ class WeightedLinearRegression(WeightedLinearRegressionInterface):
         self.__alpha = res_wls.params[1]
         self.__Beta = res_wls.params[0]
 
-        return None
-
     def __calc_log_weights(self, weights):
         return [calculate_log(max(weight, 1)) for weight in weights]
 

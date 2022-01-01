@@ -23,7 +23,6 @@ class HistoricalDownloadFileDataHandler:
 
     def set_record(self, record):
         self._record = record
-        return None
 
     def process(self, record):
         data = {}
@@ -60,30 +59,25 @@ class HistoricalDownloadFileDataHandler:
         self._add_available_to_back()
         self._add_available_to_lay()
         self._add_traded_volume()
-        return None
 
     def _add_starting_price_data(self):
         self._add_sp_back_taken()
         self._add_sp_lay_taken()
         self._add_sp_near_price()
-        return None
 
     def __set_market_definition_change(self):
         self.__market_definition_change = (
             self._record.get("mc")[0].get("marketDefinition") or {}
         )
-        return None
 
     def _add_removal_data(self):
         for removal in self.__get_removed_items():
             self._items[removal.get("id")]["removal_date"] = removal.get("removalDate")
-        return None
 
     def __set_closed_indictor(self):
         in_play = self.__market_definition_change.get("inPlay")
         if in_play is not None:
             self._closed_indicator = in_play
-        return None
 
     def _add_available_to_back(self):
         return self.__add_attribute(attribute="atb", type="ex")

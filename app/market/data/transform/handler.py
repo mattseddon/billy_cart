@@ -13,7 +13,6 @@ class TransformHandler:
 
     def set_probability(self, id, probability):
         self.__fixed_probabilities[id] = probability
-        return None
 
     def get_fixed_probability_ids(self):
         return list(self.__fixed_probabilities.keys())
@@ -45,7 +44,6 @@ class TransformHandler:
 
     def _set_items(self, items):
         self.__items = self._exclude_fixed_items(items=items)
-        return None
 
     def _exclude_fixed_items(self, items):
         return list(
@@ -57,24 +55,20 @@ class TransformHandler:
 
     def _set_extract_time(self, extract_time):
         self.__extract_time = extract_time
-        return None
 
     def _set_closed_indicator(self, closed_indicator):
         self.__closed_indicator = closed_indicator
-        return None
 
     def _calc_remaining_probability(self):
         self.__remaining_probability = self.__total_probability - sum(
             self.__fixed_probabilities.values()
         )
-        return None
 
     def __is_valid_record(self):
         return self.__items and self.__extract_time is not None
 
     def __add_extract_time(self):
         self.__transformed_data[("extract_time", "")] = [self.__extract_time]
-        return None
 
     def __add_closed_indicator(self):
         self.__transformed_data[("closed_indicator", "")] = [
@@ -87,7 +81,6 @@ class TransformHandler:
                 self.__transformed_data[
                     self.__get_composite_column_name(variable=column, item=item)
                 ] = [item.get(column)]
-        return None
 
     def __add_adj_back_prices(self):
         for column in self.__metadata.get_back_prices():
@@ -100,7 +93,6 @@ class TransformHandler:
                         item=item,
                     )
                 ] = [self.__pricer.remove_commission(item.get(column))]
-        return None
 
     def __add_combined_back_size(self):
         for item in self.__items:
@@ -112,15 +104,12 @@ class TransformHandler:
                     variable="combined_back_size", item=item
                 )
             ] = [combined_back_size]
-        return None
 
     def __add_compositional_sp_data(self):
         self.__add_compositional_data(name="sp")
-        return None
 
     def __add_compositional_ex_data(self):
         self.__add_compositional_data(name="ex_average")
-        return None
 
     def __add_compositional_data(self, name):
         compositional_data = self._get_compositional_data(
@@ -140,8 +129,6 @@ class TransformHandler:
                 )
             ] = [item.get("compositional_price")]
 
-        return None
-
     def __add_market_back_size(self):
         self.__transformed_data[("market_back_size", "")] = [
             sum(
@@ -150,7 +137,6 @@ class TransformHandler:
                 for item in self.__items
             )
         ]
-        return None
 
     def __get_composite_column_name(self, variable, item):
         return (variable, item.get("id"))

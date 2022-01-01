@@ -1,14 +1,13 @@
 from json import loads, dumps, dump
 
 
-def make_json(dict):
-    string = dumps(dict).encode("utf-8")
+def make_json(data):
+    string = dumps(data).encode("utf-8")
     return string
 
 
-def write_json_to(file, dict):
-    dump(dict, file)
-    return None
+def write_json_to(file, data):
+    dump(data, file)
 
 
 def make_dict(json_string):

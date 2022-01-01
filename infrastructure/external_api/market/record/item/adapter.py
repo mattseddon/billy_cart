@@ -93,14 +93,12 @@ class ItemAdapter(ItemAdapterInterface):
         else:
             sp_back_price = None
         self.__sp_back_price = sp_back_price
-        return None
 
     def __set_traded_volume(self):
         traded_volume = self.__ex.get("tradedVolume") if self.__ex else None
         self.__traded_volume = self.__get_value_or_default(
             value=traded_volume, default=[]
         )
-        return None
 
     def __calc_ex_average_back_price(self):
         total_back_price = sum(
@@ -134,7 +132,6 @@ class ItemAdapter(ItemAdapterInterface):
             if "ex_back_size" in self.__required_variables
             else None
         )
-        return None
 
     def __calc_sp_back_size(self):
         back_taken = self.__get_value_or_default(
@@ -152,7 +149,6 @@ class ItemAdapter(ItemAdapterInterface):
             if "ex_lay_size" in self.__required_variables
             else None
         )
-        return None
 
     def __calc_sp_lay_size(self):
         lay_taken = self.__get_value_or_default(
