@@ -10,7 +10,7 @@ class HistoricalExternalAPIFileHander(FileHandler):
         return self.__file_data[0].get("marketStartTime")
 
     def get_file_as_list(self):
-        return list(map(lambda item: self.__format_item(item), self.__file_data))
+        return list(map(self.__format_item, self.__file_data))
 
     def __format_item(self, item):
         formatted_item = item.get("marketInfo")[0]

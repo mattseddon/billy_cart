@@ -9,7 +9,7 @@ class OrdersHandler(Colleague):
         Colleague.__init__(self, mediator=mediator)
 
     def prevent_reorder(self, orders):
-        valid_orders = list(filter(lambda order: self.__is_valid_order(order), orders))
+        valid_orders = list(filter(self.__is_valid_order, orders))
         self.__existing_orders.extend(valid_orders)
 
     def get_orders(self):
@@ -33,8 +33,8 @@ class OrdersHandler(Colleague):
 
         orders = list(
             filter(
-                lambda order: self.__is_valid_order(order),
-                (map(lambda item: self.__prepare_order(item), risk_percentage)),
+                self.__is_valid_order,
+                (map(self.__prepare_order, risk_percentage)),
             )
         )
         return (
@@ -56,7 +56,7 @@ class OrdersHandler(Colleague):
         return list(
             map(
                 lambda order: order.get("instruction").get("selectionId"),
-                filter(lambda order: self.__get_successful_order(order), response),
+                filter(self.__get_successful_order, response),
             )
         )
 

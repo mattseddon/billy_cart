@@ -177,7 +177,7 @@ class TransformHandler:
 
         compositional_data = list(
             map(
-                lambda item: self.__add_compositional_price(item),
+                self.__add_compositional_price,
                 compositional_probabilities,
             )
         )

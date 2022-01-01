@@ -26,7 +26,7 @@ class HistoricalDownloadFileHandler(
             )
             market = filter(
                 lambda record: record,
-                map(lambda record: self._data.process(record), self._file_data),
+                map(self._data.process, self._file_data),
             )
             self._market = self._gap_fill(market=market)
         else:

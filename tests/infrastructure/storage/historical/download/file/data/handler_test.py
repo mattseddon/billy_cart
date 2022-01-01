@@ -1073,5 +1073,5 @@ def __get_ids_from_items_definition(items=None):
     return [item.get("id") for item in items or __get_default_items()]
 
 
-def __get_from_list(name, l):
-    return list(map(lambda item: item.get(name), l))
+def __get_from_list(name, data):
+    return list(map(lambda item: item.get(name), data))

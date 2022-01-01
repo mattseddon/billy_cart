@@ -54,7 +54,7 @@ class DataHandler(Colleague):
     def _get_model_data(self):
         model_data = list(
             map(
-                lambda id: self.__get_item_model_data(id),
+                self.__get_item_model_data,
                 self._get_ids_for_model_data(),
             )
         )
