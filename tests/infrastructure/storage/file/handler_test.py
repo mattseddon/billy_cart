@@ -73,7 +73,7 @@ def test_handler_download_file():
     file_data = FileHandler(directory=directory, file=file).get_file_as_list()
 
     THEN("it has loaded the file as a list")
-    assert type(file_data) is list
+    assert isinstance(file_data, list)
 
     THEN("the list has hundreds of records")
     assert len(file_data) > 200
@@ -81,7 +81,7 @@ def test_handler_download_file():
     THEN("the list's first record has all of the items")
     first_record = file_data[0]
     items = first_record.get("mc")[0].get("marketDefinition").get("runners")
-    assert type(items) is list
+    assert isinstance(items, list)
 
     THEN("the list's first record has the market time")
     market_time = DateTime(
@@ -91,7 +91,7 @@ def test_handler_download_file():
 
     THEN("the first record has a process time which can be converted to an epoch")
     process_time = __get_record_process_time(first_record)
-    assert type(process_time) is float
+    assert isinstance(process_time, float)
 
     THEN("the process time is within 24 hours of the market_time")
     assert (market_time - process_time) < (60 * 60 * 24)
@@ -119,7 +119,7 @@ def test_get_file_as_generator():
     THEN("the list's first record has all of the items")
     first_record = next(generator)
     items = first_record.get("mc")[0].get("marketDefinition").get("runners")
-    assert type(items) is list
+    assert isinstance(items, list)
 
     THEN("the list's first record has the market time")
     market_time = DateTime(
@@ -129,7 +129,7 @@ def test_get_file_as_generator():
 
     THEN("the first record has a process time which can be converted to an epoch")
     process_time = __get_record_process_time(first_record)
-    assert type(process_time) is float
+    assert isinstance(process_time, float)
 
     THEN("the process time is within 24 hours of the market_time")
     assert (market_time - process_time) < (60 * 60 * 24)
@@ -147,7 +147,7 @@ def test_get_file_as_generator():
 
 def ___test_call(generator):
     record = next(generator)
-    assert type(record) is dict
+    assert isinstance(record, dict)
 
 
 def __get_record_process_time(record):

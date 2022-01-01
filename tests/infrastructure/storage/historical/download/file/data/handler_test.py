@@ -18,7 +18,7 @@ def test_handler():
     assert handler._market_start_time == DateTime(market_start_time).get_epoch()
 
     THEN("the handler has a dictionary of items")
-    assert type(handler._items) is dict
+    assert isinstance(handler._items, dict)
     THEN("there are the same number of keys in the dictionary as there are items")
     assert len(handler._items.keys()) > 0
     assert len(handler._items.keys()) == len(items)
@@ -259,7 +259,7 @@ def test_removal_date():
 
     THEN("the correct items has a removal date")
     removal_date = handler._items.get(23304992).get("removal_date")
-    assert type(removal_date) is str
+    assert isinstance(removal_date, str)
     THEN("the removal date can be converted to an epoch")
     removal_epoch = DateTime(removal_date).get_epoch()
     assert removal_epoch > 0
@@ -593,84 +593,84 @@ def __get_test_closed_record():
 
 
 def __add_all(d, record):
-    dict = make_copy(d)
-    dict = __add_atb(dict, record)
-    dict = __add_atl(dict, record)
-    dict = __add_trd(dict, record)
-    dict = __add_spb(dict, record)
-    dict = __add_spl(dict, record)
-    dict = __add_spn(dict, record)
-    return dict
+    data = make_copy(d)
+    data = __add_atb(data, record)
+    data = __add_atl(data, record)
+    data = __add_trd(data, record)
+    data = __add_spb(data, record)
+    data = __add_spl(data, record)
+    data = __add_spn(data, record)
+    return data
 
 
 def __add_atb(d, record=__get_test_ex_record()):
-    dict = make_copy(d)
+    data = make_copy(d)
     for change in __get_rc(record):
         if change.get("atb"):
             for price in change.get("atb"):
                 if price[1]:
-                    dict[change.get("id")]["ex"]["atb"][price[0]] = price[1]
-                elif price[1] == 0 and dict[change.get("id")]["ex"]["atb"].get(
+                    data[change.get("id")]["ex"]["atb"][price[0]] = price[1]
+                elif price[1] == 0 and data[change.get("id")]["ex"]["atb"].get(
                     price[0]
                 ):
-                    del dict[change.get("id")]["ex"]["atb"][price[0]]
-    return dict
+                    del data[change.get("id")]["ex"]["atb"][price[0]]
+    return data
 
 
 def __add_atl(d, record=__get_test_ex_record()):
-    dict = make_copy(d)
+    data = make_copy(d)
     for change in __get_rc(record):
         if change.get("atl"):
             for price in change.get("atl"):
                 if price[1]:
-                    dict[change.get("id")]["ex"]["atl"][price[0]] = price[1]
-                elif price[1] == 0 and dict[change.get("id")]["ex"]["atl"].get(
+                    data[change.get("id")]["ex"]["atl"][price[0]] = price[1]
+                elif price[1] == 0 and data[change.get("id")]["ex"]["atl"].get(
                     price[0]
                 ):
-                    del dict[change.get("id")]["ex"]["atl"][price[0]]
-    return dict
+                    del data[change.get("id")]["ex"]["atl"][price[0]]
+    return data
 
 
 def __add_trd(d, record=__get_test_ex_record()):
-    dict = make_copy(d)
+    data = make_copy(d)
     for change in __get_rc(record):
         if change.get("trd"):
             for price in change.get("trd"):
                 if price[1]:
-                    dict[change.get("id")]["ex"]["trd"][price[0]] = price[1]
-                elif price[1] == 0 and dict[change.get("id")]["ex"]["trd"].get(
+                    data[change.get("id")]["ex"]["trd"][price[0]] = price[1]
+                elif price[1] == 0 and data[change.get("id")]["ex"]["trd"].get(
                     price[0]
                 ):
-                    del dict[change.get("id")]["ex"]["trd"][price[0]]
-    return dict
+                    del data[change.get("id")]["ex"]["trd"][price[0]]
+    return data
 
 
 def __add_spb(d, record=__get_test_spb_record()):
-    dict = make_copy(d)
+    data = make_copy(d)
     for change in __get_rc(record):
         if change.get("spb"):
-            dict[change.get("id")]["sp"]["spb"][change.get("spb")[0][0]] = change.get(
+            data[change.get("id")]["sp"]["spb"][change.get("spb")[0][0]] = change.get(
                 "spb"
             )[0][1]
-    return dict
+    return data
 
 
 def __add_spl(d, record=__get_test_spl_record()):
-    dict = make_copy(d)
+    data = make_copy(d)
     for change in __get_rc(record):
         if change.get("spl"):
-            dict[change.get("id")]["sp"]["spl"][change.get("spl")[0][0]] = change.get(
+            data[change.get("id")]["sp"]["spl"][change.get("spl")[0][0]] = change.get(
                 "spl"
             )[0][1]
-    return dict
+    return data
 
 
 def __add_spn(d, record=__get_test_spn_record()):
-    dict = make_copy(d)
+    data = make_copy(d)
     for change in __get_rc(record):
         if change.get("spn"):
-            dict[change.get("id")]["sp"]["spn"] = change.get("spn")
-    return dict
+            data[change.get("id")]["sp"]["spn"] = change.get("spn")
+    return data
 
 
 def __get_default_items():
@@ -1065,8 +1065,8 @@ def __get_post_removed_data():
     }
 
 
-def __get_rc(dict):
-    return dict["mc"][0].get("rc")
+def __get_rc(data):
+    return data["mc"][0].get("rc")
 
 
 def __get_ids_from_items_definition(items=None):

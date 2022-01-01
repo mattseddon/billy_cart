@@ -76,7 +76,7 @@ class DataHandler(Colleague):
 
     def get_unique_ids(self):
         index = self._container.get_column_group_values(name="id")
-        return [id for id in index if type(id) is int]
+        return [id for id in index if isinstance(id, int)]
 
     def _extract(self, data):
         extracted_data = self.__extractor.convert(data)

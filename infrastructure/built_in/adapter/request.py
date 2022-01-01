@@ -7,8 +7,7 @@ from infrastructure.built_in.adapter.json_utils import make_dict
 def post_data(url, data=None, cert=None, headers=None):
     response = post(url, data=data, cert=cert, headers=headers)
     if __is_ok(response=response):
-        dict = response.json()
-        data = _add_ok_status(dict)
+        data = _add_ok_status(response.json())
     else:
         data = {}
     return data
@@ -36,8 +35,7 @@ class URLRequest:
         self.__get_response()
         if self.__is_ok():
             json_response = self.__response.read()
-            dict = make_dict(json_response.decode("utf-8"))
-            data = _add_ok_status(dict=dict)
+            data = _add_ok_status(dict=make_dict(json_response.decode("utf-8")))
         else:
             data = {}
         return data

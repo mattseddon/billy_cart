@@ -45,10 +45,10 @@ def test_error_handling(mock_urlopen):
     context_manager.getcode.return_value = get_ok_status()
     context_manager.read.return_value = make_json({})
     mock_urlopen.return_value = context_manager
-    dict = open_url(url=url, request="some form data")
+    data = open_url(url=url, request="some form data")
 
     THEN("a dictionary containing status_code : 200 is returned")
-    assert dict == {"status_code": get_ok_status()}
+    assert data == {"status_code": get_ok_status()}
 
     WHEN("we make a url request and an error is thrown")
     mock_urlopen.side_effect = URLError(Mock(status=500), "I died, wwwaaaahhhhhhh")

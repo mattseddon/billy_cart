@@ -161,9 +161,9 @@ def test_adapter_single_record():
 def test_get_max_valid_price():
     GIVEN("a dictionary and an adapter")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = __get_test_dict()
+    data = __get_test_dict()
     WHEN("we get the max price")
-    max_price = adapter._get_max_valid_price(dict)
+    max_price = adapter._get_max_valid_price(data)
     THEN("the max price is as expected")
     assert max_price == 990
 
@@ -171,9 +171,9 @@ def test_get_max_valid_price():
 def test_get_max_no_valid_price():
     GIVEN("a dictionary and an adapter")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = {}
+    data = {}
     WHEN("we get the max price")
-    max_price = adapter._get_max_valid_price(dict)
+    max_price = adapter._get_max_valid_price(data)
     THEN("the max price is as expected")
     assert is_not_a_number(max_price)
 
@@ -181,9 +181,9 @@ def test_get_max_no_valid_price():
 def test_get_min_valid_price():
     GIVEN("a dictionary and an adapter")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = __get_test_dict()
+    data = __get_test_dict()
     WHEN("we get the min price")
-    min_price = adapter._get_min_valid_price(dict)
+    min_price = adapter._get_min_valid_price(data)
     THEN("the max price is as expected")
     assert min_price == 5.9
 
@@ -191,9 +191,9 @@ def test_get_min_valid_price():
 def test_get_min_no_valid_price():
     GIVEN("a dictionary and an adapter")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = {}
+    data = {}
     WHEN("we get the min price")
-    min_price = adapter._get_min_valid_price(dict)
+    min_price = adapter._get_min_valid_price(data)
     THEN("the max price is as expected")
     assert is_not_a_number(min_price)
 
@@ -201,9 +201,9 @@ def test_get_min_no_valid_price():
 def test_sum_valid_values():
     GIVEN("an adapter and a dict")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = {1.01: 20, 3: 11, 4: 9, "a": 400, "200": 200, 0: None, 40: 0, None: 900}
+    data = {1.01: 20, 3: 11, 4: 9, "a": 400, "200": 200, 0: None, 40: 0, None: 900}
     WHEN("we sum the valid values")
-    total = adapter._sum_valid_sizes(dict)
+    total = adapter._sum_valid_sizes(data)
     THEN("the correct value is returned")
     assert total == 40
 
@@ -211,9 +211,9 @@ def test_sum_valid_values():
 def test_sum_valid_values_gt_1():
     GIVEN("an adapter and a dict (the price of 1 will not be counted)")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = {3: 11, 4: 9, 1: 20, "a": 400, "200": 200, 0: None, 40: 0, None: 900}
+    data = {3: 11, 4: 9, 1: 20, "a": 400, "200": 200, 0: None, 40: 0, None: 900}
     WHEN("we sum the valid values")
-    total = adapter._sum_valid_sizes(dict)
+    total = adapter._sum_valid_sizes(data)
     THEN("the correct value is returned")
     assert total == 20
 
@@ -221,9 +221,9 @@ def test_sum_valid_values_gt_1():
 def test_sum_no_valid_values():
     GIVEN("an adapter and a dict")
     adapter = HistoricalDownloadFileRecordAdapter()
-    dict = {}
+    data = {}
     WHEN("we sum the valid values")
-    total = adapter._sum_valid_sizes(dict)
+    total = adapter._sum_valid_sizes(data)
     THEN("the correct value is returned")
     assert total == 0
 
