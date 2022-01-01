@@ -2,7 +2,6 @@
   "editor.formatOnSave": true,
   "python.linting.pylintEnabled": true,
   "python.linting.enabled": true,
-  "python.pythonPath": "/Users/mattseddon/.local/share/virtualenvs/billy_cart-DlY1dT5Z/bin/python",
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
 	"Bluesberry",
