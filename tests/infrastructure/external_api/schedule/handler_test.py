@@ -17,25 +17,25 @@ def test_get_account_status():
     account_status = schedule_handler.get_account_status()
 
     THEN("a dictionary is returned")
-    assert type(account_status) is dict
+    assert isinstance(account_status, dict)
 
     THEN("the returned dict contains a bank variable which is a number greater than 0")
     bank = account_status.get("availableToBetBalance")
-    assert type(bank) is float
+    assert isinstance(bank, float)
     assert bank > 0
 
     THEN(
         "the returned dict contains a discount rate to be applied which is a float greater than or equal to 0"
     )
     discount_rate = account_status.get("discountRate") / 100
-    assert type(discount_rate) is float
+    assert isinstance(discount_rate, float)
     assert discount_rate >= 0
 
     THEN(
         "the returned dict contains a points value which is an int greater than or equal to 0"
     )
     points = account_status.get("pointsBalance")
-    assert type(points) is int
+    assert isinstance(points, int)
     assert points >= 0
 
 

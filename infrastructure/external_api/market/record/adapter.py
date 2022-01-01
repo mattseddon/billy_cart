@@ -11,7 +11,7 @@ class ExternalAPIMarketRecordAdapter(MarketDataRecordInterface):
         self.__data = raw_record
 
         items = self.__get_items()
-        if not (items):
+        if not items:
             return None
 
         try:
@@ -24,8 +24,8 @@ class ExternalAPIMarketRecordAdapter(MarketDataRecordInterface):
             data["extract_time"] = time_difference
             data["closed_indicator"] = self.__get_closed_indicator()
             return data
-        else:
-            return None
+
+        return None
 
     def _get_time_difference(self):
         extract_time = DateTime(self.__data.get("process_time")).get_epoch()

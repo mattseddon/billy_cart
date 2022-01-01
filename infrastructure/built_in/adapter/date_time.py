@@ -10,8 +10,8 @@ class DateTime:
     __from_zone = tz.gettz("UTC")
     __to_zone = tz.gettz("Australia/Sydney")
 
-    def __init__(self, input):
-        self.__input = input
+    def __init__(self, data):
+        self.__input = data
         self.__utc_api_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z"
         self.__date_time = self.__make_datetime()
 
@@ -27,11 +27,9 @@ class DateTime:
         return DateTime.__utc_minutes_from_now(minutes=15)
 
     def is_more_than_33_seconds_from_now(self):
-        is_more_than = (
-            True
-            if self.__date_time
+        is_more_than = bool(
+            self.__date_time
             > DateTime.__add_to(date_time=DateTime.__get_utc_now(), seconds=33)
-            else False
         )
         return is_more_than
 
@@ -48,7 +46,7 @@ class DateTime:
         return date_time_now_str
 
     def __make_datetime(self):
-        if type(self.__input) is int:
+        if isinstance(self.__input, int):
             date_time = datetime.utcfromtimestamp(self.__input / 1000)
 
         elif regex_match(pattern=self.__utc_api_pattern, str=self.__input):
@@ -56,6 +54,7 @@ class DateTime:
 
         else:
             date_time = self.__convert_from_utc_string()
+
         return date_time
 
     @staticmethod
@@ -87,13 +86,13 @@ class DateTime:
         return date_time
 
     def __convert_from_utc_string(self):
-        return self.__convert_from_string(format=DateTime.__utc_format)
+        return self.__convert_from_string(fmt=DateTime.__utc_format)
 
     def __convert_from_utc_api_string(self):
-        return self.__convert_from_string(format=DateTime.__utc_api_format)
+        return self.__convert_from_string(fmt=DateTime.__utc_api_format)
 
-    def __convert_from_string(self, format):
-        return datetime.strptime(self.__input, format)
+    def __convert_from_string(self, fmt):
+        return datetime.strptime(self.__input, fmt)
 
     @staticmethod
     def __convert_to_utc_string(date_time):

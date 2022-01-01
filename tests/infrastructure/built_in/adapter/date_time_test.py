@@ -1,6 +1,7 @@
+from freezegun import freeze_time
+
 from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.built_in.adapter.date_time import DateTime
-from freezegun import freeze_time
 
 
 @freeze_time("1984-11-07 12:45:00")
@@ -27,7 +28,7 @@ def test_datetime_helpers():
     )
     is_future = DateTime("2019-01-01T00:00:00.000Z").is_more_than_33_seconds_from_now()
     THEN("the date time is far enough in the future to return true")
-    assert is_future == True
+    assert is_future is True
 
     WHEN(
         "we call is_datetime_more_than_33_seconds_from_now with a time 34 seconds in the future"
@@ -36,7 +37,7 @@ def test_datetime_helpers():
         "1984-11-07T12:45:34.000Z"
     ).is_more_than_33_seconds_from_now()
     THEN("the date time is far enough in the future to return true")
-    assert is_not_future == True
+    assert is_not_future is True
 
     WHEN(
         "we call is_datetime_more_than_33_seconds_from_now with a time 33 seconds in the future"
@@ -45,7 +46,7 @@ def test_datetime_helpers():
         "1984-11-07T12:44:33.000Z"
     ).is_more_than_33_seconds_from_now()
     THEN("the date time is not far enough in the future to return true")
-    assert is_not_future == False
+    assert is_not_future is False
 
     WHEN(
         "we call is_datetime_more_than_33_seconds_from_now with a time that matches our override"
@@ -54,14 +55,14 @@ def test_datetime_helpers():
         "1984-11-07T12:45:00.000Z"
     ).is_more_than_33_seconds_from_now()
     THEN("the date time is not far enough in the future to return true")
-    assert is_not_future == False
+    assert is_not_future is False
 
     WHEN("we call is_datetime_more_than_33_seconds_from_now with a time from the past")
     is_not_future = DateTime(
         "1984-11-07T12:44:00.000Z"
     ).is_more_than_33_seconds_from_now()
     THEN("the date time is not far enough in the future to return true")
-    assert is_not_future == False
+    assert is_not_future is False
 
 
 def test_date_time_str_converters():
@@ -150,4 +151,3 @@ def test_date_time_epoch():
     )
     THEN("the difference is as expected")
     assert seconds_difference == 1
-

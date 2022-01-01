@@ -20,7 +20,9 @@ class TransformHandler:
 
     def process(self, extracted_data={}):
         items = extracted_data.get("items") or []
+
         extract_time = extracted_data.get("extract_time")
+
         closed_indicator = extracted_data.get("closed_indicator")
 
         self.__transformed_data = {}

@@ -11,14 +11,13 @@ class OrdersHandler(Colleague):
     def prevent_reorder(self, orders):
         valid_orders = list(filter(lambda order: self.__is_valid_order(order), orders))
         self.__existing_orders.extend(valid_orders)
-        return None
 
     def get_orders(self):
         return self.__existing_orders
 
     def get_new_orders(self, items):
 
-        if not (items):
+        if not items:
             return self.__notify_mediator_finished()
 
         risk_percentage = list(
@@ -118,10 +117,10 @@ class OrdersHandler(Colleague):
         )
 
         if len(initial_risk_percentage) > 1:
-            for id in reduced_risk_percentage.keys():
+            for item_id in reduced_risk_percentage.keys():
                 for another_item in risk_percentage:
-                    if id != another_item.get("id"):
-                        reduced_risk_percentage[id] *= 1 - (
+                    if item_id != another_item.get("id"):
+                        reduced_risk_percentage[item_id] *= 1 - (
                             another_item.get("risk_percentage") or 0
                         )
         return reduced_risk_percentage
@@ -146,12 +145,18 @@ class OrdersHandler(Colleague):
             )
         )
 
-    def _calc_risk_percentage(self, probability, price, kf=1, cap=1):
+    def _calc_risk_percentage(self, probability, price, kelly_fraction=1, cap=0.05):
         if self.__can_calculate_risk(probability=probability, price=price):
             risk_percentage = min(
                 max(
-                    ((price * probability) ** kf - (1 - probability) ** kf)
-                    / ((price * probability) ** kf + (price * (1 - probability)) ** kf),
+                    (
+                        (price * probability) ** kelly_fraction
+                        - (1 - probability) ** kelly_fraction
+                    )
+                    / (
+                        (price * probability) ** kelly_fraction
+                        + (price * (1 - probability)) ** kelly_fraction
+                    ),
                     0,
                 ),
                 cap,

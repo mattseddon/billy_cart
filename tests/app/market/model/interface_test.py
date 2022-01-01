@@ -1,6 +1,7 @@
+from pytest import fail, raises
+
 from tests.utils import GIVEN, WHEN, THEN
 from app.market.model.interface import WeightedLinearRegressionInterface
-from pytest import fail, raises
 
 
 def test_market_data_interface():

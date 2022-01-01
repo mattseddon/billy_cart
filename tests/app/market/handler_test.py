@@ -1,3 +1,7 @@
+from unittest.mock import patch
+from pytest import raises, fail, mark
+from freezegun import freeze_time
+
 from tests.utils import (
     GIVEN,
     WHEN,
@@ -8,21 +12,14 @@ from tests.utils import (
 
 from tests.mock.mediator import MockMediator
 from app.market.handler import MarketHandler
-from app.market.data.handler import DataHandler
 
-from infrastructure.external_api.market.record.adapter import (
-    ExternalAPIMarketRecordAdapter,
-)
 from infrastructure.storage.historical.external_api.file.handler import (
     HistoricalExternalAPIFileHander,
 )
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
 
 from infrastructure.built_in.adapter.json_utils import make_dict
-
-from pytest import raises, fail, mark
-from unittest.mock import patch
-from freezegun import freeze_time
+from infrastructure.built_in.adapter.date_time import DateTime
 
 
 @mark.slow
@@ -33,7 +30,7 @@ def test_system_set_prob(mock_post_instructions, mock_set_prob, mock_call_exchan
     GIVEN("a market handler and the directory and file name of a test file")
     directory = "./data/29184567"
     market_id = 1.156230797
-    file_name = "%s.txt" % market_id
+    file_name = f"{market_id}.txt"
     file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
     file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
@@ -53,7 +50,7 @@ def test_system_set_prob(mock_post_instructions, mock_set_prob, mock_call_exchan
     mock_post_instructions.side_effect = __mark_orders_successful
     for record in file_data:
         mock_call_exchange.return_value = [record]
-        with freeze_time(record.get("process_time")):
+        with freeze_time(record.get("process_time"), tz_offset=11):
             handler.run()
 
     THEN("an order has been made")
@@ -69,13 +66,15 @@ def test_system_set_prob(mock_post_instructions, mock_set_prob, mock_call_exchan
 
 
 @mark.slow
+@mark.this
 @patch("infrastructure.external_api.handler.ExternalAPIHandler._call_exchange")
 @patch("infrastructure.external_api.handler.ExternalAPIHandler._post_instructions")
 def test_system_single(mock_post_instructions, mock_call_exchange):
     GIVEN("a market handler and the directory and file name of a test file")
     directory = "./data/29184567"
     market_id = 1.156230797
-    file_name = "%s.txt" % market_id
+    file_name = f"{market_id}.txt"
+
     file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
     file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
@@ -96,7 +95,7 @@ def test_system_single(mock_post_instructions, mock_call_exchange):
     fix_probability_ids = []
     for record in file_data:
         mock_call_exchange.return_value = [record]
-        with freeze_time(record.get("process_time")):
+        with freeze_time(record.get("process_time"), tz_offset=11):
             handler.run()
         fix_probability_ids = handler.data._get_fixed_probability_ids()
         orders = handler.get_orders()
@@ -105,8 +104,8 @@ def test_system_single(mock_post_instructions, mock_call_exchange):
                 "the data handler will not provide data to the models for fixed prob items"
             )
             ids_for_models = handler.data._get_ids_for_model_data()
-            for id in fix_probability_ids:
-                id not in ids_for_models
+            for probability_id in fix_probability_ids:
+                assert probability_id not in ids_for_models
             THEN("the data handler has fixed the probability of the correct item")
             for order in orders:
                 assert order.get("id") in fix_probability_ids
@@ -131,7 +130,7 @@ def test_system_multiple_set_prob(
     GIVEN("a market handler and the directory and file name of a test file")
     directory = "./data/29116016"
     market_id = 1.154592424
-    file_name = "%s.txt" % market_id
+    file_name = f"{market_id}.txt"
     file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
     file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
@@ -154,7 +153,7 @@ def test_system_multiple_set_prob(
     for record in file_data:
         mock_call_exchange.return_value = [record]
         call_count = mock_set_prob.call_count
-        with freeze_time(record.get("process_time")):
+        with freeze_time(record.get("process_time"), tz_offset=11):
             handler.run()
         if mock_set_prob.call_count != call_count:
             THEN("the correct orders were passed to the method")
@@ -179,7 +178,7 @@ def test_system_multiple(mock_post_instructions, mock_call_exchange):
     GIVEN("a market handler and the directory and file name of a test file")
     directory = "./data/29116016"
     market_id = 1.154592424
-    file_name = "%s.txt" % market_id
+    file_name = f"{market_id}.txt"
     file = HistoricalExternalAPIFileHander(directory=directory, file=file_name)
     file_data = file.get_file_as_list()
     market_start_time = file.get_market_start_time()
@@ -200,7 +199,7 @@ def test_system_multiple(mock_post_instructions, mock_call_exchange):
     fix_probability_ids = []
     for record in file_data:
         mock_call_exchange.return_value = [record]
-        with freeze_time(record.get("process_time")):
+        with freeze_time(record.get("process_time"), tz_offset=11):
             handler.run()
         fix_probability_ids = handler.data._get_fixed_probability_ids()
         orders = handler.get_orders()
@@ -209,8 +208,8 @@ def test_system_multiple(mock_post_instructions, mock_call_exchange):
                 "the data handler will not provide data to the models for fixed prob items"
             )
             ids_for_models = handler.data._get_ids_for_model_data()
-            for id in fix_probability_ids:
-                id not in ids_for_models
+            for probability_id in fix_probability_ids:
+                assert probability_id not in ids_for_models
             THEN("the data handler has fixed the probability of the correct item")
             for order in orders:
                 assert order.get("id") in fix_probability_ids
@@ -242,7 +241,7 @@ def test_exit_run_on_closed(mock_open_url):
     mock_open_url.return_value = closed_market_dict
     WHEN("we call run but the market has closed")
     with raises(SystemExit) as system_exit:
-        with freeze_time(closed_market_dict.get("process_time")):
+        with freeze_time(closed_market_dict.get("process_time"), tz_offset=11):
             handler.run()
     THEN("the system will exit")
     assert system_exit.type == SystemExit
@@ -265,10 +264,8 @@ def test_exit_run_on_no_data(mock_call_exchange):
     WHEN("we call run and no data is return from the api")
     for i in range(9):
         try:
-            THEN(
-                "the handler will run %s time%s without error"
-                % (i + 1, "s" if i > 0 else "")
-            )
+            maybe_s = "s" if i > 0 else ""
+            THEN(f"the handler will run {i + 1} time{maybe_s} without error")
             handler.run()
         except SystemExit:
             fail("Unexpected SystemExit")

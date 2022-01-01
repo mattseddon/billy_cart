@@ -18,18 +18,18 @@ def test_get_environment_variable():
     set_environment_variable(variable=variable, value="Pass")
 
     WHEN("we retrieve it")
-    Test = get_environment_variable(variable=variable)
+    test = get_environment_variable(variable=variable)
 
     THEN("the correct variable value is returned")
-    assert Test == "Pass"
+    assert test == "Pass"
 
     GIVEN("no environment variable")
 
     WHEN("we retrieve it")
-    Test = get_environment_variable(variable=" ")
+    test = get_environment_variable(variable=" ")
 
     THEN("the correct variable value is returned")
-    assert Test == None
+    assert test is None
 
 
 def test_path_exists():
@@ -40,7 +40,7 @@ def test_path_exists():
     exists = path_exists(path=path)
 
     THEN("it does")
-    assert exists == True
+    assert exists is True
 
     GIVEN("an invalid and non-existent path")
     path = "./wwwwwwwweeeeeeeeeeeeee/wwwwweeeeeeeeeeee/wwwwwwwweeeeeeeee"
@@ -49,7 +49,7 @@ def test_path_exists():
     exists = path_exists(path=path)
 
     THEN("it does")
-    assert exists == False
+    assert exists is False
 
 
 def test_get_newline():
@@ -67,12 +67,12 @@ def test_make_directory():
     WHEN("we check if the path exists")
     exists = path_exists(path=path)
     THEN("it does not")
-    assert exists == False
+    assert exists is False
     WHEN("we make the directory and check if it now exists")
     returned_path = make_directory_if_required(path=path)
     exists = path_exists(path=path)
     THEN("it does")
-    assert exists == True
+    assert exists is True
     assert returned_path == path
     remove_directory(path)
 
@@ -87,29 +87,29 @@ def test_remove_directory():
     exists = path_exists(path=path)
 
     THEN("it is removed")
-    assert exists == False
-    assert returned_path == None
+    assert exists is False
+    assert returned_path is None
 
 
 def test_remove_file():
     GIVEN("a file")
     name = "test_remove_file.txt"
     test_file_path = get_test_file_path(name=name) or ""
-    f = open(test_file_path, "w+")
-    f.close()
+    open_file = open(test_file_path, "w+", encoding="utf-8")
+    open_file.close()
 
     WHEN("we check that the file exists")
     exists = path_exists(path=test_file_path)
 
     THEN("it does")
-    assert exists == True
+    assert exists is True
 
     WHEN("we remove the file and check for existence")
     remove_file(path=test_file_path)
     exists = path_exists(path=test_file_path)
 
     THEN("it has been remove")
-    assert exists == False
+    assert exists is False
 
     cleanup_test_directory()
 
@@ -148,4 +148,3 @@ def test_get_extension():
     extension = get_file_extension(path)
     THEN("we get some wacky results")
     assert extension == ".160904847"
-

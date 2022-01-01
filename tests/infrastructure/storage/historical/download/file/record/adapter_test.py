@@ -155,7 +155,7 @@ def test_adapter_single_record():
         assert item.get("ex_offered_lay_price") == min(test_item.get("ex").get("atl"))
 
     THEN("the data has a closed indicator which is set to False")
-    assert data.get("closed_indicator") == False
+    assert data.get("closed_indicator") is False
 
 
 def test_get_max_valid_price():
@@ -206,6 +206,7 @@ def test_sum_valid_values():
     total = adapter._sum_valid_sizes(dict)
     THEN("the correct value is returned")
     assert total == 40
+
 
 def test_sum_valid_values_gt_1():
     GIVEN("an adapter and a dict (the price of 1 will not be counted)")

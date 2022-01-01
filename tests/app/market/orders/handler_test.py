@@ -129,7 +129,7 @@ def test_calc_reduced_risk_percentage():
         1 - 0.03
     )
     assert reduced_risk_percentages.get(101) == 0
-    assert reduced_risk_percentages.get(999) == None
+    assert reduced_risk_percentages.get(999) is None
 
 
 def test_calc_order_size():
@@ -160,14 +160,14 @@ def test_calc_risk_percentage():
 
     WHEN("we calculate the uncapped risk percentage")
     risk = handler._calc_risk_percentage(
-        probability=probability, price=price, kf=1, cap=1
+        probability=probability, price=price, kelly_fraction=1, cap=1
     )
     THEN("the correct risk percentage is returned")
     assert almost_equal(risk, ((probability * price) - (1 - probability)) / price)
 
     WHEN("we calculate cap the risk percentage at 10%")
     capped_risk = handler._calc_risk_percentage(
-        probability=probability, price=price, kf=1, cap=0.1
+        probability=probability, price=price, kelly_fraction=1, cap=0.1
     )
     THEN("the correct risk percentage is returned")
     assert capped_risk == 0.1
@@ -175,7 +175,7 @@ def test_calc_risk_percentage():
     WHEN("we calculate the risk percentage based on a reduced kelly fraction")
     fraction = 0.1
     reduced_risk = handler._calc_risk_percentage(
-        probability=probability, price=price, kf=fraction, cap=1
+        probability=probability, price=price, kelly_fraction=fraction, cap=1
     )
     THEN("the reduced risk is less than the original risk")
     assert reduced_risk < risk

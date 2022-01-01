@@ -35,7 +35,9 @@ class MarketHandler(Mediator):
             market_start_time=market_start_time
         )
         self.data: Colleague = data or DataHandler(
-            mediator=self, adapter=adapter, container=DataContainer(),
+            mediator=self,
+            adapter=adapter,
+            container=DataContainer(),
         )
 
         self.models: Colleague = models or ModelHandler(

@@ -20,7 +20,6 @@ class ExternalAPIMarketHandler(
             Colleague.__init__(self, mediator=mediator)
 
     def get_market(self):
-
         request = (
             '{"jsonrpc": "2.0", "method": "%s",'
             '"params":{"marketIds":[%s],'

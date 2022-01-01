@@ -30,7 +30,7 @@ def test_handler(mock_notify):
     assert first_eligible.get("extract_time") >= -60 * 5
 
     THEN("the first eligible record does not have a closed indicator set to true")
-    assert first_eligible.get("closed_indicator") == False
+    assert first_eligible.get("closed_indicator") is False
 
     THEN(
         "the last of the eligible records has a process time after the market start time"
@@ -39,14 +39,14 @@ def test_handler(mock_notify):
     assert last_eligible.get("extract_time") > 0
 
     THEN("the last eligible record has a closed indicator set to false")
-    assert last_eligible.get("closed_indicator") == False
+    assert last_eligible.get("closed_indicator") is False
 
     THEN("the last of the records has a process time after the market start time")
     last_record = market_data[-1]
     assert last_record.get("extract_time") > last_eligible.get("extract_time")
 
     THEN("the last eligible record has a closed indicator set to true")
-    assert last_record.get("closed_indicator") == True
+    assert last_record.get("closed_indicator") is True
 
     THEN("the times in the list are unique")
     assert len(handler._data._existing_times) == len(set(handler._data._existing_times))
@@ -76,8 +76,8 @@ def test_handler(mock_notify):
             assert 0 not in items[id]["sp"]["spb"].values()
             assert 0 not in items[id]["sp"]["spl"].values()
         THEN("once the closed indicator becomes true is does not change back to false")
-        if index > 0 and market_data[index - 1].get("closed_indicator") == True:
-            assert record.get("closed_indicator") == True
+        if index > 0 and market_data[index - 1].get("closed_indicator") is True:
+            assert record.get("closed_indicator") is True
 
     WHEN("we call get_outcome")
     result = handler.get_outcome()

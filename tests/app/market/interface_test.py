@@ -1,6 +1,7 @@
+from pytest import fail, raises
+
 from tests.utils import GIVEN, WHEN, THEN
 from app.market.interface import ExternalAPIMarketInterface
-from pytest import fail, raises
 
 
 def test_market_interface():

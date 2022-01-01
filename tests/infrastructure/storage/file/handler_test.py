@@ -1,4 +1,7 @@
 from types import GeneratorType
+from pytest import mark
+
+
 from tests.utils import (
     GIVEN,
     WHEN,
@@ -9,8 +12,6 @@ from tests.utils import (
 from infrastructure.storage.file.handler import FileHandler
 from infrastructure.built_in.adapter.os_utils import path_exists
 from infrastructure.built_in.adapter.date_time import DateTime
-
-from pytest import mark
 
 
 def test_handler_test_file():

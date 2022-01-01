@@ -8,7 +8,11 @@ class HistoricalDownloadFileDataHandler:
         self._items = {
             item.get("id"): {
                 "ex": {"atb": {}, "trd": {}, "atl": {}},
-                "sp": {"spn": None, "spb": {}, "spl": {},},
+                "sp": {
+                    "spn": None,
+                    "spb": {},
+                    "spl": {},
+                },
             }
             for item in items
         }
@@ -22,7 +26,7 @@ class HistoricalDownloadFileDataHandler:
         return None
 
     def process(self, record):
-        dict = {}
+        data = {}
         self.set_record(record)
         extract_time = self.__calc_extract_time()
 
@@ -33,9 +37,9 @@ class HistoricalDownloadFileDataHandler:
             # therefore return the existing information
             # and append (_add) the new data to the object
             self._existing_times.append(extract_time)
-            dict["extract_time"] = extract_time
-            dict["items"] = make_copy(self._items)
-            dict["closed_indicator"] = make_copy(self._closed_indicator)
+            data["extract_time"] = extract_time
+            data["items"] = make_copy(self._items)
+            data["closed_indicator"] = make_copy(self._closed_indicator)
 
         self._add_exchange_data()
         self._add_starting_price_data()
@@ -44,7 +48,7 @@ class HistoricalDownloadFileDataHandler:
         self._add_removal_data()
         self.__set_closed_indictor()
 
-        return dict
+        return data
 
     def __calc_extract_time(self):
         return round_down(self.__get_process_time() - self._market_start_time)
@@ -124,7 +128,8 @@ class HistoricalDownloadFileDataHandler:
 
     def __get_removed_items(self):
         return filter(
-            lambda item: item.get("removalDate"), self.__get_item_definition_changes(),
+            lambda item: item.get("removalDate"),
+            self.__get_item_definition_changes(),
         )
 
     def __get_item_definition_changes(self):

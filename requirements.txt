@@ -1,0 +1,11 @@
+pylint
+black
+freezegun
+mock
+pytest
+pytest-cov
+numpy
+pandas
+py-dateutil
+requests
+statsmodels 

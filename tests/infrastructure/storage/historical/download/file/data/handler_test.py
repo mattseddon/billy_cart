@@ -25,7 +25,7 @@ def test_handler():
     THEN("the handler's items have the correct ids")
     assert list(handler._items.keys()) == __get_from_list("id", items)
     THEN("the handler has a closed indicator")
-    assert handler._closed_indicator == False
+    assert handler._closed_indicator is False
 
 
 def test_process():
@@ -315,7 +315,7 @@ def test_closed_indicator():
     assert handler._items == expected
 
     THEN("the market's closed indicator is set to False")
-    assert handler._closed_indicator == False
+    assert handler._closed_indicator is False
 
     WHEN("we process the first fifth record")
     handler.process(fifth_record)
@@ -324,7 +324,7 @@ def test_closed_indicator():
     assert handler._items == expected
 
     THEN("the market's closed indicator is set to True")
-    assert handler._closed_indicator == True
+    assert handler._closed_indicator is True
 
 
 def test_get_item_changes():

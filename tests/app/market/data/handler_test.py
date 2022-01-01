@@ -35,7 +35,9 @@ def test_handler(mock_notify):
 
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(
-        mediator=mediator, adapter=adapter, container=DataContainer(),
+        mediator=mediator,
+        adapter=adapter,
+        container=DataContainer(),
     )
     for i, record in enumerate(file_data):
         handler.process_data(record)
@@ -45,7 +47,7 @@ def test_handler(mock_notify):
         assert handler._container.get_row_count() == number_records_processed
         assert (
             handler._container.get_last_column_entry(name=("closed_indicator", ""))
-            == False
+            is False
         )
         THEN("the mediator's notify method was called with the correct parameters")
         model_data = handler._get_model_data()
@@ -184,7 +186,9 @@ def test_more_data(mock_notify):
 
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(
-        mediator=mediator, adapter=adapter, container=DataContainer(),
+        mediator=mediator,
+        adapter=adapter,
+        container=DataContainer(),
     )
     for i, record in enumerate(file_data):
         handler.process_data(record)
@@ -337,7 +341,9 @@ def test_fixed_probability(mock_notify):
 
     WHEN("we feed the data into a handler one record at a time")
     handler = DataHandler(
-        mediator=mediator, adapter=adapter, container=DataContainer(),
+        mediator=mediator,
+        adapter=adapter,
+        container=DataContainer(),
     )
     for i, record in enumerate(file_data):
         number_records_processed = i + 1
@@ -505,7 +511,9 @@ def test_removed_runner():
     WHEN("we feed the data into a handler one record at a time")
 
     handler = DataHandler(
-        mediator=mediator, adapter=adapter, container=DataContainer(),
+        mediator=mediator,
+        adapter=adapter,
+        container=DataContainer(),
     )
     for i, record in enumerate(file_data):
         handler.process_data(record)
@@ -573,7 +581,9 @@ def test_get_ids_for_model_data():
     mediator = MockMediator()
 
     handler = DataHandler(
-        mediator=mediator, adapter=adapter, container=DataContainer(),
+        mediator=mediator,
+        adapter=adapter,
+        container=DataContainer(),
     )
     handler.process_data(record)
 
@@ -623,4 +633,3 @@ def __get_number_overarching_columns():
     number_index_columns = 1
     number_indicator_columns = 1
     return number_index_columns + number_indicator_columns
-

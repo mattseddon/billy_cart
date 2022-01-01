@@ -14,10 +14,9 @@ class DataHandler(Colleague):
         Colleague.__init__(self, mediator=mediator)
 
     def process_data(self, data):
-
         container_size = self.__get_container_size()
         extracted_data = self._extract(data=data)
-        if not (extracted_data):
+        if not extracted_data:
             self.__consecutive_empty_data += 1
             return (
                 self._mediator.notify(event="finished processing")
@@ -74,7 +73,6 @@ class DataHandler(Colleague):
 
     def _set_probability(self, id, probability):
         self.__transformer.set_probability(id=id, probability=probability)
-        return None
 
     def get_unique_ids(self):
         index = self._container.get_column_group_values(name="id")

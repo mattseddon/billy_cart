@@ -9,12 +9,12 @@ def test_json_utils():
     test_file_path = get_test_file_path(name=test_file)
     test_dict = {"this is a silly": "dict", "it would have no use": True}
 
-    with open(test_file_path, "w+") as file:
+    with open(test_file_path, "w+", encoding="utf-8") as file:
         WHEN("we write the dict as json to the file")
         write_json_to(file=file, dict=test_dict)
 
     THEN("the record is in the file and can be converted back into the dict")
-    with open(test_file_path, "r") as file:
+    with open(test_file_path, "r", encoding="utf-8") as file:
         json_string = next(file)
     assert make_dict(json_string) == test_dict
 
@@ -26,7 +26,7 @@ def test_make_dict():
     string = "this is clearly not a json dictionary"
 
     WHEN("we call make_dict")
-    dict = make_dict(string)
+    new_dict = make_dict(string)
 
     THEN("None is returned")
-    assert dict is None
+    assert new_dict is None

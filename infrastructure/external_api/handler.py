@@ -24,7 +24,6 @@ class ExternalAPIHandler:
         return account_status
 
     def set_headers(self):
-
         self._app_key = get_app_key(environment=self.environment)
         data = self._login()
         self._token = self._get_token(data=data)
@@ -32,34 +31,33 @@ class ExternalAPIHandler:
             self._headers = self._make_headers()
             return 1
 
-        else:
-            return 0
+        return 0
 
     def _call_account(self):
-        dict = self._call_api(
+        response = self._call_api(
             url=get_account_url(),
             request='{"jsonrpc": "2.0", "method": "%s"}' % get_account_str(),
         )
-        account_status = self._try_get_data(dict=dict)
+        account_status = self._try_get_data(data=response)
         return account_status
 
     def _call_exchange(self, request):
-        dict = self._call_api(url=get_exchange_url(), request=request)
-        data = self._try_get_data(dict=dict, name="result")
+        response = self._call_api(url=get_exchange_url(), request=request)
+        data = self._try_get_data(data=response, name="result")
         return data
 
     def _post_instructions(self, request):
-        dict = self._call_api(url=get_exchange_url(), request=request)
-        data = self._try_get_data(dict=dict, name="instructionReports") or []
+        response = self._call_api(url=get_exchange_url(), request=request)
+        data = self._try_get_data(data=response, name="instructionReports") or []
         return data
 
     def _call_api(self, url, request):
-        dict = open_url(url=url, request=request, headers=self.get_headers())
-        return dict
+        response = open_url(url=url, request=request, headers=self.get_headers())
+        return response
 
-    def _try_get_data(self, dict, name="result"):
+    def _try_get_data(self, data, name="result"):
         try:
-            result = dict.get(name)
+            result = data.get(name)
         except:
             result = None
         return result

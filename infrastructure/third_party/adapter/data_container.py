@@ -17,7 +17,6 @@ class DataContainer(DataContainerInterface):
         self.__frame = self.__frame.append(
             container._get_frame(), ignore_index=False, sort=True
         )
-        return None
 
     def get_column_group_values(self, name):
         index = self.__frame.columns.unique(level=name)
@@ -25,11 +24,9 @@ class DataContainer(DataContainerInterface):
 
     def set_column_group_name(self, name=None, names=None, level=None):
         self.__frame.columns.set_names(name or names, level=level, inplace=True)
-        return None
 
     def sum_columns(self, output, columns):
         self.__frame[output] = self.__frame[columns].fillna(0).sum(axis=1)
-        return None
 
     def get_column(self, name):
         return self.__frame[name].tolist()
@@ -45,7 +42,6 @@ class DataContainer(DataContainerInterface):
 
     def set_index(self, columns):
         self.__frame.set_index(columns, inplace=True)
-        return None
 
     def get_last_column_entry(self, name):
         return make_native_type(self.__frame[name].iloc[-1])
