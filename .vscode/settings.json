@@ -5,13 +5,7 @@
 	"python.linting.pylintPath": ".env/bin/pylint",
 	"python.linting.pylintArgs": [
 		"--disable",
-		"C0114",
-		"--disable",
-		"C0115",
-		"--disable",
-		"C0116",
-		"--disable",
-		"W0212"
+		"E0401,C0114,C0115,C0116,W0212"
 	],
 	"git.ignoreLimitWarning": true,
 	"cSpell.words": [

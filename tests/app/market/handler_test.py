@@ -19,7 +19,6 @@ from infrastructure.storage.historical.external_api.file.handler import (
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
 
 from infrastructure.built_in.adapter.json_utils import make_dict
-from infrastructure.built_in.adapter.date_time import DateTime
 
 
 @mark.slow
