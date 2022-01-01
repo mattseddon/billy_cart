@@ -1,15 +1,15 @@
-from tests.utils import GIVEN, WHEN, THEN
+from urllib.error import URLError
 from unittest.mock import patch, MagicMock, Mock
+from pytest import mark
+
+
+from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.built_in.adapter.request import (
     post_data,
     open_url,
     get_ok_status,
 )
 from infrastructure.built_in.adapter.json_utils import make_json
-
-from urllib.error import URLError
-
-from pytest import mark
 
 
 @mark.slow
@@ -20,7 +20,7 @@ def test_post_data():
     WHEN("we send a post request")
     data = post_data(url=url)
     THEN("we get a response")
-    assert type(data) is dict
+    isinstance(data, dict)
     assert data.get("status_code") == get_ok_status()
 
 
@@ -32,7 +32,7 @@ def test_open_url():
     WHEN("we open the url")
     data = open_url(url=url, request="some form data")
     THEN("we get a response")
-    assert type(data) is dict
+    isinstance(data, dict)
     assert data.get("status_code") == get_ok_status()
 
 

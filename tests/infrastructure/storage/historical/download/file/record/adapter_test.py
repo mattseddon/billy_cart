@@ -1,3 +1,5 @@
+from pytest import mark
+
 from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.storage.historical.download.file.record.adapter import (
     HistoricalDownloadFileRecordAdapter,
@@ -6,8 +8,6 @@ from infrastructure.storage.historical.download.file.handler import (
     HistoricalDownloadFileHandler,
 )
 from infrastructure.third_party.adapter.numpy_utils import is_not_a_number
-
-from pytest import mark
 
 
 @mark.slow
@@ -23,7 +23,7 @@ def test_adapter():
         data = adapter.convert(record)
 
         THEN("then a dict is returned")
-        assert type(data) is dict
+        isinstance(data, dict)
 
         THEN("for the first 300 records there is no closed indicator")
         if index < 300:
@@ -31,15 +31,15 @@ def test_adapter():
 
         THEN("the dict has an extract time which is an integer")
         extract_time = data.get("extract_time")
-        assert type(extract_time) is int
+        assert isinstance(extract_time, int)
 
         THEN("the dict has a list of items")
         items = data.get("items")
-        assert type(items) is list
+        assert isinstance(items, list)
 
         THEN("each of the items is a dict")
         for item in items:
-            assert type(item) is dict
+            assert isinstance(item, dict)
 
         THEN("each of the items has the correct values for each attribute")
         for item in items:
@@ -100,20 +100,20 @@ def test_adapter_single_record():
     data = adapter.convert(record)
 
     THEN("then a dict is returned")
-    assert type(data) is dict
+    isinstance(data, dict)
 
     THEN("the dict has an extract time which is an integer < 0 (before market started)")
     extract_time = data.get("extract_time")
-    assert type(extract_time) is int
+    assert isinstance(extract_time, int)
     assert extract_time < 0
 
     THEN("the dict has a list of items")
     items = data.get("items")
-    assert type(items) is list
+    assert isinstance(items, list)
 
     THEN("each of the items is a dict")
     for item in items:
-        assert type(item) is dict
+        assert isinstance(item, dict)
 
     THEN("each of the items has the correct values for each attribute")
     for item in items:
