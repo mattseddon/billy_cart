@@ -5,7 +5,8 @@
 	"python.linting.pylintPath": ".env/bin/pylint",
 	"python.linting.pylintArgs": [
 		"--disable",
-		"C0103,C0114,C0115,C0116,C0209,E0401,R0201,W0102,W0212"
+		"C0103,C0114,C0115,C0116,C0209,E0401,R0201,W0102,W0212",
+		"--generated-members","numpy.*"
 	],
 	"git.ignoreLimitWarning": true,
 	"cSpell.words": [
