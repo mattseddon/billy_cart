@@ -25,7 +25,8 @@ def test_get_account_status():
     assert bank > 0
 
     THEN(
-        "the returned dict contains a discount rate to be applied which is a float greater than or equal to 0"
+        "the returned dict contains a discount rate to be applied"
+        + " which is a float greater than or equal to 0"
     )
     discount_rate = account_status.get("discountRate") / 100
     assert isinstance(discount_rate, float)
@@ -112,14 +113,14 @@ def test_set_headers(mock_post):
     dev_schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
 
     THEN("there are no headers in the handler")
-    assert hasattr(dev_schedule_handler, "_headers") is False
+    assert dev_schedule_handler._headers is None
 
     WHEN("we try to set the headers manually")
     return_value = dev_schedule_handler.set_headers()
 
     THEN("the are still no headers in the handler")
     assert return_value == 0
-    assert hasattr(dev_schedule_handler, "_headers") is False
+    assert dev_schedule_handler._headers is None
 
 
 @patch.object(ExternalAPIScheduleHandler, "set_headers")
@@ -130,7 +131,8 @@ def test_error_handling(mock_urlopen, mock_set_headers):
     dev_schedule_handler = ExternalAPIScheduleHandler(environment="Dev")
 
     WHEN(
-        "we try to get the for all markets which start in the next 5 minutes but no payload is returned"
+        "we try to get the for all markets which start"
+        + " in the next 5 minutes but no payload is returned"
     )
     mock_urlopen.return_value = {}
     schedule = dev_schedule_handler.get_schedule("7", DateTime.utc_5_minutes_from_now())

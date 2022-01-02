@@ -7,6 +7,7 @@ class OrdersHandler(Colleague):
         self.__bank = bank
         self.__existing_orders = []
         Colleague.__init__(self, mediator=mediator)
+        self.__reduced_risk_percentage = None
 
     def prevent_reorder(self, orders):
         valid_orders = list(filter(self.__is_valid_order, orders))

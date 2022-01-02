@@ -20,6 +20,7 @@ class HistoricalDownloadFileDataHandler:
         self._existing_times = []
         self._record = {}
         self._closed_indicator = False
+        self.__market_definition_change = None
 
     def set_record(self, record):
         self._record = record

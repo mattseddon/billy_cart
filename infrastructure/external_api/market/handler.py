@@ -23,7 +23,7 @@ class ExternalAPIMarketHandler(
         request = (
             '{"jsonrpc": "2.0", "method": "%s",'
             '"params":{"marketIds":[%s],'
-            '"priceProjection":{"priceData":["EX_BEST_OFFERS","SP_AVAILABLE","SP_TRADED","EX_TRADED"]},'
+            '"priceProjection":{"priceData":["EX_BEST_OFFERS","SP_AVAILABLE","SP_TRADED","EX_TRADED"]},'  # pylint: disable=line-too-long
             '"marketProjection":["MARKET_START_TIME"]}, "id": 1}'
         ) % (get_market_str(), self.__market_id)
 

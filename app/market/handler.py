@@ -79,8 +79,8 @@ class MarketHandler(Mediator):
 
         return self.notify(event="finished processing", data={})
 
-    def __finished(self, data):
+    def __finished(self, data):  # pylint: disable=unused-argument
         return False
 
-    def __exit(self, data):
+    def __exit(self, data):  # pylint: disable=unused-argument
         die(0)

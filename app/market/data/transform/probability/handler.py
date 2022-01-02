@@ -6,6 +6,7 @@ class ProbabilityHandler:
         self.__items = items
         self.__correct_probability = correct_probability
         self.__name = name
+        self.__total_probability = None
 
     def calc_compositional_probabilities(self):
 

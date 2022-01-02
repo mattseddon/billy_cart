@@ -13,6 +13,9 @@ from private.details import (
 class ExternalAPIHandler:
     def __init__(self, environment="Prod"):
         self.environment = environment
+        self._app_key = None
+        self._token = None
+        self._headers = None
 
     def get_headers(self):
         return self._headers

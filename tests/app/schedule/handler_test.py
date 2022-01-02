@@ -32,6 +32,8 @@ def test_handler(mock_call_exchange, mock_get_headers, mock_set_headers):
         assert isinstance(market, MarketHandler)
         assert market.get_market_id() in [1.123456, 1.123457]
 
+    assert mock_set_headers.called
+
 
 def __get_schedule():
     return [

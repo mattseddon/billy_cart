@@ -10,6 +10,14 @@ from infrastructure.third_party.adapter.numpy_utils import (
 
 
 class WeightedLinearRegression(WeightedLinearRegressionInterface):
+    def __init__(self):
+        self.__y = None
+        self.__x = None
+        self.__weights = None
+        self.__alpha = None
+        self.__Beta = None
+        self.__data = None
+
     def run(self, y, x, weights):
         self.__y = y
         self.__x = x

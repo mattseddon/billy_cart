@@ -16,7 +16,7 @@ def test_new():
     THEN("a data container is returned")
     assert type(new_container) is type(data_container)
     THEN("the new data container is a different instance")
-    assert new_container is not (data_container)
+    assert new_container is not data_container
 
 
 def test_add_rows():
@@ -61,7 +61,8 @@ def test_set_index():
 
 def test_column_group_name():
     GIVEN(
-        "some data that contains ids in the keys and a container with the column group's name of the ids to be id"
+        "some data that contains ids in the keys and"
+        + " a container with the column group's name of the ids to be id"
     )
     data = {
         ("col1", 123): [1, 2, 3, 4],
@@ -77,7 +78,8 @@ def test_column_group_name():
     assert lists_are_equal(ids, [123, 456])
 
     GIVEN(
-        "some data that contains ids in the keys and a container with the column group's name of the ids to be id"
+        "some data that contains ids in the keys and a"
+        + " container with the column group's name of the ids to be id"
     )
     data = {
         ("col1", 123): [1, 2, 3, 4],

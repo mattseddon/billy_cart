@@ -546,7 +546,8 @@ def test_confirm_market_closed():
     assert not closed
 
     GIVEN(
-        "the handler's container has the required column but it does not indicate that the market is closed"
+        "the handler's container has the required column"
+        + " but it does not indicate that the market is closed"
     )
     closed_record = handler._container.new(data={("closed_indicator", ""): [0]})
     handler._container.add_rows(container=closed_record)

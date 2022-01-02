@@ -10,8 +10,7 @@ from infrastructure.storage.historical.download.file.handler import (
 
 
 @mark.slow
-@patch("tests.mock.mediator.MockMediator.notify")
-def test_handler(mock_notify):
+def test_handler():
     GIVEN("a file and a directory with the correct market type")
     directory = "./dev"
     file = "1.163093692.bz2"
@@ -22,7 +21,8 @@ def test_handler(mock_notify):
     handler.set_mediator(mediator)
 
     THEN(
-        "the first of the eligible records has a process time within 5 minutes of the market start time"
+        "the first of the eligible records has a process"
+        + " time within 5 minutes of the market start time"
     )
 
     market_data = handler.get_file_as_list()

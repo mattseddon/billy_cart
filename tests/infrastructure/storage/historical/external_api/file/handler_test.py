@@ -19,7 +19,8 @@ def test_handler():
     assert isinstance(file_data, list)
 
     THEN(
-        "the file has a record for every 5 seconds in the 4 minutes 27 seconds leading up to 33 seconds before the race"
+        "the file has a record for every 5 seconds in the"
+        + "4 minutes 27 seconds leading up to 33 seconds before the race"
     )
     assert len(file_data) == round_down(((5 * 60) - 33) / 5)
 

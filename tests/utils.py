@@ -6,17 +6,16 @@ from infrastructure.built_in.adapter.os_utils import (
 )
 
 
-def GIVEN(str):
-    print("\nGIVEN {}".format(str))
+def GIVEN(given):
+    print("\nGIVEN {}".format(given))
 
 
-def WHEN(str):
-    print("    WHEN {}".format(str))
+def WHEN(when):
+    print("    WHEN {}".format(when))
 
 
-def THEN(str):
-    print("        THEN {}".format(str))
-    pass
+def THEN(then):
+    print("        THEN {}".format(then))
 
 
 def get_test_directory():

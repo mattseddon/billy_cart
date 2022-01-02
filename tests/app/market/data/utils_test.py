@@ -155,14 +155,14 @@ def test_is_valid_price():
     WHEN("we check if the price is valid")
     valid = is_valid_price(price)
     THEN("a true value is returned")
-    assert valid
+    assert valid is True
 
     GIVEN("an invalid price")
     price = 1
     WHEN("we check if the price is valid")
     valid = is_valid_price(price)
-    THEN("a true value is returned")
-    assert not (valid)
+    THEN("a false value is returned")
+    assert valid is False
 
 
 def test_calc_sell_liability():

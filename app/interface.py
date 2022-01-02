@@ -1,11 +1,13 @@
+# pylint: disable=all
+
 from infrastructure.built_in.adapter.abstract_base import AbstractBaseMetaclass
 
 
 class Interface(AbstractBaseMetaclass):
-    def __init__(self, name, bases, namespace):
+    def __init__(cls, name, bases, namespace):
         for base in bases:
             must_implement = getattr(base, "abstract_methods", [])
-            class_methods = getattr(self, "all_methods", [])
+            class_methods = getattr(cls, "all_methods", [])
             for method in must_implement:
                 if method not in class_methods:
                     err_str = """Can't create abstract class {name}!

@@ -6,6 +6,7 @@ from infrastructure.external_api.market.record.item.adapter import ItemAdapter
 class ExternalAPIMarketRecordAdapter(MarketDataRecordInterface):
     def __init__(self, market_start_time):
         self.__market_start_time = DateTime(market_start_time).get_epoch()
+        self.__data = None
 
     def convert(self, raw_record):
         self.__data = raw_record

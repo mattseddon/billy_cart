@@ -10,6 +10,10 @@ class TransformHandler:
         self.__total_probability = total_probability
         self.__remaining_probability = total_probability
         self.__fixed_probabilities = {}
+        self.__transformed_data = {}
+        self.__items = None
+        self.__extract_time = None
+        self.__closed_indicator = None
 
     def set_probability(self, runner_id, probability):
         self.__fixed_probabilities[runner_id] = probability

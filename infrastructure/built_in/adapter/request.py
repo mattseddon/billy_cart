@@ -30,6 +30,7 @@ class URLRequest:
         self.__url = url
         self.__request = request
         self.__headers = headers
+        self.__response = None
 
     def openurl(self):
         self.__get_response()

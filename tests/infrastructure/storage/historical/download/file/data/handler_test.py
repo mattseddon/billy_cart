@@ -1,3 +1,5 @@
+# pylint: disable=too-many-lines
+
 from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.storage.historical.download.file.handler import (
     HistoricalDownloadFileDataHandler,
@@ -63,7 +65,8 @@ def test_process():
     second_dict = handler.process(second_record)
 
     THEN(
-        "the extract time is inside of the required range and so a dict with the extract time is return"
+        "the extract time is inside of the required"
+        + " range and so a dict with the extract time is return"
     )
     expected_dict = {}
     expected_dict["items"] = __get_default_dict()
@@ -80,7 +83,8 @@ def test_process():
     assert handler._items == second_items
 
     THEN(
-        "the handler's items differ from the returned dict as the change happened after the extract time"
+        "the handler's items differ from the returned"
+        + " dict as the change happened after the extract time"
     )
     assert handler._items != second_dict.get("items")
 
@@ -99,7 +103,8 @@ def test_process():
     fourth_dict = handler.process(fourth_record)
 
     THEN(
-        "the extract time is inside of the required range and so a dict with the extract time is return"
+        "the extract time is inside of the required range"
+        + " and so a dict with the extract time is return"
     )
     expected_dict = {}
     expected_dict["items"] = third_items
@@ -117,7 +122,8 @@ def test_process():
     assert handler._items != third_items
 
     THEN(
-        "the handler's items differ from the returned dict as the change happened after the extract time"
+        "the handler's items differ from the returned dict"
+        + " as the change happened after the extract time"
     )
     assert handler._items != fourth_dict.get("items")
 
