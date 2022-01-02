@@ -11,9 +11,9 @@ from infrastructure.third_party.adapter.numpy_utils import not_a_number, is_not_
 
 def test_number_number():
     GIVEN("a number")
-    x = 1
+    number = 1
     WHEN("we test if it is a number")
-    true = is_a_number(x)
+    true = is_a_number(number)
     THEN("it is")
     assert true
 
@@ -24,41 +24,41 @@ def test_number_nan():
     WHEN("we test if it is a number")
     true = is_a_number(nan)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
 
 def test_number_str():
     GIVEN("a string")
-    str = "this is a string and not a number"
+    a_str = "this is a string and not a number"
     WHEN("we test if it is a number")
-    true = is_a_number(str)
+    true = is_a_number(a_str)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
 
 def test_number_list():
     GIVEN("a list")
-    l = [1, 2, 3, 4]
+    data = [1, 2, 3, 4]
     WHEN("we test if it is a number")
-    true = is_a_number(l)
+    true = is_a_number(data)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
 
 def test_number_dict():
     GIVEN("a dictionary")
-    d = {"a": 1, "b": 2, "c": 3}
+    data = {"a": 1, "b": 2, "c": 3}
     WHEN("we test if it is a number")
-    true = is_a_number(d)
+    true = is_a_number(data)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
     GIVEN("a numeric only dictionary")
-    d = {1: 1, 2: 2, 3: 3}
+    data = {1: 1, 2: 2, 3: 3}
     WHEN("we test if it is a number")
-    true = is_a_number(d)
+    true = is_a_number(data)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
 
 def test_number_none():
@@ -67,7 +67,7 @@ def test_number_none():
     WHEN("we test if it is a number")
     true = is_a_number(none)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
 
 def test_try_divide_number():
@@ -75,7 +75,7 @@ def test_try_divide_number():
     numerator = 1
     denominator = 2
     WHEN("we try to divide")
-    result = try_divide(value=numerator, by=denominator)
+    result = try_divide(value=numerator, denominator=denominator)
     THEN("the result is as expected")
     assert result == 0.5
 
@@ -87,17 +87,17 @@ def test_try_divide_nan():
     nan = not_a_number()
 
     WHEN("we try to divide the numerator by NaN")
-    result = try_divide(value=numerator, by=nan)
+    result = try_divide(value=numerator, denominator=nan)
     THEN("the result is as expected")
     assert is_not_a_number(result)
 
     WHEN("we try to divide NaN by the denominator")
-    result = try_divide(value=nan, by=denominator)
+    result = try_divide(value=nan, denominator=denominator)
     THEN("the result is as expected")
     assert is_not_a_number(result)
 
     WHEN("we try to divide NaN by NaN")
-    result = try_divide(value=nan, by=nan)
+    result = try_divide(value=nan, denominator=nan)
     THEN("the result is as expected")
     assert is_not_a_number(result)
 
@@ -107,7 +107,7 @@ def test_try_divide_zero():
     numerator = 1
     denominator = 0
     WHEN("we try to divide the numerator by NaN")
-    result = try_divide(value=numerator, by=denominator)
+    result = try_divide(value=numerator, denominator=denominator)
     THEN("the result is as expected")
     assert is_not_a_number(result)
 

@@ -1,5 +1,5 @@
-from infrastructure.built_in.adapter.abstract_base import AbstractBaseMetaclass
 from weakref import WeakValueDictionary
+from infrastructure.built_in.adapter.abstract_base import AbstractBaseMetaclass
 
 
 class Singleton(AbstractBaseMetaclass):

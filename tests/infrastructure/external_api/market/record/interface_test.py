@@ -1,6 +1,8 @@
-from tests.utils import GIVEN, WHEN, THEN
-from infrastructure.external_api.market.record.interface import ItemAdapterInterface
 from pytest import fail, raises
+
+from tests.utils import GIVEN, WHEN, THEN
+
+from infrastructure.external_api.market.record.interface import ItemAdapterInterface
 
 
 def test_item_adapter_interface():

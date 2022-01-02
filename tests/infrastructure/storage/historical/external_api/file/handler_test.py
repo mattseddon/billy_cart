@@ -16,7 +16,7 @@ def test_handler():
     file_data = file.get_file_as_list()
 
     THEN("the data is a list")
-    assert type(file_data) is list
+    assert isinstance(file_data, list)
 
     THEN(
         "the file has a record for every 5 seconds in the 4 minutes 27 seconds leading up to 33 seconds before the race"
@@ -25,7 +25,7 @@ def test_handler():
 
     for record in file_data:
         THEN("each record in the file data has a process time")
-        assert type(record.get("process_time")) is str
+        assert isinstance(record.get("process_time"), str)
         THEN("none of the records have marketInfo")
         assert record.get("marketInfo") is None
 
@@ -33,7 +33,7 @@ def test_handler():
     market_start_time = file.get_market_start_time()
 
     THEN("the market_start_time is a string")
-    assert type(market_start_time) is str
+    assert isinstance(market_start_time, str)
 
     THEN("the market start time can be converted to an epoch")
     epoch = DateTime(market_start_time).get_epoch()

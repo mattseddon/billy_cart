@@ -80,34 +80,34 @@ class HistoricalDownloadFileDataHandler:
             self._closed_indicator = in_play
 
     def _add_available_to_back(self):
-        return self.__add_attribute(attribute="atb", type="ex")
+        return self.__add_attribute(attribute="atb", attribute_type="ex")
 
     def _add_available_to_lay(self):
-        return self.__add_attribute(attribute="atl", type="ex")
+        return self.__add_attribute(attribute="atl", attribute_type="ex")
 
     def _add_traded_volume(self):
-        return self.__add_attribute(attribute="trd", type="ex")
+        return self.__add_attribute(attribute="trd", attribute_type="ex")
 
     def _add_sp_back_taken(self):
-        return self.__add_attribute(attribute="spb", type="sp")
+        return self.__add_attribute(attribute="spb", attribute_type="sp")
 
     def _add_sp_lay_taken(self):
-        return self.__add_attribute(attribute="spl", type="sp")
+        return self.__add_attribute(attribute="spl", attribute_type="sp")
 
     def _add_sp_near_price(self):
         attribute = "spn"
         for item in self.__get_attributes(attribute=attribute):
             self._items[item.get("id")]["sp"][attribute] = item.get(attribute)
 
-    def __add_attribute(self, attribute, type):
+    def __add_attribute(self, attribute, attribute_type):
         for item in self.__get_attributes(attribute=attribute):
             for change in item.get(attribute):
                 price = change[0]
                 size = change[1]
-                self._items[item.get("id")][type][attribute][price] = size
+                self._items[item.get("id")][attribute_type][attribute][price] = size
 
-                if not (size):
-                    del self._items[item.get("id")][type][attribute][price]
+                if not size:
+                    del self._items[item.get("id")][attribute_type][attribute][price]
 
     def __get_attributes(self, attribute):
         return list(

@@ -1,8 +1,10 @@
+from unittest.mock import patch
+from pytest import mark
+
 from tests.utils import (
     GIVEN,
     WHEN,
     THEN,
-    lists_are_equal,
     get_test_orders,
     get_test_orders_post_response,
 )
@@ -12,9 +14,6 @@ from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHand
 from infrastructure.external_api.market.handler import ExternalAPIMarketHandler
 from infrastructure.built_in.adapter.date_time import DateTime
 from infrastructure.built_in.adapter.json_utils import make_dict
-
-from pytest import mark
-from unittest.mock import patch
 
 
 @mark.slow
@@ -44,14 +43,14 @@ def test_get_data(mock_notify):
         assert args == ()
         assert kwargs.get("event") == "external data fetched"
         market_info = kwargs.get("data")
-        assert type(market_info) is dict
+        assert isinstance(market_info, dict)
         if market_info:
             THEN("the dict contains a list of items")
             items = market_info.get("runners")
-            assert type(items) is list
+            assert isinstance(items, list)
             THEN("the dict has an extract time")
             process_time = market_info.get("process_time")
-            assert type(process_time) is str
+            assert isinstance(process_time, str)
 
 
 @patch(
@@ -96,7 +95,7 @@ def test_order_response(mock_notify, mock_open_url):
     assert kwargs.get("event") == "orders posted"
 
     response = data.get("response")
-    assert type(response) is list
+    assert isinstance(response, list)
     assert len(response) == 3
     for order in response:
         assert order.get("status") == "SUCCESS"
@@ -124,7 +123,7 @@ def test_invalid_order():
     ]
     valid_orders = market_handler._validate_orders(orders=orders)
     THEN("the order is marked as invalid and omitted from the returned list")
-    assert valid_orders == []
+    assert not valid_orders
 
 
 def test_valid_and_invalid_orders():

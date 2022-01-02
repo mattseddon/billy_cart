@@ -35,7 +35,7 @@ class URLRequest:
         self.__get_response()
         if self.__is_ok():
             json_response = self.__response.read()
-            data = _add_ok_status(dict=make_dict(json_response.decode("utf-8")))
+            data = _add_ok_status(data=make_dict(json_response.decode("utf-8")))
         else:
             data = {}
         return data
@@ -50,9 +50,9 @@ class URLRequest:
         return self.__response.getcode() == get_ok_status()
 
 
-def _add_ok_status(dict):
-    dict["status_code"] = get_ok_status()
-    return dict
+def _add_ok_status(data):
+    data["status_code"] = get_ok_status()
+    return data
 
 
 def get_ok_status():

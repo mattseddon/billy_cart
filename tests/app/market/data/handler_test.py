@@ -1,3 +1,6 @@
+from unittest.mock import patch
+from pytest import mark
+
 from tests.utils import GIVEN, WHEN, THEN, almost_equal
 from tests.mock.mediator import MockMediator
 
@@ -13,9 +16,6 @@ from infrastructure.storage.historical.external_api.file.handler import (
 from infrastructure.external_api.market.record.adapter import (
     ExternalAPIMarketRecordAdapter,
 )
-
-from pytest import mark
-from unittest.mock import patch
 
 
 @mark.slow
@@ -67,17 +67,17 @@ def test_handler(mock_notify):
 
         for data in model_data:
             THEN("each of the items in the model data has an non-zero id")
-            id = data.get("id")
-            assert type(id) is int
-            assert id > 0
+            runner_id = data.get("id")
+            assert isinstance(runner_id, int)
+            assert runner_id > 0
 
-            test_item = test_record.get(id)
+            test_item = test_record.get(runner_id)
 
             THEN("the data has the correct combined_back_size")
             combined_back_size = data.get(
                 "combined_back_size" + metadata.get_point_in_time_suffix()
             )
-            combined_back_size == (
+            assert combined_back_size == (
                 test_item.get("sp_back_size") + test_item.get("ex_back_size")
             )
 
@@ -134,10 +134,10 @@ def test_handler(mock_notify):
                 data.get("extract_time" + metadata.get_time_series_suffix()) or []
             )
             assert len(extract_time_ts) == number_records_processed
-            for i, extract_time in enumerate(extract_time_ts):
-                if i > 0:
+            for j, extract_time in enumerate(extract_time_ts):
+                if j > 0:
                     THEN("the times in the series are ascending")
-                    assert extract_time > extract_time_ts[i - 1]
+                    assert extract_time > extract_time_ts[j - 1]
 
             THEN(
                 "the combined back size time series data returned is of the correct length"
@@ -150,10 +150,10 @@ def test_handler(mock_notify):
                 "the last entry in the time series is the same as point in time combined_back_size"
             )
             assert combined_back_size_ts[-1] == combined_back_size
-            for i, combined_back_size in enumerate(combined_back_size_ts):
-                if i > 0:
+            for j, combined_back_size in enumerate(combined_back_size_ts):
+                if j > 0:
                     THEN("the sizes in the series are ascending")
-                    assert combined_back_size >= combined_back_size_ts[i - 1]
+                    assert combined_back_size >= combined_back_size_ts[j - 1]
 
         THEN("the total ex and sp probabilities from the model_data sum to 1")
         assert almost_equal(total_sp_probability, 1)
@@ -216,17 +216,17 @@ def test_more_data(mock_notify):
 
         for data in model_data:
             THEN("each of the items in the model data has an non-zero id")
-            id = data.get("id")
-            assert type(id) is int
-            assert id > 0
+            runner_id = data.get("id")
+            assert isinstance(runner_id, int)
+            assert runner_id > 0
 
-            test_item = test_record.get(id)
+            test_item = test_record.get(runner_id)
 
             THEN("the data has the correct combined_back_size")
             combined_back_size = data.get(
                 "combined_back_size" + metadata.get_point_in_time_suffix()
             )
-            combined_back_size == (
+            assert combined_back_size == (
                 test_item.get("sp_back_size") + test_item.get("ex_back_size")
             )
 
@@ -283,10 +283,10 @@ def test_more_data(mock_notify):
                 data.get("extract_time" + metadata.get_time_series_suffix()) or []
             )
             assert len(extract_time_ts) == number_records_processed
-            for i, extract_time in enumerate(extract_time_ts):
-                if i > 0:
+            for j, extract_time in enumerate(extract_time_ts):
+                if j > 0:
                     THEN("the times in the series are ascending")
-                    assert extract_time > extract_time_ts[i - 1]
+                    assert extract_time > extract_time_ts[j - 1]
 
             THEN(
                 "the combined back size time series data returned is of the correct length"
@@ -299,10 +299,10 @@ def test_more_data(mock_notify):
                 "the last entry in the time series is the same as point in time combined_back_size"
             )
             assert combined_back_size_ts[-1] == combined_back_size
-            for i, combined_back_size in enumerate(combined_back_size_ts):
-                if i > 0:
+            for j, combined_back_size in enumerate(combined_back_size_ts):
+                if j > 0:
                     THEN("the sizes in the series are ascending")
-                    assert combined_back_size >= combined_back_size_ts[i - 1]
+                    assert combined_back_size >= combined_back_size_ts[j - 1]
 
         THEN("the total ex and sp probabilities from the model_data sum to 1")
         assert almost_equal(total_sp_probability, 1)
@@ -356,7 +356,7 @@ def test_fixed_probability(mock_notify):
                 ),
                 4,
             )
-            handler._set_probability(id=id_to_fix, probability=fixed_probability)
+            handler._set_probability(runner_id=id_to_fix, probability=fixed_probability)
             correct_probability -= fixed_probability
             unfixed_items -= 1
             fixed_items += 1
@@ -388,20 +388,20 @@ def test_fixed_probability(mock_notify):
 
         for data in model_data:
             THEN("each of the items in the model data has an non-zero id")
-            id = data.get("id")
-            assert type(id) is int
-            assert id > 0
+            runner_id = data.get("id")
+            assert isinstance(runner_id, int)
+            assert runner_id > 0
 
             THEN("the items probability has not been fixed")
-            assert id not in fixed_probability_ids
+            assert runner_id not in fixed_probability_ids
 
-            test_item = test_record.get(id)
+            test_item = test_record.get(runner_id)
 
             THEN("the data has the correct combined_back_size")
             combined_back_size = data.get(
                 "combined_back_size" + metadata.get_point_in_time_suffix()
             )
-            combined_back_size == (
+            assert combined_back_size == (
                 test_item.get("sp_back_size") + test_item.get("ex_back_size")
             )
 
@@ -458,10 +458,10 @@ def test_fixed_probability(mock_notify):
                 data.get("extract_time" + metadata.get_time_series_suffix()) or []
             )
             assert len(extract_time_ts) == number_records_processed
-            for i, extract_time in enumerate(extract_time_ts):
-                if i > 0:
+            for j, extract_time in enumerate(extract_time_ts):
+                if j > 0:
                     THEN("the times in the series are ascending")
-                    assert extract_time > extract_time_ts[i - 1]
+                    assert extract_time > extract_time_ts[j - 1]
 
             THEN(
                 "the combined back size time series data returned is of the correct length"
@@ -474,10 +474,10 @@ def test_fixed_probability(mock_notify):
                 "the last entry in the time series is the same as point in time combined_back_size"
             )
             assert combined_back_size_ts[-1] == combined_back_size
-            for i, combined_back_size in enumerate(combined_back_size_ts):
-                if i > 0:
+            for j, combined_back_size in enumerate(combined_back_size_ts):
+                if j > 0:
                     THEN("the sizes in the series are ascending")
-                    assert combined_back_size >= combined_back_size_ts[i - 1]
+                    assert combined_back_size >= combined_back_size_ts[j - 1]
 
         THEN("the total ex and sp probabilities from the model_data sum to 1")
         assert almost_equal(total_sp_probability, correct_probability)
@@ -591,8 +591,8 @@ def test_get_ids_for_model_data():
         "we set the probabilities of two items and get the ids required for the next model run"
     )
     ids = handler.get_unique_ids()
-    for id in ids[0:2]:
-        handler._set_probability(id=id, probability=0.1)
+    for runner_id in ids[0:2]:
+        handler._set_probability(runner_id=runner_id, probability=0.1)
         ids.pop(0)
 
     THEN("the list omits the items which have fixed probabilities")

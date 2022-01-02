@@ -47,7 +47,7 @@ class HistoricalDownloadFileHandler(
         previous_record = None
         for record in market:
             if previous_record:
-                if previous_record.get("closed_indicator") == True:
+                if previous_record.get("closed_indicator") is True:
                     break
                 for extra_record in self.__make_extra_records(
                     frm=previous_record,

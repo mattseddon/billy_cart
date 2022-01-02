@@ -11,7 +11,7 @@ def test_no_items():
     WHEN("we call process with no data")
     transformed_data = handler.process()
     THEN("an empty dictionary is returned")
-    assert transformed_data == {}
+    assert not transformed_data
 
 
 def test_simple_comp_data():
@@ -168,9 +168,11 @@ def test_items_excluded_comp_data():
 
     item_ids_to_exclude = []
     for item in items_to_exclude:
-        id = item.get("id")
-        handler.set_probability(id=id, probability=item.get("probability"))
-        item_ids_to_exclude.append(id)
+        runner_id = item.get("id")
+        handler.set_probability(
+            runner_id=runner_id, probability=item.get("probability")
+        )
+        item_ids_to_exclude.append(runner_id)
     handler._set_items(items=items)
     handler._calc_remaining_probability()
     expected_data = __calc_compositional_data(
@@ -209,4 +211,3 @@ def __calc_compositional_data(items, correct_probability):
         item["compositional_price"] = pricer.calc_price(compositional_probability)
 
     return expected_data
-

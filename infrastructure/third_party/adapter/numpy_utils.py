@@ -18,7 +18,7 @@ def not_a_number_to_number(var):
 
 
 def make_native_type(value):
-    return value if type(value) is str else value.item()
+    return value if isinstance(value, str) else value.item()
 
 
 def round_down(value):

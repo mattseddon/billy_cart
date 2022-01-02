@@ -22,14 +22,14 @@ def test_not_nan():
     WHEN("we check if the value is not a number")
     true = is_not_a_number(number)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
     GIVEN("a None value")
     none = None
     WHEN("we check if the value is not a number")
     true = is_not_a_number(none)
     THEN("it is not")
-    assert not (true)
+    assert not true
 
 
 def test_nan_to_num():

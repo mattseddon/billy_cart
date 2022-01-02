@@ -1,5 +1,7 @@
-from app.market.model.interface import WeightedLinearRegressionInterface
 from statsmodels.api import WLS, add_constant
+
+from app.market.model.interface import WeightedLinearRegressionInterface
+
 from infrastructure.third_party.adapter.numpy_utils import (
     calculate_log,
     not_a_number,

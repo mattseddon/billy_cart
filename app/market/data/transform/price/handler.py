@@ -21,7 +21,7 @@ class PriceHandler:
         return self.__invert(probability)
 
     def __invert(self, value):
-        return try_divide(value=1, by=value)
+        return try_divide(value=1, denominator=value)
 
     def __calc_profit(self, price):
         return (price - 1) * (self.__percentage_after_commission())

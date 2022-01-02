@@ -52,4 +52,3 @@ class DataContainerInterface(metaclass=Interface):
     @abstract_method
     def set_column_group_name(self):
         pass
-

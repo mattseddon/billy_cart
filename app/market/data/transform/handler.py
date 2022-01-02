@@ -11,8 +11,8 @@ class TransformHandler:
         self.__remaining_probability = total_probability
         self.__fixed_probabilities = {}
 
-    def set_probability(self, id, probability):
-        self.__fixed_probabilities[id] = probability
+    def set_probability(self, runner_id, probability):
+        self.__fixed_probabilities[runner_id] = probability
 
     def get_fixed_probability_ids(self):
         return list(self.__fixed_probabilities.keys())

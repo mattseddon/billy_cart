@@ -1,4 +1,5 @@
 from tests.utils import GIVEN, WHEN, THEN, lists_are_equal
+
 from infrastructure.third_party.adapter.numpy_utils import (
     is_not_a_number,
     not_a_number,
@@ -112,9 +113,9 @@ def test_sum_columns():
     WHEN("we sum columns A and B to give D")
     data_container.sum_columns(output="D", columns=["A", "C"])
     THEN("the resulting data is correct")
-    d = data_container.get_column(name="D")
+    col_d = data_container.get_column(name="D")
     for row in range(len(data.get("C"))):
-        assert d[row] == not_a_number_to_number(
+        assert col_d[row] == not_a_number_to_number(
             data.get("A")[row]
         ) + not_a_number_to_number(data.get("C")[row])
 
@@ -128,13 +129,13 @@ def test_get_last_column_entry():
     last_a = data_container.get_last_column_entry("A")
     THEN("the correct value is returned")
     assert last_a == data.get("A")[-1]
-    assert type(last_a) is float
+    assert isinstance(last_a, float)
 
     WHEN("we get the last entry for B")
     last_b = data_container.get_last_column_entry("B")
     THEN("the correct value is returned")
     assert last_b == data.get("B")[-1]
-    assert type(last_b) is str
+    assert isinstance(last_b, str)
 
     WHEN("we get the last entry for C")
     last_c = data_container.get_last_column_entry("C")

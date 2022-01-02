@@ -1,9 +1,9 @@
+from unittest.mock import patch
+from pytest import mark
+
 from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHandler
 from infrastructure.built_in.adapter.date_time import DateTime
-
-from pytest import mark
-from unittest.mock import patch
 
 
 @mark.slow
@@ -50,31 +50,31 @@ def test_schedule_handler():
     schedule = dev_schedule_handler.get_schedule("7", DateTime.utc_5_minutes_from_now())
 
     THEN("a list is returned")
-    assert type(schedule) is list
+    assert isinstance(schedule, list)
 
     THEN("each item in the list is a dict refering to a market")
     for market in schedule:
-        assert type(market) is dict
+        assert isinstance(market, dict)
 
         THEN("each market has an id which is a string")
         market_id = market.get("marketId")
-        assert type(market_id) is str
+        assert isinstance(market_id, str)
 
         THEN("each market has a name")
-        assert type(market.get("marketName")) is str
+        assert isinstance(market.get("marketName"), str)
 
         THEN("each market is associated with an event which is stored as a dict")
         event = market.get("event")
-        assert type(event) is dict
+        assert isinstance(event, dict)
 
         THEN("the event has an id which is a string")
-        assert type(event.get("id")) is str
+        assert isinstance(event.get("id"), str)
 
         THEN("the event has a name which is a string")
-        assert type(event.get("name")) is str
+        assert isinstance(event.get("name"), str)
 
         THEN("the event has a country code which is a string")
-        assert type(event.get("countryCode")) is str
+        assert isinstance(event.get("countryCode"), str)
 
 
 @mark.slow

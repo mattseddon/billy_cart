@@ -1,8 +1,8 @@
+from pytest import raises
+
 from tests.utils import GIVEN, WHEN, THEN
 
 from infrastructure.built_in.adapter.system import die
-
-from pytest import raises
 
 
 def test_die():
@@ -15,4 +15,3 @@ def test_die():
     THEN("the program exits")
     assert system_exit.type == SystemExit
     assert system_exit.value.code == 0
-

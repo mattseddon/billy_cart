@@ -1,4 +1,5 @@
 from pandas import DataFrame
+
 from infrastructure.third_party.adapter.numpy_utils import make_native_type
 from app.market.data.interface import DataContainerInterface
 

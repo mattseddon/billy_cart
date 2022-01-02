@@ -18,17 +18,20 @@ def is_valid_size(size):
 
 
 def is_a_number(value):
-    return type(value) in [int, float, complex] and not (is_not_a_number(value))
+    return type(value) in [int, float, complex] and not is_not_a_number(value)
 
 
-def try_divide(value, by):
-    return value / by if is_a_number(value) and __can_divide(by) else not_a_number()
+def try_divide(value, denominator):
+    return (
+        value / denominator
+        if is_a_number(value) and __can_divide(denominator)
+        else not_a_number()
+    )
 
 
 def __is_valid(value, min_value=0):
-    return True if is_a_number(value) and value > min_value else False
+    return bool(is_a_number(value) and value > min_value)
 
 
 def __can_divide(value):
     return value and is_a_number(value)
-

@@ -1,8 +1,9 @@
+from unittest.mock import patch
+
 from tests.utils import GIVEN, WHEN, THEN
 from infrastructure.external_api.market.record.item.adapter import ItemAdapter
 from infrastructure.third_party.adapter.numpy_utils import is_not_a_number
 from app.market.metadata.handler import MetadataHandler
-from unittest.mock import patch
 
 
 @patch(
@@ -34,7 +35,7 @@ def test_empty_input(required_variables):
     adapted_item_data = ItemAdapter(item_data).get_adapted_data()
 
     THEN("the object has all of the correct defaults applied")
-    assert adapted_item_data == {}
+    assert not adapted_item_data
 
 
 @patch(
@@ -102,7 +103,7 @@ def test_empty_ex(required_variables):
     adapted_item_data = ItemAdapter(item_data).get_adapted_data()
     THEN("the object has all of the correct defaults applied")
     assert adapted_item_data.get("id") == __get_id(item_data)
-    __test_ex_defaults(adapted_item_data=adapted_item_data, item_data=item_data)
+    __test_ex_defaults(adapted_item_data=adapted_item_data)
     __test_sp_values(adapted_item_data=adapted_item_data, item_data=item_data)
     assert is_not_a_number(adapted_item_data.get("removal_date"))
 
@@ -120,7 +121,7 @@ def test_missing_ex(required_variables):
     adapted_item_data = ItemAdapter(item_data).get_adapted_data()
     THEN("the object has all of the correct defaults applied")
     assert adapted_item_data.get("id") == __get_id(item_data)
-    __test_ex_defaults(adapted_item_data=adapted_item_data, item_data=item_data)
+    __test_ex_defaults(adapted_item_data=adapted_item_data)
     __test_sp_values(adapted_item_data=adapted_item_data, item_data=item_data)
     assert is_not_a_number(adapted_item_data.get("removal_date"))
 
@@ -137,7 +138,7 @@ def test_removed(required_variables):
     adapted_item_data = ItemAdapter(item_data).get_adapted_data()
     THEN("the object has all of the correct defaults applied")
     assert adapted_item_data.get("id") == __get_id(item_data)
-    __test_ex_defaults(adapted_item_data=adapted_item_data, item_data=item_data)
+    __test_ex_defaults(adapted_item_data=adapted_item_data)
     __test_sp_defaults(adapted_item_data=adapted_item_data, item_data=item_data)
     THEN("the object has a removal_date")
     assert adapted_item_data.get("removal_date") > 0
@@ -230,7 +231,7 @@ def __test_ex_values(adapted_item_data, item_data):
     )
 
 
-def __test_ex_defaults(adapted_item_data, item_data):
+def __test_ex_defaults(adapted_item_data):
     assert is_not_a_number(adapted_item_data.get("ex_average_back_price"))
     assert adapted_item_data.get("ex_back_size") == 0
     assert is_not_a_number(adapted_item_data.get("ex_average_lay_price"))

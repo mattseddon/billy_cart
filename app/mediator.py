@@ -6,4 +6,3 @@ class Mediator(metaclass=Interface):
     @abstract_method
     def notify(self, event, data=None):
         pass
-

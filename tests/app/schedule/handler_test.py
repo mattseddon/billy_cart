@@ -1,9 +1,11 @@
-from app.market.handler import MarketHandler
-from tests.utils import GIVEN, WHEN, THEN
-from app.schedule.handler import ScheduleHandler
-from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHandler
-
 from unittest.mock import patch
+
+from tests.utils import GIVEN, WHEN, THEN
+
+from app.market.handler import MarketHandler
+from app.schedule.handler import ScheduleHandler
+
+from infrastructure.external_api.schedule.handler import ExternalAPIScheduleHandler
 
 
 @patch.object(ExternalAPIScheduleHandler, "set_headers")
@@ -23,11 +25,11 @@ def test_handler(mock_call_exchange, mock_get_headers, mock_set_headers):
     WHEN("we create market handlers for each of the markets in the schedule")
     new_markets = handler.create_new_markets(schedule)
     THEN("the new markets are in a list")
-    assert type(new_markets) is list
+    assert isinstance(new_markets, list)
     assert len(new_markets) == len(schedule)
     THEN("the market handlers have been created")
     for market in new_markets:
-        assert type(market) is MarketHandler
+        assert isinstance(market, MarketHandler)
         assert market.get_market_id() in [1.123456, 1.123457]
 
 

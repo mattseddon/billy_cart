@@ -1,7 +1,4 @@
 class MetadataHandler:
-    def __init__(self):
-        None
-
     def get_extended_variable_list(self):
         return self.get_required_variables() + self.get_unrequired_variables()
 

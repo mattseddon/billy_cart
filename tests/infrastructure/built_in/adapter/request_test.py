@@ -4,6 +4,7 @@ from pytest import mark
 
 
 from tests.utils import GIVEN, WHEN, THEN
+
 from infrastructure.built_in.adapter.request import (
     post_data,
     open_url,

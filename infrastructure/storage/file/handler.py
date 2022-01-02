@@ -34,7 +34,7 @@ class FileHandler:
         return contents
 
     def __get_file_contents(self):
-        with open(self.__file, "r") as file:
+        with open(self.__file, "r", encoding="utf-8") as file:
             contents = self.__get_contents(file)
         return contents
 
@@ -47,20 +47,19 @@ class FileHandler:
     def get_first_record(self):
         if get_file_extension(self.__file) == ".bz2":
             return self.__get_first_bz2_record()
-        else:
-            return self.__get_first_record()
+        return self.__get_first_record()
 
     def __get_first_bz2_record(self):
         with bz2.open(self.__file, "r") as file:
             return make_dict(next(file))
 
     def __get_first_record(self):
-        with open(self.__file, "r") as file:
+        with open(self.__file, "r", encoding="utf-8") as file:
             return make_dict(next(file))
 
-    def add_dict(self, dict):
-        with open(self.__file, self.__write_type) as file:
-            write_json_to(file=file, data=dict)
+    def add_dict(self, data):
+        with open(self.__file, self.__write_type, encoding="utf-8") as file:
+            write_json_to(file=file, data=data)
             self.__add_new_line(file)
         return self.__file
 

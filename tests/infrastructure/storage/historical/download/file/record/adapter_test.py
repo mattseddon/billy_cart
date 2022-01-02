@@ -27,7 +27,7 @@ def test_adapter():
 
         THEN("for the first 300 records there is no closed indicator")
         if index < 300:
-            assert not (data.get("closed_indicator"))
+            assert not data.get("closed_indicator")
 
         THEN("the dict has an extract time which is an integer")
         extract_time = data.get("extract_time")

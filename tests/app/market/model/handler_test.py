@@ -17,17 +17,17 @@ def test_get_log_returns():
     item = __get_model_data_item(item_id=16397186)
     mediator = MockMediator()
     handler = ModelHandler(mediator=mediator, wls_model=WeightedLinearRegression())
-    y = item.get("compositional_sp_back_price_ts")
+    compositional_sp_back_price_ts = item.get("compositional_sp_back_price_ts")
     WHEN("we get the log returns of the data")
-    log_returns = handler._get_log_returns(y)
+    log_returns = handler._get_log_returns(compositional_sp_back_price_ts)
     THEN("the log returns have the correct length")
-    assert len(log_returns) == len(y)
+    assert len(log_returns) == len(compositional_sp_back_price_ts)
     THEN("the log returns are as expected")
-    for i, cpit in enumerate(y):
+    for i, cpit in enumerate(compositional_sp_back_price_ts):
         if i == 0:
             assert is_not_a_number(log_returns[i])
         else:
-            lpit = y[i - 1]
+            lpit = compositional_sp_back_price_ts[i - 1]
             assert log_returns[i] == calculate_log(cpit / lpit)
 
 
@@ -48,7 +48,7 @@ def test_meets_wlr_criteria():
         ]:  # these don't have that much movement, probably shouldn't bother!
             assert result
         else:
-            assert not (result)
+            assert not result
 
 
 @patch("tests.mock.mediator.MockMediator.notify")

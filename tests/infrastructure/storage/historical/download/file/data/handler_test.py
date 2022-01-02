@@ -592,8 +592,8 @@ def __get_test_closed_record():
     }
 
 
-def __add_all(d, record):
-    data = make_copy(d)
+def __add_all(original_data, record):
+    data = make_copy(original_data)
     data = __add_atb(data, record)
     data = __add_atl(data, record)
     data = __add_trd(data, record)
@@ -603,8 +603,8 @@ def __add_all(d, record):
     return data
 
 
-def __add_atb(d, record=__get_test_ex_record()):
-    data = make_copy(d)
+def __add_atb(original_data, record=__get_test_ex_record()):
+    data = make_copy(original_data)
     for change in __get_rc(record):
         if change.get("atb"):
             for price in change.get("atb"):
@@ -617,8 +617,8 @@ def __add_atb(d, record=__get_test_ex_record()):
     return data
 
 
-def __add_atl(d, record=__get_test_ex_record()):
-    data = make_copy(d)
+def __add_atl(original_data, record=__get_test_ex_record()):
+    data = make_copy(original_data)
     for change in __get_rc(record):
         if change.get("atl"):
             for price in change.get("atl"):
@@ -631,8 +631,8 @@ def __add_atl(d, record=__get_test_ex_record()):
     return data
 
 
-def __add_trd(d, record=__get_test_ex_record()):
-    data = make_copy(d)
+def __add_trd(original_data, record=__get_test_ex_record()):
+    data = make_copy(original_data)
     for change in __get_rc(record):
         if change.get("trd"):
             for price in change.get("trd"):
@@ -645,8 +645,8 @@ def __add_trd(d, record=__get_test_ex_record()):
     return data
 
 
-def __add_spb(d, record=__get_test_spb_record()):
-    data = make_copy(d)
+def __add_spb(original_data, record=__get_test_spb_record()):
+    data = make_copy(original_data)
     for change in __get_rc(record):
         if change.get("spb"):
             data[change.get("id")]["sp"]["spb"][change.get("spb")[0][0]] = change.get(
@@ -655,8 +655,8 @@ def __add_spb(d, record=__get_test_spb_record()):
     return data
 
 
-def __add_spl(d, record=__get_test_spl_record()):
-    data = make_copy(d)
+def __add_spl(original_data, record=__get_test_spl_record()):
+    data = make_copy(original_data)
     for change in __get_rc(record):
         if change.get("spl"):
             data[change.get("id")]["sp"]["spl"][change.get("spl")[0][0]] = change.get(
@@ -665,8 +665,8 @@ def __add_spl(d, record=__get_test_spl_record()):
     return data
 
 
-def __add_spn(d, record=__get_test_spn_record()):
-    data = make_copy(d)
+def __add_spn(original_data, record=__get_test_spn_record()):
+    data = make_copy(original_data)
     for change in __get_rc(record):
         if change.get("spn"):
             data[change.get("id")]["sp"]["spn"] = change.get("spn")

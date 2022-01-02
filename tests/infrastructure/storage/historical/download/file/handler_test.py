@@ -1,12 +1,12 @@
+from unittest.mock import patch
+from pytest import mark
+
 from tests.utils import GIVEN, WHEN, THEN
 from tests.mock.mediator import MockMediator
 
 from infrastructure.storage.historical.download.file.handler import (
     HistoricalDownloadFileHandler,
 )
-
-from pytest import mark
-from unittest.mock import patch
 
 
 @mark.slow
@@ -64,17 +64,17 @@ def test_handler(mock_notify):
             assert extract_time == (market_data[index - 1].get("extract_time") + 1)
         THEN("each of the eligible records has a dict of items")
         items = record.get("items")
-        assert type(items) is dict
+        assert isinstance(items, dict)
         THEN("the keys of the items dict matches the ids of the items")
         assert list(items.keys()) == __get_test_ids()
         THEN("each of the items has no 0 value for each attribute and a starting price")
-        for id in __get_test_ids():
-            assert items[id]["sp"]["spn"]
-            assert 0 not in items[id]["ex"]["atb"].values()
-            assert 0 not in items[id]["ex"]["atl"].values()
-            assert 0 not in items[id]["ex"]["trd"].values()
-            assert 0 not in items[id]["sp"]["spb"].values()
-            assert 0 not in items[id]["sp"]["spl"].values()
+        for runner_id in __get_test_ids():
+            assert items[runner_id]["sp"]["spn"]
+            assert 0 not in items[runner_id]["ex"]["atb"].values()
+            assert 0 not in items[runner_id]["ex"]["atl"].values()
+            assert 0 not in items[runner_id]["ex"]["trd"].values()
+            assert 0 not in items[runner_id]["sp"]["spb"].values()
+            assert 0 not in items[runner_id]["sp"]["spl"].values()
         THEN("once the closed indicator becomes true is does not change back to false")
         if index > 0 and market_data[index - 1].get("closed_indicator") is True:
             assert record.get("closed_indicator") is True
@@ -182,8 +182,8 @@ def test_post_order(mock_notify):
     WHEN("we instantiate the handler and post a valid order")
     handler = HistoricalDownloadFileHandler(file=file, directory=directory)
     handler.set_mediator(mediator)
-    id = 2121212
-    orders = [{"id": id, "type": "BUY", "ex_price": 2.5, "size": 1000000}]
+    runner_id = 2121212
+    orders = [{"id": runner_id, "type": "BUY", "ex_price": 2.5, "size": 1000000}]
     handler.post_order(orders)
 
     THEN("the correct data is passed to the mediator")
@@ -191,7 +191,7 @@ def test_post_order(mock_notify):
     assert args == ()
     data = kwargs.get("data")
     assert data.get("response") == [
-        {"instruction": {"selectionId": id}, "status": "SUCCESS"}
+        {"instruction": {"selectionId": runner_id}, "status": "SUCCESS"}
     ]
     assert data.get("orders") == orders
 

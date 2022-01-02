@@ -131,13 +131,13 @@ class ModelHandler(Colleague):
         )
 
     def _get_log_returns(self, y):
-        list = make_copy(y)
-        shifted_lift = make_copy(list)
-        shifted_lift.pop()
-        shifted_lift.insert(0, not_a_number())
+        data = make_copy(y)
+        shifted_list = make_copy(data)
+        shifted_list.pop()
+        shifted_list.insert(0, not_a_number())
         return [
             calculate_log(point_in_time / previous_point_in_time)
-            for point_in_time, previous_point_in_time in zip(list, shifted_lift)
+            for point_in_time, previous_point_in_time in zip(data, shifted_list)
         ]
 
     def __get_market_back_size(self, items):

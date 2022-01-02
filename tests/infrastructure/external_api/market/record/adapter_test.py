@@ -7,13 +7,13 @@ from infrastructure.built_in.adapter.json_utils import make_dict
 
 def test_empty_input():
     GIVEN("a empty input dictionary and a record adapter")
-    input = {}
+    data = {}
     adapter = ExternalAPIMarketRecordAdapter(
         market_start_time="2019-01-01T00:00:00.000Z"
     )
 
     WHEN("we convert the input")
-    none = adapter.convert(input)
+    none = adapter.convert(data)
 
     THEN("None is returned")
     assert none is None
@@ -21,7 +21,7 @@ def test_empty_input():
 
 def test_missing_market_info():
     GIVEN("a empty input dictionary and a record adapter")
-    input = {
+    data = {
         "process_time": "2019-01-13T05:20:04Z",
         "marketId": "1.153509934",
     }
@@ -30,7 +30,7 @@ def test_missing_market_info():
     )
 
     WHEN("we convert the input")
-    none = adapter.convert(input)
+    none = adapter.convert(data)
 
     THEN("None is returned")
     assert none is None
@@ -38,14 +38,14 @@ def test_missing_market_info():
 
 def test_valid_record():
     GIVEN("a valid input dictionary and a record adapter")
-    input = __get_data()
+    data = __get_data()
     adapter = ExternalAPIMarketRecordAdapter(
         market_start_time="2019-01-13T07:05:00.000Z"
     )
 
     WHEN("we convert the input")
-    adapted_data = adapter.convert(input)
-    number_items = len(input.get("runners"))
+    adapted_data = adapter.convert(data)
+    number_items = len(data.get("runners"))
 
     THEN("the correct number of items are returned")
     assert len(adapted_data.get("items") or []) == number_items
@@ -56,16 +56,16 @@ def test_mostly_valid_record():
     GIVEN(
         "a mostly valid input dictionary (with two invalid items) and a record adapter"
     )
-    input = __get_data()
+    data = __get_data()
     for i in range(2):
-        del input["runners"][i]["selectionId"]
+        del data["runners"][i]["selectionId"]
     adapter = ExternalAPIMarketRecordAdapter(
         market_start_time="2019-01-13T07:05:00.000Z"
     )
 
     WHEN("we convert the input")
-    adapted_data = adapter.convert(input)
-    number_items = len(input.get("runners")) - 2
+    adapted_data = adapter.convert(data)
+    number_items = len(data.get("runners")) - 2
 
     THEN("the correct number of items are returned")
     assert len(adapted_data.get("items") or []) == number_items

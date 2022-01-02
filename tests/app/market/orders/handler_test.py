@@ -1,9 +1,9 @@
+from unittest.mock import patch
+
 from tests.utils import GIVEN, WHEN, THEN, almost_equal
 from tests.mock.mediator import MockMediator
 
 from app.market.orders.handler import OrdersHandler
-
-from unittest.mock import patch
 
 
 @patch("tests.mock.mediator.MockMediator.notify")
@@ -403,7 +403,7 @@ def test_add_invalid_processed_orders():
     handler.prevent_reorder(orders=processed_orders)
     existing_orders = handler.get_orders()
     THEN("no order data has been added to the handler")
-    assert existing_orders == []
+    assert not existing_orders
 
 
 def test_add_mixed_processed_orders():

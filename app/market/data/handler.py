@@ -40,7 +40,7 @@ class DataHandler(Colleague):
     def fix_probabilities(self, items):
         for item in items:
             self._set_probability(
-                id=item.get("id"), probability=item.get("probability")
+                runner_id=item.get("id"), probability=item.get("probability")
             )
 
     def _confirm_market_closed(self):
@@ -71,8 +71,8 @@ class DataHandler(Colleague):
     def _get_fixed_probability_ids(self):
         return self.__transformer.get_fixed_probability_ids()
 
-    def _set_probability(self, id, probability):
-        self.__transformer.set_probability(id=id, probability=probability)
+    def _set_probability(self, runner_id, probability):
+        self.__transformer.set_probability(runner_id=runner_id, probability=probability)
 
     def get_unique_ids(self):
         index = self._container.get_column_group_values(name="id")
@@ -103,9 +103,9 @@ class DataHandler(Colleague):
             original_size + self.__get_container_column_count()
         )
 
-    def __get_item_model_data(self, id):
+    def __get_item_model_data(self, runner_id):
         data = {
-            "id": id,
+            "id": runner_id,
             self.__metadata.get_index_name()
             + self.__metadata.get_time_series_suffix(): self._container.get_index(),
         }
@@ -114,7 +114,7 @@ class DataHandler(Colleague):
             {
                 column
                 + self.__metadata.get_point_in_time_suffix(): self._container.get_last_column_entry(
-                    name=(column, id)
+                    name=(column, runner_id)
                 )
                 for column in self.__metadata.get_point_in_time_model_variables()
             }
@@ -124,7 +124,7 @@ class DataHandler(Colleague):
             {
                 column
                 + self.__metadata.get_time_series_suffix(): self._container.get_column(
-                    name=(column, id)
+                    name=(column, runner_id)
                 )
                 for column in self.__metadata.get_time_series_model_variables()
             }
